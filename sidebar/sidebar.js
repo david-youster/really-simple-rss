@@ -15,7 +15,7 @@ function initSidebar() {
         fragment.appendChild(createBookmarkListNode(bookmark));
       }
       let feedsList = document.getElementById('feeds-list');
-      feedsList.innerHTML = '';
+      clearNodeContent(feedsList);
       feedsList.appendChild(fragment);
     });
   });
@@ -85,9 +85,15 @@ function parseAndDisplayFeed(url) {
       }
 
       let feedItems = document.getElementById('feed-items');
-      feedItems.innerHTML = '';
+      clearNodeContent(feedItems);
       feedItems.append(fragment);
     });
+}
+
+function clearNodeContent(node) {
+  while (node.hasChildNodes()) {
+    node.removeChild(node.firstChild);
+  }
 }
 
 function selectFeedParser(xmlData) {
@@ -106,7 +112,7 @@ function* parseRss(xmlData) {
     let title = item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
     let listNode = document.createElement('li');
-    listNode.innerHTML = '<a href="'+ link + '">' + title +'</a>';
+    listNode.appendChild(createAnchor(link, title));
     yield listNode;
   }
 }
@@ -117,9 +123,16 @@ function* parseAtom(xmlData) {
     let title = entry.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
     let listNode = document.createElement('li');
-    listNode.innerHTML = '<a href="'+ link + '">' + title +'</a>';
+    listNode.appendChild(createAnchor(link, text));
     yield listNode;
   }
+}
+
+function createAnchor(href, text) {
+  let anchor = document.createElement('a');
+  anchor.href = href;
+  anchor.appendChild(document.createTextNode(text));
+  return anchor
 }
 
 window.onload = () => {
