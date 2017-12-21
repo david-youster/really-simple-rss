@@ -2,6 +2,12 @@
 
 Simple feed reader for Firefox, written using the Webextensions API.
 
+## License
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at [http://mozilla.org/MPL/2.0/].
+
 ## Acknowledgements
 
 Main icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
