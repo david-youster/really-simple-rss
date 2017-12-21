@@ -1,0 +1,41 @@
+{
+
+  "manifest_version": 2,
+  "name": "Really Simple Rss",
+  "version": "1.0",
+
+  "description": "Simple Feed Reader for Firefox",
+  "homepage_url": "https://mozilla.org",
+  "icons": {
+    "48": "icons/main.svg"
+  },
+
+  "permissions": [
+    "activeTab",
+    "bookmarks",
+    "<all_urls>"
+  ],
+
+  "background": {
+    "scripts": ["background_scripts/background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_scripts/content.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/main.svg",
+    "default_title": "Really Simple Rss",
+    "browser_style": true
+  },
+
+  "sidebar_action": {
+    "default_icon": "icons/main.svg",
+    "default_title": "Really Simple RSS",
+    "default_panel": "sidebar/sidebar.html"
+  }
+}

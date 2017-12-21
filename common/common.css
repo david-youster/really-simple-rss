@@ -1,0 +1,60 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #CCC;
+}
+
+li:hover {
+    background-color: #EFEFEF;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.feed-title-container {
+    display: inline-block;
+    border-right: 1px solid #CCC;
+    width: 85%;
+}
+
+.feed-control-container {
+    display: inline-block;
+    width: 15%;
+}
+
+.feed-control-container input {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+#feeds-menu {
+    height: 47%;
+    overflow:scroll;
+}
+
+#controls {
+    height:3%;
+    padding-left: 1em;
+}
+
+#controls input {
+    height: 75%;
+}
+
+#display {
+    border: none;
+    height: 50%;
+    overflow: scroll;
+}
