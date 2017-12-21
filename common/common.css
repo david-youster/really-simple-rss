@@ -41,12 +41,15 @@ a {
 
 #feeds-menu {
     height: 47%;
-    overflow:scroll;
+    overflow: scroll;
+    border-bottom: none;
 }
 
 #controls {
-    height:3%;
+    height:7%;
     padding-left: 1em;
+    overflow:scroll;
+    text-align: center;
 }
 
 #controls input {
