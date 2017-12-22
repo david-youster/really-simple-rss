@@ -90,7 +90,9 @@ function parseAndDisplayFeed(url) {
 
       let feedItems = document.getElementById('feed-items');
       clearNodeContent(feedItems);
-      feedItems.append(fragment);
+      let panelContent = fragment.hasChildNodes() ?
+        fragment : document.createTextNode('[No items in feed]');
+      feedItems.append(panelContent);
     });
 }
 
