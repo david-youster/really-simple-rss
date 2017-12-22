@@ -16,6 +16,11 @@ window.onload = () => {
 
     browser.tabs.sendMessage(tabs[0].id, {action: 'discover'}).then((feeds) => {
 
+      if (feeds.length === 0) {
+        forceRedraw();
+        return;
+      }
+
       let fragment = document.createDocumentFragment();
       for (let feed of feeds) {
         let listNode = document.createElement('li');
@@ -35,11 +40,11 @@ window.onload = () => {
               });
             });
         };
-
         fragment.appendChild(listNode);
       }
-
-      document.getElementById('discovered-feeds').appendChild(fragment);
+      let discoveredFeeds = document.getElementById('discovered-feeds');
+      clearNodeContent(discoveredFeeds);
+      discoveredFeeds.appendChild(fragment);
       forceRedraw();
     });
   });

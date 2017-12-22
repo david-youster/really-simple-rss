@@ -4,6 +4,7 @@ env:
 extends: 'eslint:recommended'
 globals:
   browser: false
+  clearNodeContent: false
 rules:
   indent:
     - error

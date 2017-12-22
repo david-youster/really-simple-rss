@@ -94,12 +94,6 @@ function parseAndDisplayFeed(url) {
     });
 }
 
-function clearNodeContent(node) {
-  while (node.hasChildNodes()) {
-    node.removeChild(node.firstChild);
-  }
-}
-
 function selectFeedParser(xmlData) {
   if (xmlData.getElementsByTagName('rss').length > 0) {
     return parseRss;
