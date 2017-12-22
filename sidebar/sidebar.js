@@ -75,6 +75,9 @@ function createListNodeControlSection(bookmark) {
 }
 
 function parseAndDisplayFeed(url) {
+  let feedItems = document.getElementById('feed-items');
+  clearNodeContent(feedItems);
+  feedItems.appendChild(document.createTextNode('Loading...'));
   let requestData = {method: 'GET', mode: 'cors'};
   fetch(url, requestData)
     .then(response => response.text())
@@ -88,7 +91,6 @@ function parseAndDisplayFeed(url) {
         fragment.appendChild(listNode);
       }
 
-      let feedItems = document.getElementById('feed-items');
       clearNodeContent(feedItems);
       let panelContent = fragment.hasChildNodes() ?
         fragment : document.createTextNode('[No items in feed]');
