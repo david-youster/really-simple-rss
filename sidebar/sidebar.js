@@ -127,7 +127,7 @@ function* parseAtom(xmlData) {
     let title = entry.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
     let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(link, text));
+    listNode.appendChild(createAnchor(link, title));
     yield listNode;
   }
 }
