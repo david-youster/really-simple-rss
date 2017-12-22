@@ -66,7 +66,7 @@ function createListNodeControlSection(bookmark) {
   let deleteButton = document.createElement('input');
   deleteButton.type = 'image';
   deleteButton.src = '/icons/delete.svg';
-  deleteButton.style.height = "15px";
+  deleteButton.style.height = '15px';
   deleteButton.onclick = () => {
     browser.bookmarks.remove(bookmark.id).then(() => initSidebar());
   };
@@ -136,7 +136,7 @@ function createAnchor(href, text) {
   let anchor = document.createElement('a');
   anchor.href = href;
   anchor.appendChild(document.createTextNode(text));
-  return anchor
+  return anchor;
 }
 
 window.onload = () => {
