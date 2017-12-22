@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Really Simple Rss",
-  "version": "1.0",
+  "version": "1.1",
 
   "description": "Simple Feed Reader for Firefox",
   "homepage_url": "https://mozilla.org",
