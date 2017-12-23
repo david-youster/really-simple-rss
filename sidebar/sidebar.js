@@ -2,9 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/* global clearNodeContent */
+/* global Util */
 
 'use strict';
+
+window.onload = onWindowLoaded;
+
+function onWindowLoaded() {
+  init();
+}
 
 function init() {
   initSidebar();
@@ -13,37 +19,45 @@ function init() {
 }
 
 function initSidebar() {
-  browser.bookmarks.search('Simple Feeds').then((bookmarks) => {
+  browser.bookmarks.search('Simple Feeds').then(onFeedsFolderFound);
+}
 
-    browser.bookmarks.getSubTree(bookmarks[0].id).then((bookmarkItems) => {
-      let fragment = document.createDocumentFragment();
-      for (let bookmark of bookmarkItems[0].children) {
-        fragment.appendChild(createBookmarkListNode(bookmark));
-      }
-      let feedsList = document.getElementById('feeds-list');
-      clearNodeContent(feedsList);
-      feedsList.appendChild(fragment);
-    });
-  });
+function onFeedsFolderFound(bookmarks) {
+  browser.bookmarks.getSubTree(bookmarks[0].id).then(onBookmarksSubTreeParsed);
+}
+
+function onBookmarksSubTreeParsed(bookmarkItems) {
+  let fragment = document.createDocumentFragment();
+  for (let bookmark of bookmarkItems[0].children) {
+    fragment.appendChild(createBookmarkListNode(bookmark));
+  }
+  let feedsList = document.getElementById('feeds-list');
+  Util.clearNodeContent(feedsList);
+  feedsList.appendChild(fragment);
 }
 
 function initControls() {
-  document.getElementById('discover-button').onclick = () => {
-    browser.windows.create({
-      url: browser.extension.getURL('dialog/discover.html'),
-      type: 'popup',
-      width: 500,
-      height: 200
-    });
-  };
+  document.getElementById('discover-button').onclick = onDiscoverButtonClicked;
 }
 
-function initListeners() {
-  browser.runtime.onMessage.addListener((message) => {
-    if (message.action === 'refresh') {
-      initSidebar();
-    }
+function onDiscoverButtonClicked() {
+  browser.windows.create({
+    url: browser.extension.getURL('dialog/discover.html'),
+    type: 'popup',
+    width: 500,
+    height: 200
   });
+}
+
+
+function initListeners() {
+  browser.runtime.onMessage.addListener(onMessageReceived);
+}
+
+function onMessageReceived(message) {
+  if (message.action === 'refresh') {
+    initSidebar();
+  }
 }
 
 function createBookmarkListNode(bookmark) {
@@ -69,35 +83,43 @@ function createListNodeControlSection(bookmark) {
   deleteButton.type = 'image';
   deleteButton.src = '/icons/delete.svg';
   deleteButton.style.height = '15px';
-  deleteButton.onclick = () => {
-    browser.bookmarks.remove(bookmark.id).then(() => initSidebar());
-  };
+  deleteButton.dataset.bookmarkId = bookmark.id;
+  deleteButton.onclick = onDeleteButtonClicked;
   controlContainer.appendChild(deleteButton);
   return controlContainer;
 }
 
+function onDeleteButtonClicked() {
+  browser.bookmarks.remove(this.dataset.bookmarkId).then(initSidebar);
+}
+
 function parseAndDisplayFeed(url) {
   let feedItems = document.getElementById('feed-items');
-  clearNodeContent(feedItems);
+  Util.clearNodeContent(feedItems);
   feedItems.appendChild(document.createTextNode('Loading...'));
   let requestData = {method: 'GET', mode: 'cors'};
   fetch(url, requestData)
     .then(response => response.text())
-    .then(responseText =>
-      (new window.DOMParser()).parseFromString(responseText, 'text/xml'))
-    .then(xmlData => {
-      let parserFunction = selectFeedParser(xmlData);
-      let fragment = document.createDocumentFragment();
+    .then(responseText => parseXmlFromResponseText(responseText))
+    .then(onXmlResponseDataParsed);
+}
 
-      for (let listNode of parserFunction(xmlData)) {
-        fragment.appendChild(listNode);
-      }
+function parseXmlFromResponseText(responseText) {
+  return (new window.DOMParser()).parseFromString(responseText, 'text/xml');
+}
 
-      clearNodeContent(feedItems);
-      let panelContent = fragment.hasChildNodes() ?
-        fragment : document.createTextNode('[No items in feed]');
-      feedItems.append(panelContent);
-    });
+function onXmlResponseDataParsed(xmlData) {
+  let parserFunction = selectFeedParser(xmlData);
+  let fragment = document.createDocumentFragment();
+  let feedItems = document.getElementById('feed-items');
+  for (let listNode of parserFunction(xmlData)) {
+    fragment.appendChild(listNode);
+  }
+
+  Util.clearNodeContent(feedItems);
+  let panelContent = fragment.hasChildNodes() ?
+    fragment : document.createTextNode('[No items in feed]');
+  feedItems.append(panelContent);
 }
 
 function selectFeedParser(xmlData) {
@@ -138,7 +160,3 @@ function createAnchor(href, text) {
   anchor.appendChild(document.createTextNode(text));
   return anchor;
 }
-
-window.onload = () => {
-  init();
-};

@@ -4,8 +4,10 @@
 
 'use strict';
 
-/* exported clearNodeContent */
-const clearNodeContent = function(node) {
+/* exported Util */
+const Util = {};
+
+Util.clearNodeContent = function(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.firstChild);
   }
