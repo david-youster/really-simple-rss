@@ -12,3 +12,12 @@ Util.clearNodeContent = function(node) {
     node.removeChild(node.firstChild);
   }
 };
+
+Util.populateList = function(listNode, collection, onBuildNode) {
+  let fragment = document.createDocumentFragment();
+  for (let item of collection) {
+    fragment.appendChild(onBuildNode(item));
+  }
+  Util.clearNodeContent(listNode);
+  listNode.appendChild(fragment);
+};

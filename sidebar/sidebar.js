@@ -27,13 +27,9 @@ function onFeedsFolderFound(bookmarks) {
 }
 
 function onBookmarksSubTreeParsed(bookmarkItems) {
-  let fragment = document.createDocumentFragment();
-  for (let bookmark of bookmarkItems[0].children) {
-    fragment.appendChild(createBookmarkListNode(bookmark));
-  }
+  let bookmarks = bookmarkItems[0].children;
   let feedsList = document.getElementById('feeds-list');
-  Util.clearNodeContent(feedsList);
-  feedsList.appendChild(fragment);
+  Util.populateList(feedsList, bookmarks, onCreateBookmarkListNode);
 }
 
 function initControls() {
@@ -60,7 +56,7 @@ function onMessageReceived(message) {
   }
 }
 
-function createBookmarkListNode(bookmark) {
+function onCreateBookmarkListNode(bookmark) {
   let listNode = document.createElement('li');
   listNode.appendChild(createListNodeTextSection(bookmark));
   listNode.appendChild(createListNodeControlSection(bookmark));
