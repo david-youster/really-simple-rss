@@ -37,14 +37,34 @@ function initControls() {
 }
 
 function onDiscoverButtonClicked() {
+  browser.windows.getCurrent({}).then(onGetCurrentWindow);
+}
+
+function onGetCurrentWindow(window) {
+  browser.tabs.query({active: true, windowId: window.id}).then(onGetActiveTab);
+}
+
+function onGetActiveTab(tabs) {
+  browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
+    .then(onDiscoveredFeedsReceived);
+}
+
+function onDiscoveredFeedsReceived(feeds) {
+  browser.storage.local.clear().then(() => onLocalStorageCleared(feeds));
+}
+
+function onLocalStorageCleared(feeds) {
+  browser.storage.local.set({feeds: feeds}).then(onDiscoveredFeedsSaved);
+}
+
+function onDiscoveredFeedsSaved() {
   browser.windows.create({
     url: browser.extension.getURL('dialog/discover.html'),
-    type: 'popup',
+    type: 'panel',
     width: 500,
     height: 200
   });
 }
-
 
 function initListeners() {
   browser.runtime.onMessage.addListener(onMessageReceived);

@@ -9,23 +9,17 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
-  browser.tabs.query({active: true}).then(onGetActiveTab);
+  browser.storage.local.get('feeds').then(onDiscoveredFeedsLoaded);
 }
 
-function onGetActiveTab(tabs) {
-  browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
-    .then(onDiscoveredFeedsReceived);
-}
-
-function onDiscoveredFeedsReceived(feeds){
-
-  if (feeds.length === 0) {
+function onDiscoveredFeedsLoaded(feeds) {
+  if (feeds.feeds.length === 0) {
     forceRedraw();
     return;
   }
 
   let fragment = document.createDocumentFragment();
-  for (let feed of feeds) {
+  for (let feed of feeds.feeds) {
     let listNode = document.createElement('li');
     listNode.appendChild(
       document.createTextNode(feed.title ? feed.title : feed.href));
