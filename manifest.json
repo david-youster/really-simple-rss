@@ -36,7 +36,7 @@
 
   "sidebar_action": {
     "default_icon": "icons/main.svg",
-    "default_title": "Really Simple RSS",
+    "default_title": "Really Simple Rss",
     "default_panel": "sidebar/sidebar.html"
   }
 }
