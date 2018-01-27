@@ -17,6 +17,12 @@
     "<all_urls>"
   ],
 
+  "applications": {
+    "gecko": {
+      "id": "{1529bff3-4309-49ae-ba61-8536bbbf463c}"
+    }
+  },
+
   "background": {
     "scripts": ["background_scripts/background.js"]
   },
