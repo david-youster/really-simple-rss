@@ -166,7 +166,8 @@ function* parseRss(xmlData) {
   for (let item of channel.getElementsByTagName('item')) {
     let title = item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
-    let summary = item.getElementsByTagName('description')[0].childNodes[0].nodeValue;
+    let summary = item.getElementsByTagName('description')[0]
+      .childNodes[0].nodeValue;
     let listNode = document.createElement('li');
     listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
@@ -176,9 +177,11 @@ function* parseRss(xmlData) {
 function* parseAtom(xmlData) {
   let feed = xmlData.getElementsByTagName('feed')[0];
   for (let entry of feed.getElementsByTagName('entry')) {
-    let title = entry.getElementsByTagName('title')[0].childNodes[0].nodeValue;
+    let title = entry.getElementsByTagName('title')[0]
+      .childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
-    let summary = entry.getElementsByTagName('summary')[0].childNodes[0].nodeValue;
+    let summary = entry.getElementsByTagName('summary')[0]
+      .childNodes[0].nodeValue;
     let listNode = document.createElement('li');
     listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
