@@ -32,6 +32,10 @@ a {
     width: 85%;
 }
 
+.selected-feed {
+    font-weight: bold;
+}
+
 .feed-control-container {
     display: inline-block;
     width: 15%;

@@ -88,7 +88,7 @@ function createListNodeTextSection(bookmark) {
   titleContainer.classList.add('feed-title-container');
   titleContainer.appendChild(
     document.createTextNode(bookmark.title ? bookmark.title : bookmark.url));
-  titleContainer.onclick = () => parseAndDisplayFeed(bookmark.url);
+  titleContainer.onclick = () => onFeedSelected(bookmark.url, titleContainer);
   return titleContainer;
 }
 
@@ -109,7 +109,8 @@ function onDeleteButtonClicked() {
   browser.bookmarks.remove(this.dataset.bookmarkId).then(initSidebar);
 }
 
-function parseAndDisplayFeed(url) {
+function onFeedSelected(url, feedTitleContainer) {
+  toggleClassOnElement(feedTitleContainer, 'selected-feed');
   let feedItems = document.getElementById('feed-items');
   Util.clearNodeContent(feedItems);
   feedItems.appendChild(document.createTextNode('Loading...'));
@@ -118,6 +119,14 @@ function parseAndDisplayFeed(url) {
     .then(response => response.text())
     .then(responseText => parseXmlFromResponseText(responseText))
     .then(onXmlResponseDataParsed);
+}
+
+function toggleClassOnElement(elementToUpdate, className) {
+  let otherElements = document.getElementsByClassName(className);
+  for (let element of otherElements) {
+    element.classList.remove(className);
+  }
+  elementToUpdate.parentNode.classList.add(className);
 }
 
 function parseXmlFromResponseText(responseText) {
