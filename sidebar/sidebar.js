@@ -155,6 +155,10 @@ function selectFeedParser(xmlData) {
   if (xmlData.getElementsByTagName('feed').length > 0) {
     return parseAtom;
   }
+
+  if (xmlData.getElementsByTagName('rdf:RDF').length > 0) {
+    return parseRdf;
+  }
 }
 
 function* parseRss(xmlData) {
@@ -175,6 +179,16 @@ function* parseAtom(xmlData) {
     let link = entry.getElementsByTagName('link')[0].href;
     let listNode = document.createElement('li');
     listNode.appendChild(createAnchor(link, title));
+    yield listNode;
+  }
+}
+
+function* parseRdf(xmlData) {
+  let items = xmlData.getElementsByTagName('rdf:li');
+  for (let item of items) {
+    let listNode = document.createElement('li');
+    let url = item.getAttribute('rdf:resource');
+    listNode.appendChild(createAnchor(url, url));
     yield listNode;
   }
 }
