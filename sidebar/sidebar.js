@@ -196,10 +196,14 @@ function* parseRdf(xmlData) {
 }
 
 function createAnchor(href, text, title) {
+  let maxTooltipLength = 400;
   let anchor = document.createElement('a');
   anchor.href = href;
   anchor.appendChild(document.createTextNode(text));
   if (title != undefined) {
+    if (title.length > 512) {
+      title = title.substring(0, maxTooltipLength) + '...';
+    }
     anchor.title = title;
   }
   return anchor;
