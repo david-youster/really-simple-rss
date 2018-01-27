@@ -166,8 +166,9 @@ function* parseRss(xmlData) {
   for (let item of channel.getElementsByTagName('item')) {
     let title = item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
+    let summary = item.getElementsByTagName('description')[0].childNodes[0].nodeValue;
     let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(link, title));
+    listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
   }
 }
@@ -177,8 +178,9 @@ function* parseAtom(xmlData) {
   for (let entry of feed.getElementsByTagName('entry')) {
     let title = entry.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
+    let summary = entry.getElementsByTagName('summary')[0].childNodes[0].nodeValue;
     let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(link, title));
+    listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
   }
 }
@@ -193,9 +195,12 @@ function* parseRdf(xmlData) {
   }
 }
 
-function createAnchor(href, text) {
+function createAnchor(href, text, title) {
   let anchor = document.createElement('a');
   anchor.href = href;
   anchor.appendChild(document.createTextNode(text));
+  if (title != undefined) {
+    anchor.title = title;
+  }
   return anchor;
 }
