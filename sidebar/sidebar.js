@@ -180,8 +180,13 @@ function* parseAtom(xmlData) {
     let title = entry.getElementsByTagName('title')[0]
       .childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
-    let summary = entry.getElementsByTagName('summary')[0]
-      .childNodes[0].nodeValue;
+    let summaryElements = entry.getElementsByTagName('summary')
+    let summary = ''
+    if (summaryElements.length > 0) {
+      if (summaryElements[0].childNodes.length > 0) {
+        summary = summaryElements[0].childNodes[0].nodeValue;
+      }
+    }
     let listNode = document.createElement('li');
     listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
