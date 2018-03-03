@@ -78,7 +78,21 @@ function onDiscoveredFeedsSaved() {
 }
 
 function onDisplayBookmarkPrompt(tabs) {
-  console.log('Bookmarking current page...');
+  if (window.confirm('Bookmark' + tabs[0].url + '?')) {
+    browser.bookmarks.search('Simple Feeds').then(
+      (bookmarks) => onBookmarkCurrentPage(
+        bookmarks[0].id, tabs[0].url, tabs[0].title));
+  }
+}
+
+function onBookmarkCurrentPage(parentId, url, title) {
+  const newBookmark = {
+    index: 0,
+    parentId: parentId,
+    title: title,
+    url: url
+  };
+  browser.bookmarks.create(newBookmark).then(() => initSidebar());
 }
 
 function initListeners() {
