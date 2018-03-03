@@ -33,18 +33,29 @@ function onBookmarksSubTreeParsed(bookmarkItems) {
 }
 
 function initControls() {
-  document.getElementById('discover-button').onclick = onDiscoverButtonClicked;
+  document.getElementById('discover-button').onclick =
+      () => onDiscoverButtonClicked(onSendDiscoverMessage);
+  document.getElementById('bookmark-button').onclick =
+      () => onBookmarkButtonClicked(onDisplayBookmarkPrompt);
 }
 
-function onDiscoverButtonClicked() {
-  browser.windows.getCurrent({}).then(onGetCurrentWindow);
+function onDiscoverButtonClicked(onGetActiveTab) {
+  browser.windows.getCurrent({}).then(
+    (currentWindow) => onGetCurrentWindow(currentWindow, onGetActiveTab)
+  );
 }
 
-function onGetCurrentWindow(window) {
+function onBookmarkButtonClicked(onGetActiveTab) {
+  browser.windows.getCurrent({}).then(
+    (currentWindow) => onGetCurrentWindow(currentWindow, onGetActiveTab)
+  );
+}
+
+function onGetCurrentWindow(window, onGetActiveTab) {
   browser.tabs.query({active: true, windowId: window.id}).then(onGetActiveTab);
 }
 
-function onGetActiveTab(tabs) {
+function onSendDiscoverMessage(tabs) {
   browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
     .then(onDiscoveredFeedsReceived);
 }
@@ -64,6 +75,10 @@ function onDiscoveredFeedsSaved() {
     width: 500,
     height: 200
   });
+}
+
+function onDisplayBookmarkPrompt(tabs) {
+  console.log('Bookmarking current page...');
 }
 
 function initListeners() {
@@ -180,8 +195,8 @@ function* parseAtom(xmlData) {
     let title = entry.getElementsByTagName('title')[0]
       .childNodes[0].nodeValue;
     let link = entry.getElementsByTagName('link')[0].href;
-    let summaryElements = entry.getElementsByTagName('summary')
-    let summary = ''
+    let summaryElements = entry.getElementsByTagName('summary');
+    let summary = '';
     if (summaryElements.length > 0) {
       if (summaryElements[0].childNodes.length > 0) {
         summary = summaryElements[0].childNodes[0].nodeValue;
