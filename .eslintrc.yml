@@ -5,6 +5,8 @@ extends: 'eslint:recommended'
 globals:
   browser: false
 rules:
+  max-len:
+    - error
   indent:
     - error
     - 2
