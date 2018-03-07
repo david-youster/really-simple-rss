@@ -208,7 +208,12 @@ function* parseAtom(xmlData) {
   for (let entry of feed.getElementsByTagName('entry')) {
     let title = entry.getElementsByTagName('title')[0]
       .childNodes[0].nodeValue;
-    let link = entry.getElementsByTagName('link')[0].href;
+    let url;
+    for (let link of entry.getElementsByTagName('link')) {
+      if (link.getAttribute('rel') === 'alternate') {
+        url = link.getAttribute('href');
+      }
+    }
     let summaryElements = entry.getElementsByTagName('summary');
     let summary = '';
     if (summaryElements.length > 0) {
@@ -217,7 +222,7 @@ function* parseAtom(xmlData) {
       }
     }
     let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(link, title, summary));
+    listNode.appendChild(createAnchor(url, title, summary));
     yield listNode;
   }
 }
