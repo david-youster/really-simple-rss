@@ -15,3 +15,6 @@ Initial release.
 - Highlight selected feed
 - Display feed item summary in tooltip
 - Implement very basic RDF feed parsing
+
+## 1.3
+- Fix Atom feed parsing
