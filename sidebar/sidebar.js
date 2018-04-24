@@ -106,7 +106,9 @@ function createListNodeControlSection(bookmark) {
 }
 
 function onDeleteButtonClicked() {
-  browser.bookmarks.remove(this.dataset.bookmarkId).then(initSidebar);
+  if (confirm('Delete bookmark?')) {
+    browser.bookmarks.remove(this.dataset.bookmarkId).then(initSidebar);
+  }
 }
 
 function onFeedSelected(url, feedTitleContainer) {
