@@ -34,22 +34,22 @@ function onBookmarksSubTreeParsed(bookmarkItems) {
 
 function initControls() {
   document.getElementById('discover-button').onclick =
-      () => onControlButtonClicked(onSendDiscoverMessage);
+      () => onControlButtonClicked(sendDiscoverMessage);
   document.getElementById('bookmark-button').onclick =
-      () => onControlButtonClicked(onDisplayBookmarkPrompt);
+      () => onControlButtonClicked(displayBookmarkPrompt);
 }
 
 function onControlButtonClicked(onGetActiveTab) {
   browser.windows.getCurrent({}).then(
-    (currentWindow) => onGetCurrentWindow(currentWindow, onGetActiveTab)
+    (currentWindow) => getCurrentWindow(currentWindow, onGetActiveTab)
   );
 }
 
-function onGetCurrentWindow(window, onGetActiveTab) {
+function getCurrentWindow(window, onGetActiveTab) {
   browser.tabs.query({active: true, windowId: window.id}).then(onGetActiveTab);
 }
 
-function onSendDiscoverMessage(tabs) {
+function sendDiscoverMessage(tabs) {
   browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
     .then(onDiscoveredFeedsReceived);
 }
@@ -71,7 +71,7 @@ function onDiscoveredFeedsSaved() {
   });
 }
 
-function onDisplayBookmarkPrompt(tabs) {
+function displayBookmarkPrompt(tabs) {
   if (window.confirm('Bookmark ' + tabs[0].url + '?')) {
     browser.bookmarks.search('Simple Feeds').then(
       (bookmarks) => onBookmarkCurrentPage(
