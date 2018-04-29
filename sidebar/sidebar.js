@@ -154,7 +154,7 @@ function onFeedSelected(url, feedTitleContainer) {
   fetch(url, requestData)
     .then(response => response.text())
     .then(responseText => Util.parseXmlFromResponseText(responseText))
-    .then(onXmlResponseDataParsed);
+    .then(populateFeedDisplay);
 }
 
 function toggleClassOnElement(elementToUpdate, className) {
@@ -165,7 +165,7 @@ function toggleClassOnElement(elementToUpdate, className) {
   elementToUpdate.parentNode.classList.add(className);
 }
 
-function onXmlResponseDataParsed(xmlData) {
+function populateFeedDisplay(xmlData) {
   let parserFunction = Feeds.selectFeedParser(xmlData);
   let fragment = document.createDocumentFragment();
   let feedItems = document.getElementById('feed-items');
