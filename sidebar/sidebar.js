@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/* global Util */
+/* global Util, Feeds */
 
 'use strict';
 
@@ -36,7 +36,7 @@ function initControls() {
   document.getElementById('discover-button').onclick =
       () => onControlButtonClicked(sendDiscoverMessage);
   document.getElementById('bookmark-button').onclick =
-      () => onControlButtonClicked(displayBookmarkPrompt);
+      () => onControlButtonClicked(checkForFeedOnCurrentPage);
 }
 
 function onControlButtonClicked(onGetActiveTab) {
@@ -69,6 +69,17 @@ function onDiscoveredFeedsSaved() {
     width: 500,
     height: 200
   });
+}
+
+function checkForFeedOnCurrentPage(tabs) {
+  browser.tabs.sendMessage(tabs[0].id, {action: 'bookmark'})
+    .then((feedDetected) => bookmarkCurrentPage(feedDetected, tabs));
+}
+
+function bookmarkCurrentPage(feedDetected, tabs) {
+  if (feedDetected) {
+    displayBookmarkPrompt(tabs);
+  }
 }
 
 function displayBookmarkPrompt(tabs) {
@@ -142,7 +153,7 @@ function onFeedSelected(url, feedTitleContainer) {
   let requestData = {method: 'GET', mode: 'cors'};
   fetch(url, requestData)
     .then(response => response.text())
-    .then(responseText => parseXmlFromResponseText(responseText))
+    .then(responseText => Util.parseXmlFromResponseText(responseText))
     .then(onXmlResponseDataParsed);
 }
 
@@ -154,12 +165,8 @@ function toggleClassOnElement(elementToUpdate, className) {
   elementToUpdate.parentNode.classList.add(className);
 }
 
-function parseXmlFromResponseText(responseText) {
-  return (new window.DOMParser()).parseFromString(responseText, 'text/xml');
-}
-
 function onXmlResponseDataParsed(xmlData) {
-  let parserFunction = selectFeedParser(xmlData);
+  let parserFunction = Feeds.selectFeedParser(xmlData);
   let fragment = document.createDocumentFragment();
   let feedItems = document.getElementById('feed-items');
   for (let listNode of parserFunction(xmlData)) {
@@ -170,79 +177,4 @@ function onXmlResponseDataParsed(xmlData) {
   let panelContent = fragment.hasChildNodes() ?
     fragment : document.createTextNode('[No items in feed]');
   feedItems.append(panelContent);
-}
-
-function selectFeedParser(xmlData) {
-  if (xmlData.getElementsByTagName('rss').length > 0) {
-    return parseRss;
-  }
-
-  if (xmlData.getElementsByTagName('feed').length > 0) {
-    return parseAtom;
-  }
-
-  if (xmlData.getElementsByTagName('rdf:RDF').length > 0) {
-    return parseRdf;
-  }
-}
-
-function* parseRss(xmlData) {
-  let channel = xmlData.getElementsByTagName('channel')[0];
-  for (let item of channel.getElementsByTagName('item')) {
-    let title = item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
-    let link = item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
-    let summary = item.getElementsByTagName('description')[0]
-      .childNodes[0].nodeValue;
-    let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(link, title, summary));
-    yield listNode;
-  }
-}
-
-function* parseAtom(xmlData) {
-  let feed = xmlData.getElementsByTagName('feed')[0];
-  for (let entry of feed.getElementsByTagName('entry')) {
-    let title = entry.getElementsByTagName('title')[0]
-      .childNodes[0].nodeValue;
-    let url;
-    for (let link of entry.getElementsByTagName('link')) {
-      if (link.getAttribute('rel') === 'alternate') {
-        url = link.getAttribute('href');
-      }
-    }
-    let summaryElements = entry.getElementsByTagName('summary');
-    let summary = '';
-    if (summaryElements.length > 0) {
-      if (summaryElements[0].childNodes.length > 0) {
-        summary = summaryElements[0].childNodes[0].nodeValue;
-      }
-    }
-    let listNode = document.createElement('li');
-    listNode.appendChild(createAnchor(url, title, summary));
-    yield listNode;
-  }
-}
-
-function* parseRdf(xmlData) {
-  let items = xmlData.getElementsByTagName('rdf:li');
-  for (let item of items) {
-    let listNode = document.createElement('li');
-    let url = item.getAttribute('rdf:resource');
-    listNode.appendChild(createAnchor(url, url));
-    yield listNode;
-  }
-}
-
-function createAnchor(href, text, title) {
-  let maxTooltipLength = 400;
-  let anchor = document.createElement('a');
-  anchor.href = href;
-  anchor.appendChild(document.createTextNode(text));
-  if (title != undefined) {
-    if (title.length > 512) {
-      title = title.substring(0, maxTooltipLength) + '...';
-    }
-    anchor.title = title;
-  }
-  return anchor;
 }

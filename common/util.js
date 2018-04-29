@@ -8,6 +8,10 @@
 
 const Util = {};
 
+Util.parseXmlFromResponseText = function(responseText) {
+  return (new window.DOMParser()).parseFromString(responseText, 'text/xml');
+};
+
 Util.clearNodeContent = function(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.firstChild);

@@ -2,11 +2,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global Feeds, Util */
+
 'use strict';
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'discover') {
     return Promise.resolve(discoverFeeds());
+  }
+
+  if (message.action === 'bookmark') {
+    return Promise.resolve(
+      fetch(window.location.href)
+        .then(response => response.text())
+        .then(responseText => Util.parseXmlFromResponseText(responseText))
+        .then(xmlData => Feeds.selectFeedParser(xmlData) !== undefined)
+    );
   }
 });
 
