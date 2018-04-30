@@ -44,9 +44,7 @@ Feeds.parseAtom = function*(xmlData) {
       .childNodes[0].nodeValue;
     let url;
     for (let link of entry.getElementsByTagName('link')) {
-      if (link.getAttribute('rel') === 'alternate') {
-        url = link.getAttribute('href');
-      }
+      url = link.getAttribute('href');
     }
     let summaryElements = entry.getElementsByTagName('summary');
     let summary = '';
