@@ -69,3 +69,7 @@ a {
     height: 50%;
     overflow: scroll;
 }
+
+.old-article {
+    color: #555;
+}
