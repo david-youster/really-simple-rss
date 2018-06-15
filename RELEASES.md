@@ -17,4 +17,12 @@ Initial release.
 - Implement very basic RDF feed parsing
 
 ## 1.3
+
 - Fix Atom feed parsing
+
+## 1.4
+
+- Distinguish between read and unread articles
+- Prompt before deleting a feed from bookmarks
+- Fix Atom parsing when no 'rel' attribute is present
+- Fixed homepage URL in manifest file
