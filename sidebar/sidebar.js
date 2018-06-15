@@ -35,8 +35,8 @@ function onBookmarksSubTreeParsed(bookmarkItems) {
 function initControls() {
   document.getElementById('discover-button').onclick =
       () => onControlButtonClicked(sendDiscoverMessage);
-  document.getElementById('bookmark-button').onclick =
-      () => onControlButtonClicked(checkForFeedOnCurrentPage);
+  //document.getElementById('bookmark-button').onclick =
+  //    () => onControlButtonClicked(checkForFeedOnCurrentPage);
 }
 
 function onControlButtonClicked(onGetActiveTab) {
