@@ -87,8 +87,8 @@ function createAnchor(href, text, title) {
 
 function markAsRead(anchor, historyItems) {
   if (historyItems.length !== 0) {
-    anchor.classList.toggle('old-article');
+    anchor.classList.add('old-article');
   } else {
-    anchor.onclick = () => anchor.classList.toggle('old-article');
+    anchor.onclick = () => anchor.classList.add('old-article');
   }
 }
