@@ -123,7 +123,9 @@ function onFeedSelected(url, feedTitleContainer) {
   fetch(url, requestData)
     .then(response => response.text())
     .then(responseText => Util.parseXmlFromResponseText(responseText))
-    .then(populateFeedDisplay);
+    .then(Feeds.selectFeedParser)
+    .then(buildFragment)
+    .then(applyFragment);
 }
 
 function toggleClassOnElement(elementToUpdate, className) {
@@ -134,16 +136,27 @@ function toggleClassOnElement(elementToUpdate, className) {
   elementToUpdate.parentNode.classList.add(className);
 }
 
-function populateFeedDisplay(xmlData) {
-  let parserFunction = Feeds.selectFeedParser(xmlData);
-  let fragment = document.createDocumentFragment();
-  let feedItems = document.getElementById('feed-items');
-  for (let listNode of parserFunction(xmlData)) {
-    fragment.appendChild(listNode);
-  }
+/**
+ * @param parserData.parse The function to use to parse the feed
+ * @param parserData.xml The feed XML
+ */
+function buildFragment(parserData) {
+  return new Promise(function(resolve) {
+    let fragment = document.createDocumentFragment();
+    for (let listNode of parserData.parse(parserData.xml)) {
+      fragment.appendChild(listNode);
+    }
+    resolve(fragment);
+  });
+}
 
-  Util.clearNodeContent(feedItems);
-  let panelContent = fragment.hasChildNodes() ?
-    fragment : document.createTextNode('[No items in feed]');
-  feedItems.append(panelContent);
+function applyFragment(fragment) {
+  return new Promise(function(resolve) {
+    let feedItems = document.getElementById('feed-items');
+    Util.clearNodeContent(feedItems);
+    let panelContent = fragment.hasChildNodes() ?
+      fragment : document.createTextNode('[No items in feed]');
+    feedItems.append(panelContent);
+    resolve();
+  });
 }

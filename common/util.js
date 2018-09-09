@@ -9,7 +9,10 @@
 const Util = {};
 
 Util.parseXmlFromResponseText = function(responseText) {
-  return (new window.DOMParser()).parseFromString(responseText, 'text/xml');
+  return new Promise(function(resolve) {
+    resolve(new window.DOMParser().parseFromString(responseText, 'text/xml'));
+  });
+
 };
 
 Util.clearNodeContent = function(node) {

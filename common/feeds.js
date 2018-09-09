@@ -9,19 +9,21 @@
 const Feeds = {};
 
 Feeds.selectFeedParser = function(xmlData) {
-  if (xmlData.getElementsByTagName('rss').length > 0) {
-    return this.parseRss;
-  }
+  return new Promise(function(resolve, reject) {
+    if (xmlData.getElementsByTagName('rss').length > 0) {
+      resolve({parse: Feeds.parseRss, xml: xmlData});
+    }
 
-  if (xmlData.getElementsByTagName('feed').length > 0) {
-    return this.parseAtom;
-  }
+    if (xmlData.getElementsByTagName('feed').length > 0) {
+      resolve({parse: Feeds.parseAtom, xml: xmlData});
+    }
 
-  if (xmlData.getElementsByTagName('rdf:RDF').length > 0) {
-    return this.parseRdf;
-  }
+    if (xmlData.getElementsByTagName('rdf:RDF').length > 0) {
+      resolve({parse: Feeds.parseRdf, xml: xmlData});
+    }
 
-  return undefined;
+    reject();
+  });
 };
 
 Feeds.parseRss = function*(xmlData) {
