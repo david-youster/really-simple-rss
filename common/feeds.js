@@ -82,15 +82,5 @@ function createAnchor(href, text, title) {
     }
     anchor.title = title;
   }
-  browser.history.search({text: href})
-    .then((historyItems) => markAsRead(anchor, historyItems));
   return anchor;
-}
-
-function markAsRead(anchor, historyItems) {
-  if (historyItems.length !== 0) {
-    anchor.classList.add('old-article');
-  } else {
-    anchor.onclick = () => anchor.classList.add('old-article');
-  }
 }

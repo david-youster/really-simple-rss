@@ -19,3 +19,7 @@ Delete icon made by [Icon Works](https://www.flaticon.com/authors/icon-works) fr
 Bookmark icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
 The Really Simple Rss extension is based on the [Sage](http://sagerss.com/) feed reader by Peter Andrews, and is intended to serve as an alternative that can be used with Firefox 57 and upwards.
+
+## Contributors
+
+- avbohemen

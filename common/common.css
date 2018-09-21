@@ -9,11 +9,14 @@ body, html {
 }
 
 ul {
-    list-style: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 li {
-    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-bottom: 3px;
     border-bottom: 1px solid #CCC;
 }
 
@@ -21,9 +24,14 @@ li:hover {
     background-color: #EFEFEF;
 }
 
-a {
+a:link {
     text-decoration: none;
     color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #555;
 }
 
 .feed-title-container {
@@ -49,15 +57,16 @@ a {
 
 #feeds-menu {
     height: 47%;
-    overflow: scroll;
+    overflow: auto;
     border-bottom: none;
 }
 
 #controls {
     height:7%;
     padding-left: 1em;
-    overflow:scroll;
+    overflow:auto;
     text-align: center;
+    border: 1px solid #AAA;
 }
 
 #controls input {
@@ -67,9 +76,5 @@ a {
 #display {
     border: none;
     height: 50%;
-    overflow: scroll;
-}
-
-.old-article {
-    color: #555;
+    overflow: auto;
 }
