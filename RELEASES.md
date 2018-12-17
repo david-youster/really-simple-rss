@@ -26,3 +26,9 @@ Initial release.
 - Prompt before deleting a feed from bookmarks
 - Fix Atom parsing when no 'rel' attribute is present
 - Fixed homepage URL in manifest file
+
+## 1.5
+
+- Fix browser hanging on history lookup
+- Styling tweaks
+
