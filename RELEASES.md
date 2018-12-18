@@ -32,3 +32,5 @@ Initial release.
 - Fix browser hanging on history lookup
 - Styling tweaks
 
+## 1.6
+- Implement option to swap postion of feeds list panel and feed content panel
