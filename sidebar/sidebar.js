@@ -9,13 +9,40 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
-  init();
+  browser.storage.local.get('swapDisplays')
+    .then((options) => init(options));
 }
 
-function init() {
+function init(options) {
+  render(options.swapDisplays);
   initSidebar();
   initControls();
   initListeners();
+}
+
+function render(swapDisplays) {
+  const feedsDiv = buildDisplayDiv('feeds-menu', 'feeds-list');
+  const feedItemsDiv = buildDisplayDiv('display', 'feed-items');
+
+  const body = document.getElementsByTagName('body')[0];
+  const controlsDiv = document.getElementById('controls');
+
+  if (!swapDisplays) {
+    body.insertBefore(feedsDiv, controlsDiv);
+    body.appendChild(feedItemsDiv);
+  } else {
+    body.insertBefore(feedItemsDiv, controlsDiv);
+    body.appendChild(feedsDiv);
+  }
+}
+
+function buildDisplayDiv(containerId, listId) {
+  const div = document.createElement('div');
+  div.id = containerId;
+  const list = document.createElement('ul');
+  list.id = listId;
+  div.appendChild(list);
+  return div;
 }
 
 function initSidebar() {
@@ -53,10 +80,11 @@ function sendDiscoverMessage(tabs) {
 }
 
 function onDiscoveredFeedsReceived(feeds) {
-  browser.storage.local.clear().then(() => onLocalStorageCleared(feeds));
+  browser.storage.local.remove('feeds').then(
+    () => clearFeedsFromLocalStorage(feeds));
 }
 
-function onLocalStorageCleared(feeds) {
+function clearFeedsFromLocalStorage(feeds) {
   browser.storage.local.set({feeds: feeds}).then(onDiscoveredFeedsSaved);
 }
 

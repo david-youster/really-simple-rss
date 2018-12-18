@@ -46,5 +46,10 @@
     "default_icon": "icons/main.svg",
     "default_title": "Really Simple Rss",
     "default_panel": "sidebar/sidebar.html"
+  },
+
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true
   }
 }
