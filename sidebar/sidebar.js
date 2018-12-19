@@ -46,14 +46,14 @@ function buildDisplayDiv(containerId, listId) {
 }
 
 function initSidebar() {
-  browser.bookmarks.search('Simple Feeds').then(onFeedsFolderFound);
+  browser.bookmarks.search('Simple Feeds').then(parseFeedsFolderSubtree);
 }
 
-function onFeedsFolderFound(bookmarks) {
-  browser.bookmarks.getSubTree(bookmarks[0].id).then(onBookmarksSubTreeParsed);
+function parseFeedsFolderSubtree(bookmarks) {
+  browser.bookmarks.getSubTree(bookmarks[0].id).then(populateFeedsList);
 }
 
-function onBookmarksSubTreeParsed(bookmarkItems) {
+function populateFeedsList(bookmarkItems) {
   let bookmarks = bookmarkItems[0].children;
   let feedsList = document.getElementById('feeds-list');
   Util.populateList(feedsList, bookmarks, onCreateBookmarkListNode);
@@ -76,19 +76,19 @@ function getCurrentWindow(window, onGetActiveTab) {
 
 function sendDiscoverMessage(tabs) {
   browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
-    .then(onDiscoveredFeedsReceived);
+    .then(clearFeedsFromStorage);
 }
 
-function onDiscoveredFeedsReceived(feeds) {
+function clearFeedsFromStorage(feeds) {
   browser.storage.local.remove('feeds').then(
-    () => clearFeedsFromLocalStorage(feeds));
+    () => saveDiscoveredFeeds(feeds));
 }
 
-function clearFeedsFromLocalStorage(feeds) {
-  browser.storage.local.set({feeds: feeds}).then(onDiscoveredFeedsSaved);
+function saveDiscoveredFeeds(feeds) {
+  browser.storage.local.set({feeds: feeds}).then(displayDiscoveredFeedsPanel);
 }
 
-function onDiscoveredFeedsSaved() {
+function displayDiscoveredFeedsPanel() {
   browser.windows.create({
     url: browser.extension.getURL('dialog/discover.html'),
     type: 'panel',
@@ -98,10 +98,10 @@ function onDiscoveredFeedsSaved() {
 }
 
 function initListeners() {
-  browser.runtime.onMessage.addListener(onMessageReceived);
+  browser.runtime.onMessage.addListener(handleReceivedMessages);
 }
 
-function onMessageReceived(message) {
+function handleReceivedMessages(message) {
   if (message.action === 'refresh') {
     initSidebar();
   }
@@ -119,7 +119,8 @@ function createListNodeTextSection(bookmark) {
   titleContainer.classList.add('feed-title-container');
   titleContainer.appendChild(
     document.createTextNode(bookmark.title ? bookmark.title : bookmark.url));
-  titleContainer.onclick = () => onFeedSelected(bookmark.url, titleContainer);
+  titleContainer.onclick = () => displayFeedContent(
+    bookmark.url, titleContainer);
   return titleContainer;
 }
 
@@ -142,7 +143,7 @@ function onDeleteButtonClicked() {
   }
 }
 
-function onFeedSelected(url, feedTitleContainer) {
+function displayFeedContent(url, feedTitleContainer) {
   toggleClassOnElement(feedTitleContainer, 'selected-feed');
   let feedItems = document.getElementById('feed-items');
   Util.clearNodeContent(feedItems);

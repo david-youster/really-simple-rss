@@ -9,10 +9,10 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
-  browser.storage.local.get('feeds').then(onDiscoveredFeedsLoaded);
+  browser.storage.local.get('feeds').then(buildDiscoveredFeedsList);
 }
 
-function onDiscoveredFeedsLoaded(feeds) {
+function buildDiscoveredFeedsList(feeds) {
   if (feeds.feeds.length === 0) {
     forceRedraw();
     return;
@@ -34,10 +34,10 @@ function onDiscoveredFeedsLoaded(feeds) {
 
 function onFeedTitleListNodeClicked(feed) {
   browser.bookmarks.search('Simple Feeds')
-    .then(bookmarks => onFeedsFolderFound(bookmarks, feed));
+    .then(bookmarks => bookmarkFeed(bookmarks, feed));
 }
 
-function onFeedsFolderFound(bookmarks, feed) {
+function bookmarkFeed(bookmarks, feed) {
   const newBookmark = {
     index: 0,
     parentId: bookmarks[0].id,
