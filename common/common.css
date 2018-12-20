@@ -78,3 +78,7 @@ a:visited {
     height: 50%;
     overflow: auto;
 }
+
+.dialog-button {
+    width: 10em;
+}
