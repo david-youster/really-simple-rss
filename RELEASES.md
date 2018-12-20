@@ -34,3 +34,6 @@ Initial release.
 
 ## 1.6
 - Implement option to swap postion of feeds list panel and feed content panel
+
+## 1.7
+- Implement custom delete feed dialog box
