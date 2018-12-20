@@ -101,8 +101,15 @@ function initListeners() {
   browser.runtime.onMessage.addListener(handleReceivedMessages);
 }
 
-function handleReceivedMessages(message) {
+async function handleReceivedMessages(message) {
   if (message.action === 'refresh') {
+    initSidebar();
+  }
+
+  if (message.action === 'delete') {
+    const result = await browser.storage.local.get('deleteId');
+    await browser.bookmarks.remove(result.deleteId);
+    await browser.storage.local.remove('deleteId');
     initSidebar();
   }
 }
@@ -137,10 +144,19 @@ function createListNodeControlSection(bookmark) {
   return controlContainer;
 }
 
-function onDeleteButtonClicked() {
-  if (confirm('Delete bookmark?')) {
-    browser.bookmarks.remove(this.dataset.bookmarkId).then(initSidebar);
+async function onDeleteButtonClicked() {
+  const result = await browser.storage.local.get('deleteId');
+  if (result.deleteId === undefined) {
+    await browser.storage.local.set({deleteId: this.dataset.bookmarkId});
+    browser.windows.create({
+      url: browser.extension.getURL('dialog/delete.html'),
+      type: 'panel',
+      width: 500,
+      height: 200,
+      allowScriptsToClose: true
+    });
   }
+
 }
 
 function displayFeedContent(url, feedTitleContainer) {
