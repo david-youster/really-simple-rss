@@ -7,8 +7,19 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
+  setTheme();
   document.getElementById('confirm-button').onclick = onConfirm;
   document.getElementById('cancel-button').onclick = onCancel;
+}
+
+async function setTheme() {
+  const styleSheetLink = document.createElement('link');
+  styleSheetLink.type = 'text/css';
+  const result =  await browser.storage.local.get('settings');
+  const theme = result.settings.darkTheme ? 'dark' : 'light';
+  styleSheetLink.href = `/common/${theme}.css`;
+  styleSheetLink.rel = 'stylesheet';
+  document.head.appendChild(styleSheetLink);
 }
 
 function onConfirm() {

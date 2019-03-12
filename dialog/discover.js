@@ -9,7 +9,18 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
+  setTheme();
   browser.storage.local.get('feeds').then(buildDiscoveredFeedsList);
+}
+
+async function setTheme() {
+  const styleSheetLink = document.createElement('link');
+  styleSheetLink.type = 'text/css';
+  const result =  await browser.storage.local.get('settings');
+  const theme = result.settings.darkTheme ? 'dark' : 'light';
+  styleSheetLink.href = `/common/${theme}.css`;
+  styleSheetLink.rel = 'stylesheet';
+  document.head.appendChild(styleSheetLink);
 }
 
 function buildDiscoveredFeedsList(feeds) {
@@ -45,6 +56,7 @@ function bookmarkFeed(bookmarks, feed) {
     url: feed.href
   };
   browser.bookmarks.create(newBookmark)
+    .then((boomark) => browser.storage.local.set({newBookmarkId: boomark.id}))
     .then(() => browser.runtime.sendMessage({action: 'refresh'}));
 }
 

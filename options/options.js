@@ -12,13 +12,23 @@ function onWindowLoaded() {
 }
 
 function loadSettings() {
-  browser.storage.local.get('swapDisplays').then((result) =>
-    lookupElement('swap-displays').checked = result.swapDisplays || false);
+  browser.storage.local.get('settings').then(
+    (result) => populateSettingsFields(result.settings));
+}
+
+function populateSettingsFields(settings) {
+  lookupElement('swap-displays').checked = settings.swapDisplays || false;
+  lookupElement('dark-theme').checked = settings.darkTheme || false;
 }
 
 function saveSettings() {
+  const settings = {
+    swapDisplays: lookupElement('swap-displays').checked,
+    darkTheme:  lookupElement('dark-theme').checked
+  };
+
   browser.storage.local
-    .set({swapDisplays: lookupElement('swap-displays').checked})
+    .set({settings: settings})
     .then(displaySettingsUpdatedConfirmation);
 }
 

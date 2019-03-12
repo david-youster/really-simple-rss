@@ -9,18 +9,33 @@
 window.onload = onWindowLoaded;
 
 function onWindowLoaded() {
-  browser.storage.local.get('swapDisplays')
-    .then((options) => init(options));
+  browser.storage.local.get('settings')
+    .then((result) => init(result.settings));
 }
 
-function init(options) {
-  render(options.swapDisplays);
-  initSidebar();
+function init(settings) {
+  if (settings === undefined) {
+    settings = {
+      darkTheme: false,
+      swapDisplays: false
+    };
+
+    browser.storage.local.set({settings: settings});
+  }
+  const theme = settings.darkTheme ? 'dark' : 'light';
+  render(settings.swapDisplays, theme);
+  initSidebar(theme);
   initControls();
   initListeners();
 }
 
-function render(swapDisplays) {
+function render(swapDisplays, theme) {
+  const styleSheetLink = document.createElement('link');
+  styleSheetLink.type = 'text/css';
+  styleSheetLink.href = '/common/' + theme + '.css';
+  styleSheetLink.rel = 'stylesheet';
+  document.head.appendChild(styleSheetLink);
+
   const feedsDiv = buildDisplayDiv('feeds-menu', 'feeds-list');
   const feedItemsDiv = buildDisplayDiv('display', 'feed-items');
 
@@ -34,6 +49,12 @@ function render(swapDisplays) {
     body.insertBefore(feedItemsDiv, controlsDiv);
     body.appendChild(feedsDiv);
   }
+
+  const discoverButton = document.createElement('input');
+  discoverButton.id = 'discover-button';
+  discoverButton.type = 'image';
+  discoverButton.src = '/icons/' + theme + '/magnifier.svg';
+  controlsDiv.appendChild(discoverButton);
 }
 
 function buildDisplayDiv(containerId, listId) {
@@ -45,18 +66,20 @@ function buildDisplayDiv(containerId, listId) {
   return div;
 }
 
-function initSidebar() {
-  browser.bookmarks.search('Simple Feeds').then(parseFeedsFolderSubtree);
+function initSidebar(theme) {
+  browser.bookmarks.search('Simple Feeds').then(
+    (bookmarkItems) => parseFeedsFolderSubtree(bookmarkItems, theme));
 }
 
-function parseFeedsFolderSubtree(bookmarks) {
-  browser.bookmarks.getSubTree(bookmarks[0].id).then(populateFeedsList);
+function parseFeedsFolderSubtree(bookmarks, theme) {
+  browser.bookmarks.getSubTree(bookmarks[0].id).then(
+    (bookmarkItems) => populateFeedsList(bookmarkItems, theme));
 }
 
-function populateFeedsList(bookmarkItems) {
+function populateFeedsList(bookmarkItems, theme) {
   let bookmarks = bookmarkItems[0].children;
   let feedsList = document.getElementById('feeds-list');
-  Util.populateList(feedsList, bookmarks, onCreateBookmarkListNode);
+  Util.populateList(feedsList, bookmarks, theme, onCreateBookmarkListNode);
 }
 
 function initControls() {
@@ -103,21 +126,30 @@ function initListeners() {
 
 async function handleReceivedMessages(message) {
   if (message.action === 'refresh') {
-    initSidebar();
+    const result = await browser.storage.local.get(
+      ['newBookmarkId', 'settings']);
+    const bookmarks = await browser.bookmarks.getSubTree(result.newBookmarkId);
+    const theme = result.settings.darkTheme ? 'dark' : 'light';
+    const listNode = onCreateBookmarkListNode(bookmarks[0], theme);
+    const feedsList = document.getElementById('feeds-list');
+    feedsList.insertBefore(listNode, feedsList.children[0]);
+    await browser.storage.local.remove('newBookmarkId');
   }
 
   if (message.action === 'delete') {
     const result = await browser.storage.local.get('deleteId');
     await browser.bookmarks.remove(result.deleteId);
     await browser.storage.local.remove('deleteId');
-    initSidebar();
+    const listNode = document.getElementById(`b-${result.deleteId}`);
+    listNode.parentNode.removeChild(listNode);
   }
 }
 
-function onCreateBookmarkListNode(bookmark) {
+function onCreateBookmarkListNode(bookmark, theme) {
   let listNode = document.createElement('li');
+  listNode.id = `b-${bookmark.id}`;
   listNode.appendChild(createListNodeTextSection(bookmark));
-  listNode.appendChild(createListNodeControlSection(bookmark));
+  listNode.appendChild(createListNodeControlSection(bookmark, theme));
   return listNode;
 }
 
@@ -131,12 +163,12 @@ function createListNodeTextSection(bookmark) {
   return titleContainer;
 }
 
-function createListNodeControlSection(bookmark) {
+function createListNodeControlSection(bookmark, theme) {
   let controlContainer = document.createElement('div');
   controlContainer.classList.add('feed-control-container');
   let deleteButton = document.createElement('input');
   deleteButton.type = 'image';
-  deleteButton.src = '/icons/delete.svg';
+  deleteButton.src = '/icons/' + theme + '/delete.svg';
   deleteButton.style.height = '15px';
   deleteButton.dataset.bookmarkId = bookmark.id;
   deleteButton.onclick = onDeleteButtonClicked;

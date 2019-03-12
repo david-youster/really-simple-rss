@@ -21,10 +21,10 @@ Util.clearNodeContent = function(node) {
   }
 };
 
-Util.populateList = function(listNode, collection, onBuildNode) {
+Util.populateList = function(listNode, collection, theme, onBuildNode) {
   let fragment = document.createDocumentFragment();
   for (let item of collection) {
-    fragment.appendChild(onBuildNode(item));
+    fragment.appendChild(onBuildNode(item, theme));
   }
   Util.clearNodeContent(listNode);
   listNode.appendChild(fragment);
