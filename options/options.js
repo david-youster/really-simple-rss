@@ -23,10 +23,10 @@ function saveSettings() {
 }
 
 function displaySettingsUpdatedConfirmation() {
-  const body = document.getElementsByTagName('body')[0];
-  body.appendChild(document.createTextNode('Settings saved.'));
-  body.appendChild(document.createTextNode(
-    ' You will need to re-open the sidebar for your changes to take effect.'));
+  const messageContainer = document.getElementById('message-container');
+  const message = 'Settings saved.<br>'
+    + 'You will need to re-open the sidebar for your changes to take effect.';
+  messageContainer.innerHTML = message;
 
 }
 
