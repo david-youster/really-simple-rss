@@ -31,8 +31,11 @@ Feeds.parseRss = function*(xmlData) {
   for (let item of channel.getElementsByTagName('item')) {
     let title = item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     let link = item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
-    let summary = item.getElementsByTagName('description')[0]
-      .childNodes[0].nodeValue;
+    let description = item.getElementsByTagName('description')[0];
+    let summary = 'No summary available';
+    if (description.childNodes.length >= 1) {
+      summary = description.childNodes[0].nodeValue;
+    }
     let listNode = document.createElement('li');
     listNode.appendChild(createAnchor(link, title, summary));
     yield listNode;
