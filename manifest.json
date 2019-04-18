@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Really Simple Rss",
-  "version": "1.7",
+  "version": "1.8",
 
   "description": "Simple Feed Reader for Firefox",
   "homepage_url": "https://github.com/xdav/really-simple-rss",
