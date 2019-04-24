@@ -13,3 +13,6 @@ browser.bookmarks.search('Simple Feeds').then((bookmarks) => {
     browser.sidebarAction.open();
   });
 });
+
+browser.windows.onRemoved.addListener(
+  () => browser.storage.local.remove('deleteId'));

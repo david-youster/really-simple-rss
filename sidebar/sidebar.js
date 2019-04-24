@@ -188,7 +188,6 @@ async function onDeleteButtonClicked() {
       allowScriptsToClose: true
     });
   }
-
 }
 
 function displayFeedContent(url, feedTitleContainer) {
