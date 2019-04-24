@@ -42,3 +42,6 @@ Initial release.
 - Fix RSS parsing when no item description is present
 - Fix duplicated settings saved confirmation message
 
+## 1.9
+- Implement basic dark theme
+- Fix broken feed deletion when delete window closed via window close button
