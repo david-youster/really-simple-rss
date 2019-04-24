@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global Util */
+
 'use strict';
 
 window.onload = onWindowLoaded;
@@ -33,10 +35,12 @@ function saveSettings() {
 }
 
 function displaySettingsUpdatedConfirmation() {
-  const body = document.getElementsByTagName('body')[0];
-  body.appendChild(document.createTextNode('Settings saved.'));
-  body.appendChild(document.createTextNode(
-    ' You will need to re-open the sidebar for your changes to take effect.'));
+  const messageContainer = document.getElementById('message-container');
+  Util.clearNodeContent(messageContainer);
+  messageContainer.appendChild(document.createTextNode('Settings saved.'));
+  messageContainer.appendChild(document.createElement('br'));
+  messageContainer.appendChild(document.createTextNode(
+    'You will need to re-open the sidebar for your changes to take effect.'));
 
 }
 

@@ -37,3 +37,8 @@ Initial release.
 
 ## 1.7
 - Implement custom delete feed dialog box
+
+## 1.8
+- Fix RSS parsing when no item description is present
+- Fix duplicated settings saved confirmation message
+
