@@ -2,15 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/* global Util, Feeds */
+/* global Api, Util, Feeds */
 
 'use strict';
 
 window.onload = onWindowLoaded;
 
-function onWindowLoaded() {
-  browser.storage.local.get('settings')
-    .then((result) => init(result.settings));
+async function onWindowLoaded() {
+  const result = await Api.Storage.get('settings');
+  init(result.settings);
 }
 
 function init(settings) {
@@ -20,7 +20,7 @@ function init(settings) {
       swapDisplays: false
     };
 
-    browser.storage.local.set({settings: settings});
+    Api.Storage.set({settings: settings});
   }
   const theme = settings.darkTheme ? 'dark' : 'light';
   render(settings.swapDisplays, theme);
@@ -66,80 +66,47 @@ function buildDisplayDiv(containerId, listId) {
   return div;
 }
 
-function initSidebar(theme) {
-  browser.bookmarks.search('Simple Feeds').then(
-    (bookmarkItems) => parseFeedsFolderSubtree(bookmarkItems, theme));
+async function initSidebar(theme) {
+  const bookmarks = await Api.Bookmarks.getFeeds();
+  populateFeedsList(bookmarks, theme);
 }
 
-function parseFeedsFolderSubtree(bookmarks, theme) {
-  browser.bookmarks.getSubTree(bookmarks[0].id).then(
-    (bookmarkItems) => populateFeedsList(bookmarkItems, theme));
-}
-
-function populateFeedsList(bookmarkItems, theme) {
-  let bookmarks = bookmarkItems[0].children;
+function populateFeedsList(bookmarks, theme) {
   let feedsList = document.getElementById('feeds-list');
   Util.populateList(feedsList, bookmarks, theme, onCreateBookmarkListNode);
 }
 
 function initControls() {
   document.getElementById('discover-button').onclick =
-      () => onControlButtonClicked(sendDiscoverMessage);
+      () => onControlButtonClicked();
 }
 
-function onControlButtonClicked(onGetActiveTab) {
-  browser.windows.getCurrent({}).then(
-    (currentWindow) => getCurrentWindow(currentWindow, onGetActiveTab)
-  );
-}
-
-function getCurrentWindow(window, onGetActiveTab) {
-  browser.tabs.query({active: true, windowId: window.id}).then(onGetActiveTab);
-}
-
-function sendDiscoverMessage(tabs) {
-  browser.tabs.sendMessage(tabs[0].id, {action: 'discover'})
-    .then(clearFeedsFromStorage);
-}
-
-function clearFeedsFromStorage(feeds) {
-  browser.storage.local.remove('feeds').then(
-    () => saveDiscoveredFeeds(feeds));
-}
-
-function saveDiscoveredFeeds(feeds) {
-  browser.storage.local.set({feeds: feeds}).then(displayDiscoveredFeedsPanel);
-}
-
-function displayDiscoveredFeedsPanel() {
-  browser.windows.create({
-    url: browser.extension.getURL('dialog/discover.html'),
-    type: 'panel',
-    width: 500,
-    height: 200
-  });
+async function onControlButtonClicked() {
+  await Api.Storage.remove('feeds');
+  const discoveredFeeds = await Api.Tabs.sendMessageToActiveTab('discover');
+  Api.Storage.set({feeds: discoveredFeeds});
+  Api.Windows.createPanel('dialog/discover.html', 500, 200);
 }
 
 function initListeners() {
-  browser.runtime.onMessage.addListener(handleReceivedMessages);
+  Api.Runtime.addMessageListener(handleReceivedMessages);
 }
 
 async function handleReceivedMessages(message) {
   if (message.action === 'refresh') {
-    const result = await browser.storage.local.get(
-      ['newBookmarkId', 'settings']);
-    const bookmarks = await browser.bookmarks.getSubTree(result.newBookmarkId);
+    const result = await Api.Storage.get(['newBookmarkId', 'settings']);
+    const bookmark = await Api.Bookmarks.get(result.newBookmarkId);
     const theme = result.settings.darkTheme ? 'dark' : 'light';
-    const listNode = onCreateBookmarkListNode(bookmarks[0], theme);
+    const listNode = onCreateBookmarkListNode(bookmark, theme);
     const feedsList = document.getElementById('feeds-list');
     feedsList.insertBefore(listNode, feedsList.children[0]);
-    await browser.storage.local.remove('newBookmarkId');
+    Api.Storage.remove('newBookmarkId');
   }
 
   if (message.action === 'delete') {
-    const result = await browser.storage.local.get('deleteId');
-    await browser.bookmarks.remove(result.deleteId);
-    await browser.storage.local.remove('deleteId');
+    const result = await Api.Storage.get('deleteId');
+    await Api.Bookmarks.remove(result.deleteId);
+    await Api.Storage.remove('deleteId');
     const listNode = document.getElementById(`b-${result.deleteId}`);
     listNode.parentNode.removeChild(listNode);
   }
@@ -177,16 +144,10 @@ function createListNodeControlSection(bookmark, theme) {
 }
 
 async function onDeleteButtonClicked() {
-  const result = await browser.storage.local.get('deleteId');
+  const result = await Api.Storage.get('deleteId');
   if (result.deleteId === undefined) {
-    await browser.storage.local.set({deleteId: this.dataset.bookmarkId});
-    browser.windows.create({
-      url: browser.extension.getURL('dialog/delete.html'),
-      type: 'panel',
-      width: 500,
-      height: 200,
-      allowScriptsToClose: true
-    });
+    await Api.Storage.set({deleteId: this.dataset.bookmarkId});
+    Api.Windows.createPanel('dialog/delete.html', 500, 200, true);
   }
 }
 
