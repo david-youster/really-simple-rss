@@ -4,15 +4,20 @@
 
 'use strict';
 
-browser.bookmarks.search('Simple Feeds').then((bookmarks) => {
+browser.bookmarks.search('Simple Feeds')
+  .then(createBookmarksFolder)
+  .then(setBrowserAction);
+
+function createBookmarksFolder(bookmarks) {
   if (bookmarks.length === 0) {
     browser.bookmarks.create({title: 'Simple Feeds', type: 'folder'});
   }
-}).then(() => {
-  browser.browserAction.onClicked.addListener(() => {
-    browser.sidebarAction.open();
-  });
-});
+}
+
+function setBrowserAction() {
+  browser.browserAction.onClicked.addListener(
+    () => browser.sidebarAction.open());
+}
 
 browser.windows.onRemoved.addListener(
   () => browser.storage.local.remove('deleteId'));
