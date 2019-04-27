@@ -12,6 +12,7 @@
 const _wx = {};
 
 _wx.bookmarks = browser.bookmarks;
+_wx.extension = browser.extension;
 _wx.runtime = browser.runtime;
 _wx.storage = browser.storage.local;
 _wx.tabs = browser.tabs;
@@ -21,6 +22,25 @@ _wx.windows = browser.windows;
  * Application API layer
  */
 const Api = {};
+
+/**
+ * Provides access to extension settings
+ */
+Api.Settings = {};
+
+Api.Settings._DEFAULT = {
+  darkTheme: false,
+  swapDisplays: false
+};
+
+Api.Settings.get = async function() {
+  const result = await _wx.storage.get('settings');
+  if (result.settings === undefined) {
+    _wx.storage.set({settings: Api.Settings._DEFAULT});
+    return Api.Settings._DEFAULT;
+  }
+  return result.settings;
+};
 
 /**
  * Provides access to local browser storage API
@@ -69,7 +89,7 @@ Api.Windows = {};
 
 Api.Windows.createPanel = function(url, width, height, allowScriptsToClose) {
   _wx.windows.create({
-    url: browser.extension.getURL(url),
+    url: _wx.extension.getURL(url),
     type: 'panel',
     width: width,
     height: height,
@@ -110,4 +130,22 @@ Api.Runtime = {};
 
 Api.Runtime.addMessageListener = function(onMessageReceived) {
   _wx.runtime.onMessage.addListener(onMessageReceived);
+};
+
+
+/**
+ * Provides access to DOM manipulation utilities
+ */
+Api.Dom = {};
+
+Api.Dom.clearNodeContent = function(node) {
+  while (node.hasChildNodes()) {
+    node.removeChild(node.firstChild);
+  }
+};
+
+Api.Dom.parseXmlFromResponseText = function(responseText) {
+  return new Promise(function(resolve) {
+    resolve(new window.DOMParser().parseFromString(responseText, 'text/xml'));
+  });
 };

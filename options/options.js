@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/* global Util */
+/* global Api */
 
 'use strict';
 
@@ -36,7 +36,7 @@ function saveSettings() {
 
 function displaySettingsUpdatedConfirmation() {
   const messageContainer = document.getElementById('message-container');
-  Util.clearNodeContent(messageContainer);
+  Api.Dom.clearNodeContent(messageContainer);
   messageContainer.appendChild(document.createTextNode('Settings saved.'));
   messageContainer.appendChild(document.createElement('br'));
   messageContainer.appendChild(document.createTextNode(
