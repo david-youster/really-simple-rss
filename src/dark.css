@@ -1,0 +1,40 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+input[type='image'] {
+    filter: invert(100%);
+}
+
+li {
+    border-bottom: 1px dotted gray;
+}
+
+.feed-node:hover {
+    background: #444;
+}
+
+#feed-items-list a {
+    text-decoration: none;
+    color: white;
+}
+
+#feed-items-list a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+#feed-items-list a:visited {
+    color: grey;
+}
+
+
+#discovered-feeds-list li:hover {
+    background: #333;
+    cursor: pointer;
+}
+
+input[type="image"]:disabled {
+  filter: invert(30%);
+}

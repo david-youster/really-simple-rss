@@ -1,0 +1,30 @@
+li {
+    border-bottom: 1px dotted gray;
+}
+
+.feed-node:hover {
+    background: #EEE;
+}
+
+#feed-items-list a {
+    text-decoration: none;
+    color: black;
+}
+
+#feed-items-list a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+#feed-items-list a:visited {
+    color: grey;
+}
+
+#discovered-feeds-list li:hover {
+    background: #EEE;
+    cursor: pointer;
+}
+
+input[type="image"]:disabled {
+  filter: invert(70%);
+}

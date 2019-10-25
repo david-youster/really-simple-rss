@@ -1,0 +1,128 @@
+ul {
+    list-style: none;
+    padding-left:2.5em;
+}
+
+li {
+    padding: 0.2em 0;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+html, body{
+    height: 100%;
+}
+
+#wrap {
+    overflow: none;
+    height: 100%;
+}
+
+#feeds, #feed-contents {
+    height: 47%;
+    overflow: auto;
+}
+
+.feed-title-container {
+    display: inline-block;
+    width: 75%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.feed-control-container {
+    display: inline-block;
+    width: 25%;
+    text-align: right;
+    padding-right: 1em;
+}
+
+.selected-feed {
+    font-weight: bold;
+}
+
+#control-bar {
+    height: 6%;
+    overflow: auto;
+}
+
+#feed-contents {
+    overflow:auto;
+
+}
+
+#feeds-list, #feed-items-list {
+    height:100%;
+}
+
+#feed-items-list li {
+    margin-bottom: 4px;
+}
+
+#control-bar, #wrap-undo-controls {
+    text-align: center;
+}
+
+label:hover {
+    border-bottom: 1px solid gray;
+}
+
+.ui-delete {
+    height: 15px;
+}
+
+#ui-detect {
+    height: 25px;
+}
+
+#ui-undo {
+    height: 25px;
+}
+
+#ui-undo-dismiss {
+    height: 25px;
+}
+
+#wrap-undo-controls {
+    display: none;
+}
+
+#wrap-undo-controls label{
+    display: none;
+    display: inline-block;
+    height: 100%;
+    margin: auto 5px auto 5px;
+}
+
+#wrap-undo-controls input {
+    position: relative;
+    top: 5px;
+    margin-left: 10px
+}
+
+label {
+    cursor: pointer;
+    padding: 3px
+}
+
+input[type="image"]:disabled {
+  filter: invert(70%);
+}
+
+.hidden {
+    display: none;
+}
+
+.feed-folder-node {
+
+}
+
+.feed-folder-title{
+}
+
+.folder-indicator {
+    margin-right: 1em;
+    font-weight: bold;
+}
