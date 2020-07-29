@@ -8,7 +8,13 @@ This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at <http://mozilla.org/MPL/2.0/>.
 
+## Contributors
+
+- avbohemen
+
 ## Acknowledgements
+
+### Versions 1.0 -  1.9
 
 Main icon made by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
@@ -18,10 +24,6 @@ Delete icon made by [Icon Works](https://www.flaticon.com/authors/icon-works) fr
 
 Bookmark icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
-All dark theme icons are modified versions of the above.
+All dark theme icons were modified versions of the above.
 
 The Really Simple Rss extension is loosely based on the [Sage](http://sagerss.com/) feed reader by Peter Andrews.
-
-## Contributors
-
-- avbohemen
