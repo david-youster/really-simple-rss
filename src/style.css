@@ -25,7 +25,29 @@ html, body{
     overflow: auto;
 }
 
+button.feed-title-container,
+button.feed-title-container,
+button.discovered-feed {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+button.feed-title-container:focus,
+button.feed-folder-container:focus,
+button.discovered-feed:focus {
+    border: 1px dotted gray;
+}
+
 .feed-title-container {
+    display: inline-block;
+    width: 25%;
+    text-align: right;
+    padding-right: 1em;
     display: inline-block;
     width: 75%;
     text-align: left;

@@ -41,9 +41,8 @@ const DiscoveredFeeds = {
   },
 
   _createListNodeFromFeed(feed, bookmarkService) {
-    const listNode = Formatting.DiscoveredFeeds.Feed.convertToNode(feed);
-    listNode.onclick = () => bookmarkService.createBookmark(feed, true);
-    return listNode;
+    return Formatting.DiscoveredFeeds.Feed.convertToNode(feed,
+      () => bookmarkService.createBookmark(feed, true));
   }
 
 };

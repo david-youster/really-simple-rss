@@ -117,6 +117,7 @@ const Index = {
     this._toggleNodeVisibility(nodeId);
     await this._deleteBookmark(bookmark);
     this._offerUndoDelete(bookmark);
+    document.getElementById('ui-undo').focus();
   },
 
   _toggleNodeVisibility(nodeId) {
