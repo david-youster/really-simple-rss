@@ -92,7 +92,9 @@ const Formatting = {
           const list = button.nextSibling.nextSibling;
           const isDisplayed = list.style.display !== 'none';
           list.style.display = isDisplayed ? 'none' : '';
-          icon.innerHTML = isDisplayed ? '+' : '-';
+          const symbol = isDisplayed ? '+' : '-';
+          icon.innerHTML = '';
+          icon.appendChild(document.createTextNode(symbol));
 
         };
 
