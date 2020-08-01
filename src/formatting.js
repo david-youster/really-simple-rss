@@ -1,3 +1,8 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 /* exported Formatting */
 
 'use strict';
@@ -119,7 +124,7 @@ const Formatting = {
         input.src = 'images/light/delete.svg';
         input.style.height = '15px';
         input.dataset.bookmarkId = bookmark.id;
-        input.setAttribute('aria-label', `Delete ${bookmark.title}`)
+        input.setAttribute('aria-label', `Delete ${bookmark.title}`);
         input.onclick = () => onFeedDeleted(bookmark);
         return input;
       }

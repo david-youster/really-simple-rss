@@ -1,6 +1,8 @@
-# 1.0
+# Changelog
 
-Initial release.
+## 1.0
+
+- Initial release.
 
 ## 1.1
 
@@ -45,3 +47,12 @@ Initial release.
 ## 1.9
 - Implement basic dark theme
 - Fix broken feed deletion when delete window closed via window close button
+
+## 2.0.0
+- Rename to RSS Sidebar
+- Support feed folders
+- New icon set
+- Remove 'confirm delete' popup. Replace with undo/confirm options in control
+  bar
+- Refresh sidebar on settings change
+- Remove 'history', 'tabs' and 'activeTab' permissions
