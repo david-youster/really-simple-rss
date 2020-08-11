@@ -191,7 +191,7 @@ const bookmarkService = new BookmarkService(webex);
 const feedService = new FeedService(webex);
 const messagingService = new MessagingService(webex);
 const settingsService = new SettingsService(webex);
-window.onload = async () => await Index.init(
+window.onload = () => Index.init(
   bookmarkService,
   feedService,
   messagingService,
