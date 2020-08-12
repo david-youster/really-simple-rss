@@ -1,6 +1,5 @@
 *.zip
 *.xpi
 todo
-todo.bkp
-*.bkp
+test/integration/qunit
 

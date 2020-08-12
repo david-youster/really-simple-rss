@@ -1,11 +1,12 @@
-/* global QUnit, Index, BookmarkService, FeedService
-          Bookmark, FeedItem
+/* global QUnit, Index, FeedService, FeedItem
           bookmarkService, feedService, messagingService, settingsService
 */
 
 'use strict';
 
 window.onload = null;
+
+const TIMEOUT = 0;
 
 async function initIndexPage() {
   Index.init(
@@ -15,21 +16,41 @@ async function initIndexPage() {
     settingsService);
 }
 
+function mockEmptyBookmarksFolder() {
+  browser.bookmarks._bookmarks = [{
+    id: 'rootId',
+    title: 'Simple Feeds',
+    type: 'folder',
+    index: 0,
+  }];
+}
+
 function mockBookmarks() {
-  BookmarkService.prototype.getFeedBookmarks = () => [
-    new Bookmark({
+  const rootFolder = {
+    id: 'rootId',
+    title: 'Simple Feeds',
+    type: 'folder',
+    index: 0,
+  };
+
+  rootFolder.children = [
+    {
       id: 'id1',
       title: 'bm1',
-      url: 'http://www.url1.com',
+      url: '/url1.com',
+      type: 'bookmark',
       index: 0
-    }),
-    new Bookmark({
+    },
+    {
       id: 'id2',
       title: 'bm2',
-      url: 'http://www.url2.com',
+      url: '/url2.com',
+      type: 'bookmark',
       index: 1
-    })
+    }
   ];
+
+  browser.bookmarks._bookmarks = [rootFolder];
 }
 
 function mockFeed() {
@@ -49,30 +70,52 @@ function mockFeed() {
 QUnit.test(
   'when no feed bookmarks exist, then feeds list contains no elements',
   async function(assert) {
-    BookmarkService.prototype.getFeedBookmarks = () => [];
+    const done = assert.async();
+    mockEmptyBookmarksFolder();
     await initIndexPage();
-    assert.equal(document.getElementById('feeds-list').childElementCount, 0);
+
+    setTimeout(() => {
+      assert.equal(document.getElementById('feeds-list').childElementCount, 0);
+      done();
+    }, TIMEOUT);
+
   }
 );
 
 QUnit.test(
   'when feed bookmarks are found, then feeds list is populated',
   async function(assert) {
+    const done = assert.async();
     mockBookmarks();
     await initIndexPage();
-    assert.equal(document.getElementById('feeds-list').childElementCount, 2);
+
+    setTimeout(() => {
+      assert.equal(document.getElementById('feeds-list').childElementCount, 2);
+      done();
+    }, TIMEOUT);
   }
 );
 
 QUnit.test(
   'when feed is selected, then feed is marked as selected',
   async function(assert) {
+    const done = assert.async(2);
     mockBookmarks();
     await initIndexPage();
-    const feedListNode = document.getElementById('b-id1');
-    assert.notOk(feedListNode.classList.contains('selected-feed'));
-    await feedListNode.querySelector('#ui-select-id1').click();
-    assert.ok(feedListNode.classList.contains('selected-feed'));
+
+    setTimeout(() => {
+      assert.notOk(
+        document.getElementById('b-id1').classList.contains('selected-feed'));
+      done();
+    }, TIMEOUT);
+
+
+    setTimeout(() => {
+      document.getElementById('ui-select-id1').click();
+      assert.ok(
+        document.getElementById('b-id1').classList.contains('selected-feed'));
+      done();
+    }, TIMEOUT);
   }
 );
 
@@ -80,45 +123,123 @@ QUnit.test(
 QUnit.test(
   'when feed is selected, then other feeds are marked as unselected',
   async function(assert) {
+    const done = assert.async(3);
+
     mockBookmarks();
     await initIndexPage();
-    const firstFeed = document.getElementById('b-id1');
-    assert.notOk(firstFeed.classList.contains('selected-feed'));
-    const secondFeed = document.getElementById('b-id2');
-    assert.notOk(secondFeed.classList.contains('selected-feed'));
 
-    await firstFeed.querySelector('#ui-select-id1').click();
-    assert.ok(firstFeed.classList.contains('selected-feed'));
-    assert.notOk(secondFeed.classList.contains('selected-feed'));
+    setTimeout(() => {
+      assert.notOk(
+        document.getElementById('b-id1').classList.contains('selected-feed'));
+      assert.notOk(
+        document.getElementById('b-id2').classList.contains('selected-feed'));
+      done();
+    }, TIMEOUT);
 
-    await secondFeed.querySelector('#ui-select-id2').click();
-    assert.notOk(firstFeed.classList.contains('selected-feed'));
-    assert.ok(secondFeed.classList.contains('selected-feed'));
+    setTimeout(() => {
+      const firstFeed = document.getElementById('b-id1');
+      firstFeed.querySelector('#ui-select-id1').click();
+      assert.ok(firstFeed.classList.contains('selected-feed'));
+      assert.notOk(
+        document.getElementById('b-id2').classList.contains('selected-feed'));
+      done();
+    }, TIMEOUT);
+
+    setTimeout(() => {
+      document.getElementById('ui-select-id2').click();
+      assert.notOk(
+        document.getElementById('b-id1').classList.contains('selected-feed'));
+      assert.ok(
+        document.getElementById('b-id2').classList.contains('selected-feed'));
+      done();
+    }, TIMEOUT);
   }
 );
 
 QUnit.test(
   'when feed is selected, then feed items list is populated',
   async function(assert) {
+    const done = assert.async(2);
     mockBookmarks();
     mockFeed();
     await initIndexPage();
+    setTimeout(() => {
+      assert.equal(
+        document.getElementById('feed-items-list').childElementCount, 0);
+      done();
+    }, TIMEOUT);
 
-    const feedItemsList = document.getElementById('feed-items-list');
-    assert.equal(feedItemsList.childElementCount, 0);
+    setTimeout(() => {
+      document.getElementById('ui-select-id1').click();
 
-    await document.getElementById('ui-select-id1').click();
-    assert.equal(feedItemsList.childElementCount, 2);
+      setTimeout(() => {
+        assert.equal(
+          document.getElementById('feed-items-list').childElementCount, 2);
+        done();
+      }, TIMEOUT);
+
+    }, TIMEOUT);
   }
 );
 
 QUnit.test(
   'when feed is deleted, then item is hidden',
   async function(assert) {
+    const done = assert.async();
     mockBookmarks();
     mockFeed();
     await initIndexPage();
-    await document.getElementById('ui-delete-id1').click();
-    assert.ok(document.getElementById('b-id1').classList.contains('hidden'));
+    setTimeout(() => {
+      document.getElementById('ui-delete-id1').click();
+
+      setTimeout(() => {
+        assert.ok(
+          document.getElementById('b-id1').classList.contains('hidden'));
+        done();
+      }, TIMEOUT);
+
+    }, TIMEOUT);
   }
 );
+
+QUnit.test(
+  'when feed is deleted, then undo controls are displayed',
+  async function(assert) {
+    const done = assert.async();
+    mockBookmarks();
+    mockFeed();
+    await initIndexPage();
+    setTimeout(() => {
+      document.getElementById('ui-delete-id1').click();
+
+      setTimeout(() => {
+        const undoControls = document.getElementById('wrap-undo-controls');
+        assert.ok(undoControls.style.display = 'block');
+        done();
+      }, TIMEOUT);
+
+    }, TIMEOUT);
+  }
+);
+
+QUnit.test(
+  'when undo controls are displayed, then other delete buttons are disabled',
+  async function(assert) {
+    const done = assert.async();
+    mockBookmarks();
+    mockFeed();
+    await initIndexPage();
+    setTimeout(() => {
+      document.getElementById('ui-delete-id1').click();
+
+      setTimeout(() => {
+        const undoControls = document.getElementById('wrap-undo-controls');
+        assert.ok(undoControls.style.display = 'block');
+        document.getElementById('ui-delete-id2').disabled = true;
+        done();
+      }, TIMEOUT);
+
+    }, TIMEOUT);
+  }
+);
+

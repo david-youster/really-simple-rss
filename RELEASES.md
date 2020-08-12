@@ -52,7 +52,6 @@
 - Rename to RSS Sidebar
 - Support feed folders
 - New icon set
-- Remove 'confirm delete' popup. Replace with undo/confirm options in control
-  bar
+- Remove 'confirm delete' popup. Replace with undo/confirm options in control bar
 - Refresh sidebar on settings change
 - Remove 'history', 'tabs' and 'activeTab' permissions
