@@ -52,6 +52,7 @@ const Formatting = {
         }
 
         listNode.id = `b-${bookmark.id}`;
+        listNode.dataset.parentId = bookmark.parentId;
         return listNode;
       },
 
@@ -104,15 +105,11 @@ const Formatting = {
       _buildControlSectionDiv(bookmark, onFeedDeleted) {
         const div = document.createElement('div');
         div.classList.add('feed-control-container');
+        const deleteButton = this._buildDeleteButton(bookmark, onFeedDeleted);
+        div.appendChild(deleteButton);
 
-        if (onFeedDeleted &&
-            !Array.isArray(bookmark.children) ||
-            bookmark.children.length === 0) {
-
-          const deleteButton = this._buildDeleteButton(
-            bookmark, onFeedDeleted);
-          div.appendChild(deleteButton);
-
+        if (Array.isArray(bookmark.children) && bookmark.children.length > 0) {
+          deleteButton.style.display = 'none';
         }
 
         return div;

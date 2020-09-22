@@ -173,7 +173,17 @@ const Index = {
   dismissUndoDelete(nodeId) {
     this.bookmarkService.lastDeleted = null;
     const nodeForDeletion = document.getElementById(nodeId);
+    const parentId = nodeForDeletion.dataset.parentId;
     nodeForDeletion.parentNode.removeChild(nodeForDeletion);
+
+    const parentNode = document.getElementById(`b-${parentId}`);
+    const folderContents = parentNode !== null
+      ? parentNode.querySelector('ul')
+      : null;
+
+    if (parentNode !== null && !folderContents.hasChildNodes()) {
+      document.getElementById(`ui-delete-${parentId}`).style.display = '';
+    }
   },
 
   revertControls() {
