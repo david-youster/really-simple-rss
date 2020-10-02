@@ -10,7 +10,9 @@
 const Formatting = {
 
   Index: {
+
     Bookmark: {
+
       /*
        * Convert a bookmark model object to its HTML list node representation.
        *
@@ -20,26 +22,40 @@ const Formatting = {
        * will be created.
        *
        * @param bookmark - a Bookmark model object
+       *
        * @param callbacks - callbacks to be mapped to the created node
        * @param callbacks.onSelect - called when feed title is selected
        * @param callbacks.onDelete - called when delete button is clicked
+       *
+       * @param data - any additional data needed from the caller
+       * @param data.selectedFeed - the currently selected feed
        */
-      convertToNode(bookmark, callbacks) {
+      convertToNode(bookmark, callbacks, data) {
         const listNode = document.createElement('li');
 
         if (bookmark.url) {
+
           listNode.classList.add('feed-node');
+
           listNode.appendChild(
-            this._buildFeedTitleSectionButton(bookmark, callbacks.onSelect));
+
+            this._buildFeedTitleSectionButton(
+              bookmark,
+              data.selectedFeed,
+              callbacks.onSelect));
+
           listNode.appendChild(
             this._buildControlSectionDiv(bookmark, callbacks.onDelete));
+
         } else if (bookmark.children) {
+
           const childList = document.createElement('ul');
+
           bookmark.children.forEach ((childBookmark) => {
             childList.appendChild(Formatting.Index.Bookmark.convertToNode(
-              childBookmark, callbacks));
+              childBookmark, callbacks, data));
           });
-          // TODO clean up feed folder display
+
           listNode.appendChild(this._buildFolderTitleSectionButton(bookmark));
           listNode.appendChild(this._buildControlSectionDiv(
             bookmark, callbacks.onDelete));
@@ -56,13 +72,17 @@ const Formatting = {
         return listNode;
       },
 
-      _buildFeedTitleSectionButton(bookmark, onFeedSelected) {
+      _buildFeedTitleSectionButton(bookmark, selectedFeed, onFeedSelected) {
         const button = document.createElement('button');
         button.type = 'button';
         button.id = `ui-select-${bookmark.id}`;
         button.classList.add('feed-title-container');
         button.setAttribute('aria-label', bookmark.title);
         button.appendChild(document.createTextNode(bookmark.title));
+
+        if (selectedFeed === bookmark.id) {
+          button.classList.add('selected-feed');
+        }
 
         if (onFeedSelected) {
           button.onclick = () => onFeedSelected(bookmark);

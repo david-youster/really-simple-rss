@@ -40,6 +40,6 @@ BookmarkService.prototype.createBookmark = async function(
     'Simple Feeds');
 
   if (sendRefreshNotification) {
-    this.webex.sendMessage('refresh');
+    this.webex.sendMessage('bookmark-added');
   }
 };

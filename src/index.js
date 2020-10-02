@@ -11,6 +11,10 @@
 
 const Index = {
 
+  data: {
+    selectedFeed: null
+  },
+
   init(bookmarkService, feedService, messagingService, settingsService) {
     this._initServices(
       bookmarkService,
@@ -26,8 +30,8 @@ const Index = {
   },
 
   runtimeListener(message) {
-    if (message === 'refresh') {
-      location.reload();
+    if (message === 'bookmark-added') {
+      this._updateFeedList();
     }
 
     if (message === 'theme') {
@@ -53,15 +57,7 @@ const Index = {
   async _initPage() {
     this._applyTheme();
     this._applySwapDisplays();
-    const bookmarks = await this.bookmarkService.getFeedBookmarks();
-    const fragment = document.createDocumentFragment();
-    bookmarks.forEach(bookmark => {
-      fragment.appendChild(Formatting.Index.Bookmark.convertToNode(bookmark, {
-        onSelect: (bookmark) => this.selectFeed(bookmark),
-        onDelete: (bookmark) => this.deleteFeed(bookmark)
-      }));
-    });
-    document.getElementById('feeds-list').appendChild(fragment);
+    this._populateFeedList();
     // TODO Refactor this and other listeners
     document.getElementById('ui-detect').onclick =
       () => this.feedService.detectFeeds();
@@ -83,7 +79,7 @@ const Index = {
 
   async _applySwapDisplays() {
     const swap = await this.settingsService.isSwapDisplaysEnabled();
-    const wrap =document.getElementById('wrap');
+    const wrap = document.getElementById('wrap');
     const feeds = document.getElementById('feeds');
     const feedContents = document.getElementById('feed-contents');
     const controls = document.getElementById('control-bar');
@@ -101,7 +97,43 @@ const Index = {
 
   },
 
+  async _populateFeedList() {
+    const bookmarks = await this.bookmarkService.getFeedBookmarks();
+    const fragment = document.createDocumentFragment();
+    bookmarks.forEach(bookmark => {
+
+      fragment.appendChild(
+        Formatting.Index.Bookmark.convertToNode(bookmark, {
+          onSelect: (bookmark) => this.selectFeed(bookmark),
+          onDelete: (bookmark) => this.deleteFeed(bookmark)
+        }, { selectedFeed: this.data.selectedFeed }));
+
+    });
+    const feedsList = document.getElementById('feeds-list');
+    feedsList.innerHTML = '';
+    feedsList.appendChild(fragment);
+  },
+
+  async _updateFeedList() {
+    const bookmarks = await this.bookmarkService.getFeedBookmarks();
+
+    if (bookmarks.length === 0) {
+      return;
+    }
+
+    const bookmark = bookmarks[0];
+
+    const newNode = Formatting.Index.Bookmark.convertToNode(bookmark, {
+      onSelect: (bookmark) => this.selectFeed(bookmark),
+      onDelete: (bookmark) => this.deleteFeed(bookmark)
+    }, { selectedFeed: this.data.selectedFeed });
+
+    const feedsList = document.getElementById('feeds-list');
+    feedsList.insertBefore(newNode, feedsList.firstChild);
+  },
+
   async selectFeed(bookmark) {
+    this.data.selectedFeed = bookmark.id;
     this._markAsSelected(`b-${bookmark.id}`);
     const feedItemsList = document.getElementById('feed-items-list');
     feedItemsList.innerHTML = 'Loading...';
