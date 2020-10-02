@@ -23,13 +23,13 @@ const Settings = {
     const darkThemeRadio = document.getElementById('darkThemeRadio');
     const defaultThemeRadio = document.getElementById('defaultThemeRadio');
 
-    darkThemeRadio.onclick = () => {
-      this.settingsService.setTheme('dark');
-      this.messagingService.requestRefresh();
+    darkThemeRadio.onclick = async () => {
+      await this.settingsService.setTheme('dark');
+      this.messagingService.requestApplyTheme();
     };
-    defaultThemeRadio.onclick = () => {
-      this.settingsService.setTheme('default');
-      this.messagingService.requestRefresh();
+    defaultThemeRadio.onclick = async () => {
+      await this.settingsService.setTheme('default');
+      this.messagingService.requestApplyTheme();
     };
 
     const swapDisplaysDisabledRadio = document.getElementById(
@@ -37,13 +37,13 @@ const Settings = {
     const swapDisplaysEnabledRadio = document.getElementById(
       'swapDisplaysEnabledRadio');
 
-    swapDisplaysDisabledRadio.onclick = () => {
-      this.settingsService.setSwapDisplays(false);
-      this.messagingService.requestRefresh();
+    swapDisplaysDisabledRadio.onclick = async () => {
+      await this.settingsService.setSwapDisplays(false);
+      this.messagingService.requestSwapDisplays();
     };
-    swapDisplaysEnabledRadio.onclick = () => {
-      this.settingsService.setSwapDisplays(true);
-      this.messagingService.requestRefresh();
+    swapDisplaysEnabledRadio.onclick = async () => {
+      await this.settingsService.setSwapDisplays(true);
+      this.messagingService.requestSwapDisplays();
     };
 
     const theme = await this.settingsService.getTheme();

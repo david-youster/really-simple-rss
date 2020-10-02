@@ -17,3 +17,11 @@ MessagingService.prototype.requestRefresh = function() {
   this.webex.sendMessage('refresh');
 };
 
+MessagingService.prototype.requestApplyTheme = function() {
+  this.webex.sendMessage('theme');
+};
+
+MessagingService.prototype.requestSwapDisplays = function() {
+  this.webex.sendMessage('swap');
+};
+

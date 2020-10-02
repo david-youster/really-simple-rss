@@ -29,6 +29,14 @@ const Index = {
     if (message === 'refresh') {
       location.reload();
     }
+
+    if (message === 'theme') {
+      this._applyTheme();
+    }
+
+    if (message === 'swap') {
+      this._applySwapDisplays();
+    }
   },
 
   _initServices(
@@ -60,26 +68,35 @@ const Index = {
   },
 
   async _applyTheme() {
-    const link = document.createElement('link');
+    let link = document.getElementById('theme-stylesheet');
+
+    if (link === null) {
+      link = document.createElement('link');
+      document.head.appendChild(link);
+    }
+
+    link.id = 'theme-stylesheet';
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = await this.settingsService.getTheme() + '.css';
-    document.head.appendChild(link);
   },
 
   async _applySwapDisplays() {
     const swap = await this.settingsService.isSwapDisplaysEnabled();
+    const wrap =document.getElementById('wrap');
+    const feeds = document.getElementById('feeds');
+    const feedContents = document.getElementById('feed-contents');
+    const controls = document.getElementById('control-bar');
+
+    wrap.removeChild(feeds);
+    wrap.removeChild(feedContents);
 
     if (swap) {
-      const wrap =document.getElementById('wrap');
-      const feeds = document.getElementById('feeds');
-      const feedContents = document.getElementById('feed-contents');
-      const controls = document.getElementById('control-bar');
-
-      wrap.removeChild(feeds);
-      wrap.removeChild(feedContents);
       wrap.insertBefore(feedContents, controls);
-      controls.parentNode.insertBefore(feeds, controls.nextSibling);
+      wrap.insertBefore(feeds, controls.nextSibling);
+    } else {
+      wrap.insertBefore(feeds, controls);
+      wrap.insertBefore(feedContents, controls.nextSibling);
     }
 
   },
