@@ -35,7 +35,7 @@ BookmarkService.prototype.undoDelete = async function(bookmark) {
 BookmarkService.prototype.createBookmark = async function(
   feed, sendRefreshNotification) {
 
-  this.webex.createBookmark(
+  await this.webex.createBookmark(
     { title: feed.title, url: feed.href, index: 0 },
     'Simple Feeds');
 

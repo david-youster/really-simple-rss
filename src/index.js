@@ -121,6 +121,8 @@ const Index = {
       return;
     }
 
+    // This assumes the bookmark will always be first in the list. This should
+    // always be the case, but might need to re-visit this later
     const bookmark = bookmarks[0];
 
     const newNode = Formatting.Index.Bookmark.convertToNode(bookmark, {
