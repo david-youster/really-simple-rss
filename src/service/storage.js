@@ -3,18 +3,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/* global WebExtensions */
+
+
 'use strict';
 
-function StorageService(webexService) {
-  this.webex = webexService;
-}
+const Storage = {
+  webex: WebExtensions
+};
 
-StorageService.prototype.loadPanelData = async function(key) {
+Storage.loadPanelData = async function(key) {
   const panelData = await this.webex.load('panelData');
   return panelData[key];
 };
 
-StorageService.prototype.clearPanelData = async function(key) {
+Storage.clearPanelData = async function(key) {
   const panelData = await this.webex.load('panelData');
   delete panelData[key];
   await this.webex.save(panelData);

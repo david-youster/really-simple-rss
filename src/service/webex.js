@@ -18,11 +18,9 @@ const _wx = {
   runtime: browser.runtime
 };
 
-function WebExtensions() {
-  this._mapBookmarkToModel = this._mapBookmarkToModel.bind(this);
-}
+const WebExtensions = {};
 
-WebExtensions.prototype.initBookmarks = async function(folderName) {
+WebExtensions.initBookmarks = async function(folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Create the feed folder if the folder doesn't exist, or if an actual
@@ -32,7 +30,7 @@ WebExtensions.prototype.initBookmarks = async function(folderName) {
   }
 };
 
-WebExtensions.prototype.getBookmarks = async function(folderName) {
+WebExtensions.getBookmarks = async function(folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Search result will also contain bookmarks with the folder name. These
@@ -43,22 +41,23 @@ WebExtensions.prototype.getBookmarks = async function(folderName) {
   }
 
   // It's possible to have multiple bookmark folders with the same name.
-  // Not concerned about this for now - if multiple
+  // Not concerned about this for now - if multiple bookmarks folders are
+  // found, just use the first one in the result.
   const subTree = await _wx.bookmarks.getSubTree(folders[0].id);
   return subTree[0].children.map(this._mapBookmarkToModel);
 };
 
-WebExtensions.prototype._mapBookmarkToModel = function(wxBookmark) {
+WebExtensions._mapBookmarkToModel = function(wxBookmark) {
   const bookmark = new Bookmark(wxBookmark);
   if (wxBookmark.type === 'folder') {
     bookmark.children = wxBookmark.children.map(this._mapBookmarkToModel);
   }
   return bookmark;
-};
+}.bind(WebExtensions);
 
 // TODO error handling if parent is not a folder
 // TODO ensure either ID or title is passed
-WebExtensions.prototype.createBookmark = async function(bookmark, parent) {
+WebExtensions.createBookmark = async function(bookmark, parent) {
   let parentId = null;
 
   if (parent) {
@@ -74,19 +73,19 @@ WebExtensions.prototype.createBookmark = async function(bookmark, parent) {
   }));
 };
 
-WebExtensions.prototype.removeBookmark = async function(bookmarkId) {
+WebExtensions.removeBookmark = async function(bookmarkId) {
   await _wx.bookmarks.remove(bookmarkId);
 };
 
-WebExtensions.prototype.setBrowserAction = function(onClicked) {
+WebExtensions.setBrowserAction = function(onClicked) {
   _wx.browserAction.onClicked.addListener(onClicked);
 };
 
-WebExtensions.prototype.openSidebar = function() {
+WebExtensions.openSidebar = function() {
   _wx.sidebarAction.open();
 };
 
-WebExtensions.prototype.getCurrentTab = async function() {
+WebExtensions.getCurrentTab = async function() {
   const currentWindow = await _wx.windows.getCurrent();
   const tabs = await _wx.tabs.query({
     active: true,
@@ -95,20 +94,20 @@ WebExtensions.prototype.getCurrentTab = async function() {
   return tabs[0];
 };
 
-WebExtensions.prototype.discoverFeeds = async function() {
+WebExtensions.discoverFeeds = async function() {
   const currentTab = await this.getCurrentTab();
   return _wx.tabs.sendMessage(currentTab.id, 'discover');
 };
 
-WebExtensions.prototype.sendMessage = async function(message) {
+WebExtensions.sendMessage = async function(message) {
   _wx.runtime.sendMessage(message);
 };
 
-WebExtensions.prototype.addListener = function(onMessageReceived) {
+WebExtensions.addListener = function(onMessageReceived) {
   _wx.runtime.onMessage.addListener(onMessageReceived);
 };
 
-WebExtensions.prototype.createPanel = async function(source, data) {
+WebExtensions.createPanel = async function(source, data) {
   await this.save('panelData', { [source]: data });
 
   await _wx.windows.create({
@@ -120,11 +119,11 @@ WebExtensions.prototype.createPanel = async function(source, data) {
   });
 };
 
-WebExtensions.prototype.save = async function(key, value) {
+WebExtensions.save = async function(key, value) {
   await _wx.storage.set({ [key]: value });
 };
 
-WebExtensions.prototype.load = async function(key) {
+WebExtensions.load = async function(key) {
   const result = await _wx.storage.get(key);
   return result[key] !== null && result[key] !== undefined ?
     result[key] : null;

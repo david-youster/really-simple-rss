@@ -3,25 +3,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/* global WebExtensions */
+
 'use strict';
 
-function MessagingService(webexService) {
-  this.webex = webexService;
-}
+const Messaging = {
+  webex: WebExtensions
+};
 
-MessagingService.prototype.addListener = function(onMessageReceived) {
+Messaging.addListener = function(onMessageReceived) {
   this.webex.addListener(onMessageReceived);
 };
 
-MessagingService.prototype.requestRefresh = function() {
+Messaging.requestRefresh = function() {
   this.webex.sendMessage('refresh');
 };
 
-MessagingService.prototype.requestApplyTheme = function() {
+Messaging.requestApplyTheme = function() {
   this.webex.sendMessage('theme');
 };
 
-MessagingService.prototype.requestSwapDisplays = function() {
+Messaging.requestSwapDisplays = function() {
   this.webex.sendMessage('swap');
 };
 

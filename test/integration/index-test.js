@@ -1,6 +1,4 @@
-/* global QUnit, Index, FeedService, FeedItem
-          bookmarkService, feedService, messagingService, settingsService
-*/
+/* global QUnit, IndexPage, Feeds, FeedItem */
 
 'use strict';
 
@@ -9,11 +7,7 @@ window.onload = null;
 const TIMEOUT = 0;
 
 async function initIndexPage() {
-  Index.init(
-    bookmarkService,
-    feedService,
-    messagingService,
-    settingsService);
+  IndexPage.init();
 }
 
 function mockEmptyBookmarksFolder() {
@@ -54,7 +48,7 @@ function mockBookmarks() {
 }
 
 function mockFeed() {
-  FeedService.prototype.getFeed = () => [
+  Feeds.getFeed = () => [
     new FeedItem({
       title: 'Item 1',
       link: 'www.item1.com',

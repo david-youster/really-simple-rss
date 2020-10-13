@@ -3,36 +3,37 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/* global WebExtensions */
+
 'use strict';
+const Bookmarks = {
+  webex: WebExtensions
+};
 
-function BookmarkService(webexService) {
-  this._initServices(webexService);
-}
-
-BookmarkService.prototype._initServices = function(webexService) {
+Bookmarks._initServices = function(webexService) {
   this.webex = webexService;
 };
 
-BookmarkService.prototype.getFeedBookmarks = async function() {
+Bookmarks.getFeedBookmarks = async function() {
   const bookmarks = await this.webex.getBookmarks('Simple Feeds');
   return bookmarks;
 };
 
-BookmarkService.prototype.deleteBookmark = async function(bookmark) {
+Bookmarks.deleteBookmark = async function(bookmark) {
   await this.webex.removeBookmark(bookmark.id);
 };
 
-BookmarkService.prototype._saveLastDeleted = async function(bookmark) {
+Bookmarks._saveLastDeleted = async function(bookmark) {
   this.lastDeleted = bookmark;
 };
 
-BookmarkService.prototype.undoDelete = async function(bookmark) {
+Bookmarks.undoDelete = async function(bookmark) {
   const createdBookmark = await this.webex.createBookmark(bookmark);
   return createdBookmark;
 };
 
 // TODO refactor to use messaging service
-BookmarkService.prototype.createBookmark = async function(
+Bookmarks.createBookmark = async function(
   feed, sendRefreshNotification) {
 
   await this.webex.createBookmark(

@@ -3,20 +3,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions */
+/* global Settings, WebExtensions */
 
 'use strict';
 
-const Background = {
+const BackgroundPage = {
 
-  init(webexService) {
-    this._initServices(webexService);
+  webex: WebExtensions,
+
+  init() {
     this._initBookmarks();
     this._initBrowserAction();
   },
 
-  _initServices(webexService) {
+  async _initServices(webexService) {
     this.webex = webexService;
+    await Settings._initSettings();
   },
 
   _initBookmarks() {
@@ -29,4 +31,4 @@ const Background = {
 
 };
 
-Background.init(new WebExtensions());
+BackgroundPage.init();

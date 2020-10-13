@@ -23,7 +23,7 @@
   ],
 
   "background": {
-    "scripts": ["service/webex.js", "background.js"]
+    "scripts": ["service/webex.js", "service/settings.js", "background.js"]
   },
 
   "content_scripts": [

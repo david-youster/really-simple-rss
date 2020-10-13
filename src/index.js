@@ -3,30 +3,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global BookmarkService, WebExtensions,FeedService,
-          Formatting, MessagingService, SettingsService
-*/
+/* global Bookmarks,Feeds, Formatting, Messaging, Settings */
 
 'use strict';
 
-const Index = {
+const IndexPage = {
 
   data: {
     selectedFeed: null
   },
 
-  init(bookmarkService, feedService, messagingService, settingsService) {
-    this._initServices(
-      bookmarkService,
-      feedService,
-      messagingService,
-      settingsService);
+  init(settingsService) {
+    this._initServices(settingsService);
     this._initListeners();
     this._initPage();
   },
 
   _initListeners() {
-    messagingService.addListener((message) => this.runtimeListener(message));
+    Messaging.addListener((message) => this.runtimeListener(message));
   },
 
   runtimeListener(message) {
@@ -43,14 +37,7 @@ const Index = {
     }
   },
 
-  _initServices(
-      bookmarkService,
-      feedService,
-      messagingService,
-      settingsService) {
-    this.bookmarkService = bookmarkService;
-    this.feedService = feedService;
-    this.messagingService = messagingService;
+  _initServices(settingsService) {
     this.settingsService = settingsService;
   },
 
@@ -59,8 +46,7 @@ const Index = {
     this._applySwapDisplays();
     this._populateFeedList();
     // TODO Refactor this and other listeners
-    document.getElementById('ui-detect').onclick =
-      () => this.feedService.detectFeeds();
+    document.getElementById('ui-detect').onclick = () => Feeds.detectFeeds();
   },
 
   async _applyTheme() {
@@ -74,11 +60,11 @@ const Index = {
     link.id = 'theme-stylesheet';
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = await this.settingsService.getTheme() + '.css';
+    link.href = await Settings.getTheme() + '.css';
   },
 
   async _applySwapDisplays() {
-    const swap = await this.settingsService.isSwapDisplaysEnabled();
+    const swap = await Settings.isSwapDisplaysEnabled();
     const wrap = document.getElementById('wrap');
     const feeds = document.getElementById('feeds');
     const feedContents = document.getElementById('feed-contents');
@@ -98,7 +84,7 @@ const Index = {
   },
 
   async _populateFeedList() {
-    const bookmarks = await this.bookmarkService.getFeedBookmarks();
+    const bookmarks = await Bookmarks.getFeedBookmarks();
     const fragment = document.createDocumentFragment();
     bookmarks.forEach(bookmark => {
 
@@ -115,7 +101,7 @@ const Index = {
   },
 
   async _updateFeedList() {
-    const bookmarks = await this.bookmarkService.getFeedBookmarks();
+    const bookmarks = await Bookmarks.getFeedBookmarks();
 
     if (bookmarks.length === 0) {
       return;
@@ -140,7 +126,7 @@ const Index = {
     const feedItemsList = document.getElementById('feed-items-list');
     feedItemsList.innerHTML = 'Loading...';
     try {
-      const feedItems = await this.feedService.getFeed(bookmark.url);
+      const feedItems = await Feeds.getFeed(bookmark.url);
       const fragment = document.createDocumentFragment();
       feedItemsList.innerHTML = '';
 
@@ -186,7 +172,7 @@ const Index = {
   },
 
   async _deleteBookmark(bookmark) {
-    this.bookmarkService.deleteBookmark(bookmark);
+    Bookmarks.deleteBookmark(bookmark);
   },
 
 
@@ -214,7 +200,7 @@ const Index = {
     // TODO this belongs in a Formatting function, not here.
     // Alternatively, just refresh the sidebar page
 
-    const recreatedBookmark = await this.bookmarkService.undoDelete(bookmark);
+    const recreatedBookmark = await Bookmarks.undoDelete(bookmark);
     const newId = `b-${recreatedBookmark.id}`;
     const node = document.getElementById(`b-${bookmark.id}`);
     node.id = newId;
@@ -227,7 +213,7 @@ const Index = {
   },
 
   dismissUndoDelete(nodeId) {
-    this.bookmarkService.lastDeleted = null;
+    Bookmarks.lastDeleted = null;
     const nodeForDeletion = document.getElementById(nodeId);
     const parentId = nodeForDeletion.dataset.parentId;
     nodeForDeletion.parentNode.removeChild(nodeForDeletion);
@@ -252,13 +238,4 @@ const Index = {
   }
 };
 
-const webex = new WebExtensions();
-const bookmarkService = new BookmarkService(webex);
-const feedService = new FeedService(webex);
-const messagingService = new MessagingService(webex);
-const settingsService = new SettingsService(webex);
-window.onload = () => Index.init(
-  bookmarkService,
-  feedService,
-  messagingService,
-  settingsService);
+window.onload = () => IndexPage.init();

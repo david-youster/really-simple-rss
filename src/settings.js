@@ -3,20 +3,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions, SettingsService, MessagingService */
+/* global Settings, Messaging */
 
 'use strict';
 
-const Settings = {
+const SettingsPage = {
 
-  init(settingsService, messagingService) {
-    this._initServices(settingsService, messagingService);
+  init() {
     this._initPage();
-  },
-
-  _initServices(settingsService, messagingService) {
-    this.settingsService = settingsService;
-    this.messagingService = messagingService;
   },
 
   async _initPage() {
@@ -24,12 +18,12 @@ const Settings = {
     const defaultThemeRadio = document.getElementById('defaultThemeRadio');
 
     darkThemeRadio.onclick = async () => {
-      await this.settingsService.setTheme('dark');
-      this.messagingService.requestApplyTheme();
+      await Settings.setTheme('dark');
+      Messaging.requestApplyTheme();
     };
     defaultThemeRadio.onclick = async () => {
-      await this.settingsService.setTheme('default');
-      this.messagingService.requestApplyTheme();
+      await Settings.setTheme('default');
+      Messaging.requestApplyTheme();
     };
 
     const swapDisplaysDisabledRadio = document.getElementById(
@@ -38,22 +32,22 @@ const Settings = {
       'swapDisplaysEnabledRadio');
 
     swapDisplaysDisabledRadio.onclick = async () => {
-      await this.settingsService.setSwapDisplays(false);
-      this.messagingService.requestSwapDisplays();
+      await Settings.setSwapDisplays(false);
+      Messaging.requestSwapDisplays();
     };
     swapDisplaysEnabledRadio.onclick = async () => {
-      await this.settingsService.setSwapDisplays(true);
-      this.messagingService.requestSwapDisplays();
+      await Settings.setSwapDisplays(true);
+      Messaging.requestSwapDisplays();
     };
 
-    const theme = await this.settingsService.getTheme();
+    const theme = await Settings.getTheme();
     if (theme === 'dark') {
       darkThemeRadio.checked = true;
     } else {
       defaultThemeRadio.checked = true;
     }
 
-    const swapDisplays = await this.settingsService.isSwapDisplaysEnabled();
+    const swapDisplays = await Settings.isSwapDisplaysEnabled();
     if (swapDisplays) {
       swapDisplaysEnabledRadio.checked = true;
     } else {
@@ -62,7 +56,4 @@ const Settings = {
   }
 };
 
-const webex = new WebExtensions();
-const settingsService = new SettingsService(webex);
-const messagingService = new MessagingService(webex);
-window.onload = () => Settings.init(settingsService, messagingService);
+window.onload = () => SettingsPage.init();

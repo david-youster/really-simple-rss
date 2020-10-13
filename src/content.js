@@ -17,7 +17,6 @@ const Content = {
   },
 
 
-  //TODO - Clean this up
   discoverFeeds() {
     let feeds = [];
     for (let link of document.getElementsByTagName('link')) {

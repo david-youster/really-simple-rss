@@ -3,30 +3,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Formatting,WebExtensions, StorageService,
-          BookmarkService, SettingsService
-*/
+/* global Formatting, Storage, Bookmarks, Settings */
 
 'use strict';
 
-const DiscoveredFeeds = {
+const DiscoveredFeedsPage = {
 
-  init(storageService, bookmarkService, settingsService) {
-    this._initServices(storageService, bookmarkService, settingsService);
+  init() {
     this._initPage();
-  },
-
-  _initServices(storageService, bookmarkService, settingsService) {
-    this.storageService = storageService;
-    this.bookmarkService = bookmarkService;
-    this.settingsService = settingsService;
   },
 
 
   async _initPage() {
-    this._applyTheme();
-    const feeds = await this.storageService.loadPanelData('discover.html');
-    this.storageService.clearPanelData('discover.html');
+    await this._applyTheme();
+    const feeds = await Storage.loadPanelData('discover.html');
+    await Storage.clearPanelData('discover.html');
     const discoveredFeedsList = document.getElementById(
       'discovered-feeds-list');
     if (feeds.length === 0) {
@@ -34,29 +25,22 @@ const DiscoveredFeeds = {
       return;
     }
     feeds.forEach(feed => discoveredFeedsList.appendChild(
-      this._createListNodeFromFeed(feed, this.bookmarkService)));
+      this._createListNodeFromFeed(feed)));
   },
 
   async _applyTheme() {
     const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = await this.settingsService.getTheme() + '.css';
+    link.href = await Settings.getTheme() + '.css';
     document.head.appendChild(link);
   },
 
-  _createListNodeFromFeed(feed, bookmarkService) {
+  _createListNodeFromFeed(feed) {
     return Formatting.DiscoveredFeeds.Feed.convertToNode(feed,
-      () => bookmarkService.createBookmark(feed, true));
+      () => Bookmarks.createBookmark(feed, true));
   }
 
 };
 
-const webexService = new WebExtensions();
-const storageService = new StorageService(webexService);
-const bookmarkService = new BookmarkService(webexService);
-const settingsService = new SettingsService(webexService);
-window.onload = () => DiscoveredFeeds.init(
-  storageService,
-  bookmarkService,
-  settingsService);
+window.onload = () => DiscoveredFeedsPage.init();

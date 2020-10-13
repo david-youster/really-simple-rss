@@ -52,7 +52,7 @@ const Formatting = {
           const childList = document.createElement('ul');
 
           bookmark.children.forEach ((childBookmark) => {
-            childList.appendChild(Formatting.Index.Bookmark.convertToNode(
+            childList.appendChild(this.convertToNode(
               childBookmark, callbacks, data));
           });
 

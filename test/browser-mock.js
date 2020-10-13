@@ -1,11 +1,11 @@
-browser = {
+const browser = {
   bookmarks: {
 
     _bookmarks: [],
     _nextId: 0,
 
     async create() {
-      arg = arguments[0];
+      const arg = arguments[0];
       const createdBookmark = {
         id: this._nextId++,
         title: arg.title,
@@ -29,17 +29,21 @@ browser = {
         return [bookmark];
       }
 
+
       if (bookmark.children) {
-        for (i = 0, result = null; result == null && i < bookmark.children.length; ++i) {
-          var result = browser.bookmarks._findByTitle(bookmark.children[i], title);
+
+        let result = null;
+        for (let i = 0; result == null && i < bookmark.children.length; ++i) {
+          result = browser.bookmarks._findByTitle(bookmark.children[i], title);
         }
-        return [result]
+        return [result];
       }
+
       return [];
     },
 
     async getSubTree() {
-      const id = arguments[0]
+      const id = arguments[0];
       return browser.bookmarks._bookmarks.filter(b => b.id === id);
     },
 
@@ -94,7 +98,7 @@ browser = {
     _url : '',
 
     getURL() {
-      return url;
+      return this._url;
     }
   },
 
@@ -110,14 +114,10 @@ browser = {
       },
 
       get() {
-        const key = arguments[0]
-        const result = []
-        if (key in this._data) {
-          result.push(this._data[key]);
-        }
-        return Promise.resolve(result);
+        const key = arguments[0];
+        return Promise.resolve({ [key]: this._data[key] });
       }
     }
   }
 
-}
+};

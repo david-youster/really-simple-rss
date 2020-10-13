@@ -1,1 +1,1 @@
-find . -name "*.js" -exec eslint {} \;
+find . -path "./test/integration/qunit" -prune -false -o -name "*.js" -exec eslint {} \;
