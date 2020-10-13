@@ -165,7 +165,12 @@ const Index = {
     if (selectedFeed) {
       selectedFeed.classList.remove('selected-feed');
     }
-    document.getElementById(nodeId).classList.add('selected-feed');
+
+    const selectedFeedNode = document.getElementById(nodeId);
+
+    if (selectedFeedNode !== null) {
+      selectedFeedNode.classList.add('selected-feed');
+    }
   },
 
   async deleteFeed(bookmark) {
