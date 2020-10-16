@@ -55,3 +55,9 @@
 - Remove 'confirm delete' popup. Replace with undo/confirm options in control bar
 - Refresh sidebar on settings change
 - Remove 'history', 'tabs' and 'activeTab' permissions
+
+## 2.0.1
+- Display delete icon on folders when all feeds contained within have been deleted
+- Don't clear feed display section when settings are updated
+- Don't clear feed display section when new feed is added
+- Keep folders' expanded/collapsed state when new feed is added or settings are updated
