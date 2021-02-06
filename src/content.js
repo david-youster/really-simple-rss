@@ -3,22 +3,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Feed */
+/* global Feeds, Feed */
 
 'use strict';
 
 const Content = {
 
-  handleMessage(message) {
+  async handleMessage(message) {
     if (message === 'discover') {
       const feeds = Content.discoverFeeds();
-      return Promise.resolve(feeds); //TODO replace with async function
+      return feeds;
     }
   },
 
 
   discoverFeeds() {
     let feeds = [];
+    feeds.push(...Content._findFeedLinks());
+    return feeds;
+  },
+
+  _findFeedLinks() {
+    const feeds = []
     for (let link of document.getElementsByTagName('link')) {
       if (Content._isFeed(link)) {
         feeds.push(new Feed(link.title, link.href));
