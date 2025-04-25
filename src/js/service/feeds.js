@@ -17,7 +17,7 @@ Feeds._initServices = function (webexService) {
 
 Feeds.detectFeeds = async function () {
   const feeds = await this.webex.discoverFeeds();
-  this.webex.createPanel('discover.html', feeds);
+  this.webex.createPanel('/html/discover.html', feeds);
 };
 
 Feeds.getFeed = async function (url) {

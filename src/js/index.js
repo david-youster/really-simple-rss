@@ -60,7 +60,7 @@ const IndexPage = {
     link.id = 'theme-stylesheet';
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = await Settings.getTheme() + '.css';
+    link.href = `/css/${await Settings.getTheme()}.css`;
   },
 
   async _applySwapDisplays() {

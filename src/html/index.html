@@ -1,0 +1,47 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>RSS Sidebar</title>
+  <link type="text/css" rel="stylesheet" href="/css/extension.css">
+  <link type="text/css" rel="stylesheet" href="/css/style.css">
+  <script src="/js/model.js"></script>
+  <script src="/js/formatting.js"></script>
+  <script src="/js/service/webex.js"></script>
+  <script src="/js/service/messaging.js"></script>
+  <script src="/js/service/feeds.js"></script>
+  <script src="/js/service/bookmarks.js"></script>
+  <script src="/js/service/settings.js"></script>
+  <script src="/js/index.js"></script>
+</head>
+
+<body>
+  <div id="wrap">
+    <div id="feeds">
+      <ul id="feeds-list"></ul>
+    </div>
+    <div id="control-bar">
+      <input type="image" id="ui-detect" src="/images/light/magnifier.svg" aria-label="Detect Feeds">
+      <div id="wrap-undo-controls">
+        <label for="ui-undo">
+          Undo
+          <input type="image" id="ui-undo" src="/images/light/undo-arrow.svg">
+        </label>
+        <label for="ui-undo-dismiss">
+          Confirm Delete
+          <input type="image" id="ui-undo-dismiss" src="/images/light/cancel.svg">
+        </label>
+      </div>
+    </div>
+    <div id="feed-contents">
+      <ul id="feed-items-list"></ul>
+    </div>
+  </div>
+</body>
+
+</html>

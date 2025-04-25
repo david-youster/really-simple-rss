@@ -16,8 +16,8 @@ const DiscoveredFeedsPage = {
 
   async _initPage() {
     await this._applyTheme();
-    const feeds = await Storage.loadPanelData('discover.html');
-    await Storage.clearPanelData('discover.html');
+    const feeds = await Storage.loadPanelData('/html/discover.html');
+    await Storage.clearPanelData('/html/discover.html');
     const discoveredFeedsList = document.getElementById(
       'discovered-feeds-list');
     if (feeds.length === 0) {
@@ -32,7 +32,7 @@ const DiscoveredFeedsPage = {
     const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = await Settings.getTheme() + '.css';
+    link.href = `/css/${await Settings.getTheme()}.css`;
     document.head.appendChild(link);
   },
 

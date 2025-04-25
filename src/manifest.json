@@ -21,9 +21,9 @@
   ],
   "background": {
     "scripts": [
-      "service/webex.js",
-      "service/settings.js",
-      "background.js"
+      "js/service/webex.js",
+      "js/service/settings.js",
+      "js/background.js"
     ]
   },
   "content_scripts": [
@@ -32,8 +32,8 @@
         "<all_urls>"
       ],
       "js": [
-        "content.js",
-        "model.js"
+        "js/content.js",
+        "js/model.js"
       ]
     }
   ],
@@ -44,7 +44,7 @@
   "sidebar_action": {
     "default_icon": "images/rss.svg",
     "default_title": "RSS",
-    "default_panel": "index.html"
+    "default_panel": "html/index.html"
   },
   "options_ui": {
     "page": "settings.html"

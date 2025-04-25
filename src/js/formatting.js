@@ -140,7 +140,7 @@ const Formatting = {
         input.id = `ui-delete-${bookmark.id}`;
         input.classList.add('ui-delete');
         input.type = 'image';
-        input.src = 'images/light/delete.svg';
+        input.src = '/images/light/delete.svg';
         input.style.height = '15px';
         input.dataset.bookmarkId = bookmark.id;
         input.setAttribute('aria-label', `Delete ${bookmark.title}`);
