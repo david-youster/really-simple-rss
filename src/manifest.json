@@ -1,10 +1,10 @@
 {
 
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "RSS Sidebar",
   "version": "2.0.1",
 
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "{1529bff3-4309-49ae-ba61-8536bbbf463c}"
     }
@@ -18,7 +18,10 @@
 
   "permissions": [
     "storage",
-    "bookmarks",
+    "bookmarks"
+  ],
+
+  "host_permissions": [
     "<all_urls>"
   ],
 
@@ -33,10 +36,9 @@
     }
   ],
 
-  "browser_action": {
+  "action": {
     "default_icon": "images/rss.svg",
-    "default_title": "RSS Sidebar",
-    "browser_style": true
+    "default_title": "RSS Sidebar"
   },
 
   "sidebar_action": {
@@ -46,7 +48,6 @@
   },
 
   "options_ui": {
-    "page": "settings.html",
-    "browser_style": true
+    "page": "settings.html"
   }
 }

@@ -9,7 +9,7 @@
 
 const _wx = {
   bookmarks: browser.bookmarks,
-  browserAction: browser.browserAction,
+  action: browser.action,
   sidebarAction: browser.sidebarAction,
   tabs: browser.tabs,
   windows: browser.windows,
@@ -78,7 +78,7 @@ WebExtensions.removeBookmark = async function(bookmarkId) {
 };
 
 WebExtensions.setBrowserAction = function(onClicked) {
-  _wx.browserAction.onClicked.addListener(onClicked);
+  _wx.action.onClicked.addListener(onClicked);
 };
 
 WebExtensions.openSidebar = function() {
@@ -111,7 +111,7 @@ WebExtensions.createPanel = async function(source, data) {
   await this.save('panelData', { [source]: data });
 
   await _wx.windows.create({
-    url: _wx.extension.getURL(source),
+    url: _wx.runtime.getURL(source),
     type: 'panel',
     width: 500,
     height: 250,
