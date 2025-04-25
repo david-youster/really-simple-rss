@@ -12,12 +12,12 @@ const Storage = {
   webex: WebExtensions
 };
 
-Storage.loadPanelData = async function(key) {
+Storage.loadPanelData = async function (key) {
   const panelData = await this.webex.load('panelData');
   return panelData[key];
 };
 
-Storage.clearPanelData = async function(key) {
+Storage.clearPanelData = async function (key) {
   const panelData = await this.webex.load('panelData');
   delete panelData[key];
   await this.webex.save(panelData);

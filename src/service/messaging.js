@@ -11,19 +11,19 @@ const Messaging = {
   webex: WebExtensions
 };
 
-Messaging.addListener = function(onMessageReceived) {
+Messaging.addListener = function (onMessageReceived) {
   this.webex.addListener(onMessageReceived);
 };
 
-Messaging.requestRefresh = function() {
+Messaging.requestRefresh = function () {
   this.webex.sendMessage('refresh');
 };
 
-Messaging.requestApplyTheme = function() {
+Messaging.requestApplyTheme = function () {
   this.webex.sendMessage('theme');
 };
 
-Messaging.requestSwapDisplays = function() {
+Messaging.requestSwapDisplays = function () {
   this.webex.sendMessage('swap');
 };
 

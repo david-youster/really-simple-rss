@@ -10,30 +10,30 @@ const Bookmarks = {
   webex: WebExtensions
 };
 
-Bookmarks._initServices = function(webexService) {
+Bookmarks._initServices = function (webexService) {
   this.webex = webexService;
 };
 
-Bookmarks.getFeedBookmarks = async function() {
+Bookmarks.getFeedBookmarks = async function () {
   const bookmarks = await this.webex.getBookmarks('Simple Feeds');
   return bookmarks;
 };
 
-Bookmarks.deleteBookmark = async function(bookmark) {
+Bookmarks.deleteBookmark = async function (bookmark) {
   await this.webex.removeBookmark(bookmark.id);
 };
 
-Bookmarks._saveLastDeleted = async function(bookmark) {
+Bookmarks._saveLastDeleted = async function (bookmark) {
   this.lastDeleted = bookmark;
 };
 
-Bookmarks.undoDelete = async function(bookmark) {
+Bookmarks.undoDelete = async function (bookmark) {
   const createdBookmark = await this.webex.createBookmark(bookmark);
   return createdBookmark;
 };
 
 // TODO refactor to use messaging service
-Bookmarks.createBookmark = async function(
+Bookmarks.createBookmark = async function (
   feed, sendRefreshNotification) {
 
   await this.webex.createBookmark(

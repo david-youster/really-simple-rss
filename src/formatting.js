@@ -51,7 +51,7 @@ const Formatting = {
 
           const childList = document.createElement('ul');
 
-          bookmark.children.forEach ((childBookmark) => {
+          bookmark.children.forEach((childBookmark) => {
             childList.appendChild(this.convertToNode(
               childBookmark, callbacks, data));
           });
@@ -106,7 +106,7 @@ const Formatting = {
         button.classList.add('feed-folder-title');
         button.appendChild(document.createTextNode(bookmark.title));
 
-        button.onclick = () =>  {
+        button.onclick = () => {
           // The button created by this function is the feed title section, its
           // first sibling is the control section and the second sibling is the
           // actual folder content

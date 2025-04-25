@@ -20,7 +20,7 @@ const _wx = {
 
 const WebExtensions = {};
 
-WebExtensions.initBookmarks = async function(folderName) {
+WebExtensions.initBookmarks = async function (folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Create the feed folder if the folder doesn't exist, or if an actual
@@ -30,7 +30,7 @@ WebExtensions.initBookmarks = async function(folderName) {
   }
 };
 
-WebExtensions.getBookmarks = async function(folderName) {
+WebExtensions.getBookmarks = async function (folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Search result will also contain bookmarks with the folder name. These
@@ -47,7 +47,7 @@ WebExtensions.getBookmarks = async function(folderName) {
   return subTree[0].children.map(this._mapBookmarkToModel);
 };
 
-WebExtensions._mapBookmarkToModel = function(wxBookmark) {
+WebExtensions._mapBookmarkToModel = function (wxBookmark) {
   const bookmark = new Bookmark(wxBookmark);
   if (wxBookmark.type === 'folder') {
     bookmark.children = wxBookmark.children.map(this._mapBookmarkToModel);
@@ -57,7 +57,7 @@ WebExtensions._mapBookmarkToModel = function(wxBookmark) {
 
 // TODO error handling if parent is not a folder
 // TODO ensure either ID or title is passed
-WebExtensions.createBookmark = async function(bookmark, parent) {
+WebExtensions.createBookmark = async function (bookmark, parent) {
   let parentId = null;
 
   if (parent) {
@@ -73,19 +73,19 @@ WebExtensions.createBookmark = async function(bookmark, parent) {
   }));
 };
 
-WebExtensions.removeBookmark = async function(bookmarkId) {
+WebExtensions.removeBookmark = async function (bookmarkId) {
   await _wx.bookmarks.remove(bookmarkId);
 };
 
-WebExtensions.setBrowserAction = function(onClicked) {
+WebExtensions.setBrowserAction = function (onClicked) {
   _wx.action.onClicked.addListener(onClicked);
 };
 
-WebExtensions.openSidebar = function() {
+WebExtensions.openSidebar = function () {
   _wx.sidebarAction.open();
 };
 
-WebExtensions.getCurrentTab = async function() {
+WebExtensions.getCurrentTab = async function () {
   const currentWindow = await _wx.windows.getCurrent();
   const tabs = await _wx.tabs.query({
     active: true,
@@ -94,20 +94,20 @@ WebExtensions.getCurrentTab = async function() {
   return tabs[0];
 };
 
-WebExtensions.discoverFeeds = async function() {
+WebExtensions.discoverFeeds = async function () {
   const currentTab = await this.getCurrentTab();
   return _wx.tabs.sendMessage(currentTab.id, 'discover');
 };
 
-WebExtensions.sendMessage = async function(message) {
+WebExtensions.sendMessage = async function (message) {
   _wx.runtime.sendMessage(message);
 };
 
-WebExtensions.addListener = function(onMessageReceived) {
+WebExtensions.addListener = function (onMessageReceived) {
   _wx.runtime.onMessage.addListener(onMessageReceived);
 };
 
-WebExtensions.createPanel = async function(source, data) {
+WebExtensions.createPanel = async function (source, data) {
   await this.save('panelData', { [source]: data });
 
   await _wx.windows.create({
@@ -119,11 +119,11 @@ WebExtensions.createPanel = async function(source, data) {
   });
 };
 
-WebExtensions.save = async function(key, value) {
+WebExtensions.save = async function (key, value) {
   await _wx.storage.set({ [key]: value });
 };
 
-WebExtensions.load = async function(key) {
+WebExtensions.load = async function (key) {
   const result = await _wx.storage.get(key);
   return result[key] !== null && result[key] !== undefined ?
     result[key] : null;

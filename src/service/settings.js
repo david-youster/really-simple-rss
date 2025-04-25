@@ -12,7 +12,7 @@ const Settings = {
   webex: WebExtensions
 };
 
-Settings._initSettings = async function() {
+Settings._initSettings = async function () {
   const settings = await this.webex.load('settings');
   const v2Settings = {
     schema: '2.0.0',
@@ -32,12 +32,12 @@ Settings._initSettings = async function() {
   await this.webex.save('settings', v2Settings);
 };
 
-Settings.getTheme = async function() {
+Settings.getTheme = async function () {
   const settings = await this.webex.load('settings');
   return settings && settings.theme ? settings.theme : 'default';
 };
 
-Settings.setTheme = async function(theme) {
+Settings.setTheme = async function (theme) {
   if (['default', 'dark'].indexOf(theme) < 0) {
     throw 'Invalid theme requested';
   }
@@ -46,13 +46,13 @@ Settings.setTheme = async function(theme) {
   await this.webex.save('settings', settings);
 };
 
-Settings.isSwapDisplaysEnabled = async function() {
+Settings.isSwapDisplaysEnabled = async function () {
   const settings = await this.webex.load('settings');
   return settings && settings.swapDisplays ?
     settings.swapDisplays : false;
 };
 
-Settings.setSwapDisplays = async function(swapDisplays) {
+Settings.setSwapDisplays = async function (swapDisplays) {
   const settings = await this.webex.load('settings');
   settings.swapDisplays = swapDisplays;
   await this.webex.save('settings', settings);
