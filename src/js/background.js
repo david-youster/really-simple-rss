@@ -8,6 +8,7 @@
 'use strict';
 
 import { WebExtensions } from "./service/webex.js";
+import { Settings } from "./service/settings.js";
 
 const BackgroundPage = {
 
@@ -16,10 +17,10 @@ const BackgroundPage = {
   init() {
     this._initBookmarks();
     this._initBrowserAction();
+    this._initSettings();
   },
 
-  async _initServices(webexService) {
-    this.webex = webexService;
+  async _initSettings() {
     await Settings._initSettings();
   },
 
