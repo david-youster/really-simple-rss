@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/david-youster/really-simple-rss#readme",
   "devDependencies": {
-    "eslint": "^9.25.1"
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0"
   }
 }
