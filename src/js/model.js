@@ -3,8 +3,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* exported Bookmark, FeedItem, Feed */
-
 'use strict';
 
 function Bookmark(wxBookmark) {
@@ -25,3 +23,5 @@ function Feed(title, href) {
   this.title = title;
   this.href = href;
 }
+
+export { Bookmark, FeedItem, Feed };

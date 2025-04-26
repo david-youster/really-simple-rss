@@ -7,6 +7,9 @@
 
 'use strict';
 
+import { Settings } from "./service/settings.js";
+import { Messaging } from "./service/messaging.js";
+
 const SettingsPage = {
 
   init() {

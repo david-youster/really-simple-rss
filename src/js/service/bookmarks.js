@@ -3,9 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions */
-
 'use strict';
+
+import { WebExtensions } from './webex.js';
+
 const Bookmarks = {
   webex: WebExtensions
 };
@@ -44,3 +45,5 @@ Bookmarks.createBookmark = async function (
     this.webex.sendMessage('bookmark-added');
   }
 };
+
+export { Bookmarks };

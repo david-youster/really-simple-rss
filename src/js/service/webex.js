@@ -3,9 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Bookmark */
-
 'use strict';
+
+import { Bookmark } from "../model.js";
 
 const _wx = {
   bookmarks: browser.bookmarks,
@@ -128,3 +128,5 @@ WebExtensions.load = async function (key) {
   return result[key] !== null && result[key] !== undefined ?
     result[key] : null;
 };
+
+export { WebExtensions };

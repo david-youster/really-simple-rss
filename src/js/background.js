@@ -7,6 +7,8 @@
 
 'use strict';
 
+import { WebExtensions } from "./service/webex.js";
+
 const BackgroundPage = {
 
   webex: WebExtensions,

@@ -7,6 +7,12 @@
 
 'use strict';
 
+import { Formatting } from "./formatting.js";
+import { Bookmarks } from "./service/bookmarks.js";
+import { Feeds } from "./service/feeds.js";
+import { Messaging } from "./service/messaging.js";
+import { Settings } from "./service/settings.js";
+
 const IndexPage = {
 
   data: {

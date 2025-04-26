@@ -7,6 +7,11 @@
 
 'use strict';
 
+import { Formatting } from "./formatting.js";
+import { Bookmarks } from "./service/bookmarks.js";
+import { Storage } from "./service/storage.js";
+import { Settings } from "./service/settings.js";
+
 const DiscoveredFeedsPage = {
 
   init() {

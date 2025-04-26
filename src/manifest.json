@@ -24,7 +24,8 @@
       "js/service/webex.js",
       "js/service/settings.js",
       "js/background.js"
-    ]
+    ],
+    "type": "module"
   },
   "content_scripts": [
     {

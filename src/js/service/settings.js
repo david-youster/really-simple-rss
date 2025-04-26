@@ -3,10 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions */
-
-
 'use strict';
+
+import { WebExtensions } from "./webex.js";
 
 const Settings = {
   webex: WebExtensions
@@ -58,3 +57,4 @@ Settings.setSwapDisplays = async function (swapDisplays) {
   await this.webex.save('settings', settings);
 };
 
+export { Settings };

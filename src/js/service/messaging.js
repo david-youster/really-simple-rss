@@ -3,9 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions */
-
 'use strict';
+
+import { WebExtensions } from "./webex.js";
 
 const Messaging = {
   webex: WebExtensions
@@ -27,3 +27,4 @@ Messaging.requestSwapDisplays = function () {
   this.webex.sendMessage('swap');
 };
 
+export { Messaging };

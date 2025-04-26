@@ -3,9 +3,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global FeedItem, WebExtensions */
-
 'use strict';
+
+import { WebExtensions } from "./webex.js";
+import { FeedItem } from '../model.js';
+
+
 
 const Feeds = {
   webex: WebExtensions
@@ -103,3 +106,5 @@ _FeedParser._readNodeValue = function (node, tag) {
     return '';
   }
 };
+
+export { Feeds }

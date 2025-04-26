@@ -183,3 +183,5 @@ const Formatting = {
     }
   }
 };
+
+export { Formatting };

@@ -3,10 +3,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global WebExtensions */
-
-
 'use strict';
+
+import { WebExtensions } from "./webex.js";
 
 const Storage = {
   webex: WebExtensions
@@ -22,3 +21,5 @@ Storage.clearPanelData = async function (key) {
   delete panelData[key];
   await this.webex.save(panelData);
 };
+
+export { Storage }
