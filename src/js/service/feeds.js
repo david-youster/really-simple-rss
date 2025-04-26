@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { WebExtensions } from "./webex.js";
+import { WebExtensions } from './webex.js';
 import { FeedItem } from '../model.js';
 
 
@@ -102,9 +102,11 @@ _FeedParser._parseRdf = function (xml) {
 _FeedParser._readNodeValue = function (node, tag) {
   try {
     return node.getElementsByTagName(tag)[0].childNodes[0].nodeValue;
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
+    // TODO: Better error handling
     return '';
   }
 };
 
-export { Feeds }
+export { Feeds };

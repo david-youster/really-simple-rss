@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { WebExtensions } from "./webex.js";
+import { WebExtensions } from './webex.js';
 
 const Storage = {
   webex: WebExtensions
@@ -22,4 +22,4 @@ Storage.clearPanelData = async function (key) {
   await this.webex.save(panelData);
 };
 
-export { Storage }
+export { Storage };

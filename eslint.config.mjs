@@ -23,7 +23,7 @@ export default defineConfig([{
         },
 
         ecmaVersion: 2017,
-        sourceType: "script",
+        sourceType: "module",
     },
 
     rules: {

@@ -3,15 +3,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Bookmarks,Feeds, Formatting, Messaging, Settings */
-
 'use strict';
 
-import { Formatting } from "./formatting.js";
-import { Bookmarks } from "./service/bookmarks.js";
-import { Feeds } from "./service/feeds.js";
-import { Messaging } from "./service/messaging.js";
-import { Settings } from "./service/settings.js";
+import { Formatting } from './formatting.js';
+import { Bookmarks } from './service/bookmarks.js';
+import { Feeds } from './service/feeds.js';
+import { Messaging } from './service/messaging.js';
+import { Settings } from './service/settings.js';
 
 const IndexPage = {
 
@@ -144,7 +142,9 @@ const IndexPage = {
         fragment.hasChildNodes() ?
           fragment : document.createTextNode('No content in feed'));
 
+    // eslint-disable-next-line no-unused-vars
     } catch (error) {
+      // TODO: Better error handling
       feedItemsList.innerHTML = '';
       feedItemsList.appendChild(document.createTextNode(
         'An error occurred - couldn\'t load feed content'));

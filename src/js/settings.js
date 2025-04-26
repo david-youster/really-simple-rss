@@ -3,12 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Settings, Messaging */
-
 'use strict';
 
-import { Settings } from "./service/settings.js";
-import { Messaging } from "./service/messaging.js";
+import { Settings } from './service/settings.js';
+import { Messaging } from './service/messaging.js';
 
 const SettingsPage = {
 

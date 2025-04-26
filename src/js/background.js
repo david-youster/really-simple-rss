@@ -3,12 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Settings, WebExtensions */
-
 'use strict';
 
-import { WebExtensions } from "./service/webex.js";
-import { Settings } from "./service/settings.js";
+import { WebExtensions } from './service/webex.js';
+import { Settings } from './service/settings.js';
 
 const BackgroundPage = {
 

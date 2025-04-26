@@ -3,7 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Feeds, Feed */
+/* global Feed */
 
 'use strict';
 
@@ -24,7 +24,7 @@ const Content = {
   },
 
   _findFeedLinks() {
-    const feeds = []
+    const feeds = [];
     for (let link of document.getElementsByTagName('link')) {
       if (Content._isFeed(link)) {
         feeds.push(new Feed(link.title, link.href));

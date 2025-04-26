@@ -3,14 +3,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Formatting, Storage, Bookmarks, Settings */
-
 'use strict';
 
-import { Formatting } from "./formatting.js";
-import { Bookmarks } from "./service/bookmarks.js";
-import { Storage } from "./service/storage.js";
-import { Settings } from "./service/settings.js";
+import { Formatting } from './formatting.js';
+import { Bookmarks } from './service/bookmarks.js';
+import { Storage } from './service/storage.js';
+import { Settings } from './service/settings.js';
 
 const DiscoveredFeedsPage = {
 

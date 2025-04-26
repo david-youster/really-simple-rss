@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { Bookmark } from "../model.js";
+import { Bookmark } from '../model.js';
 
 const _wx = {
   bookmarks: browser.bookmarks,

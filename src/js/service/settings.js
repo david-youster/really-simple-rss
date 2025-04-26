@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { WebExtensions } from "./webex.js";
+import { WebExtensions } from './webex.js';
 
 const Settings = {
   webex: WebExtensions
