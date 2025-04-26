@@ -48,6 +48,6 @@
     "default_panel": "html/index.html"
   },
   "options_ui": {
-    "page": "settings.html"
+    "page": "html/settings.html"
   }
 }
