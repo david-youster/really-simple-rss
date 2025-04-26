@@ -1,0 +1,26 @@
+{
+  "name": "really-simple-rss",
+  "version": "2.0.1",
+  "description": "RSS Sidebar is a simple feed reader and aggregator for Firefox, written using the Webextensions API.",
+  "private": true,
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/david-youster/really-simple-rss.git"
+  },
+  "keywords": [],
+  "author": "David Youster <davidyouster@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/david-youster/really-simple-rss/issues"
+  },
+  "homepage": "https://github.com/david-youster/really-simple-rss#readme",
+  "devDependencies": {
+    "eslint": "^9.25.1"
+  }
+}

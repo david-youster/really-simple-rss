@@ -2,4 +2,4 @@
 *.xpi
 todo
 test/integration/qunit
-
+node_modules
