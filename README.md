@@ -1,6 +1,6 @@
 # RSS Sidebar
 
-RSS Sidebar is a simple feed reader and aggregator for Firefox, written using the Webextensions API.
+RSS Sidebar is a simple feed reader and aggregator for Firefox.
 
 The extension uses Firefox's bookmarks to track feed subscriptions.
 
@@ -16,7 +16,9 @@ Firefox's in-built bookmarks Library window can be used to organize the contents
 
 There are two ways to add a feed subscription:
 - Open the feed itself in the browser and bookmark it, making sure to add it to the 'Simple Feeds' folder.
-- Navigate to a web page in your browser. Select the magnifier icon from the sidebar.  A popup will be displayed, containing all of the feed links detected on that page. Select the feed you'd like to subscribe to, and it will be added to your 'Simple Feeds' folder
+- Navigate to a web page in your browser. Select the magnifier icon from the sidebar.  A popup will be displayed, containing all of the feed links detected
+on that page. Select the feed you'd like to subscribe to, and it will be added
+to your 'Simple Feeds' folder
 
 ### Deleting a feed
 Feeds listed in the sidebar have a small delete icon beside them. Clicking this icon will remove the feed from the feed subscriptions list and from your the bookmarks folder. Before the feed is removed permanently, you'll be prompted to either undo or confirm the deletion. Confirming will cause the feed to be permanently removed from your bookmarks.
