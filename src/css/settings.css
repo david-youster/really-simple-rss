@@ -1,0 +1,17 @@
+p {
+    border-bottom: 1px dotted gray;
+    padding-bottom: 0.5em;
+}
+
+
+.main-label {
+    font-weight: bold;
+    display: inline-block;
+    min-width: 25%;
+}
+
+
+.radio-option {
+    display: inline-block;
+    width: 25%;
+}

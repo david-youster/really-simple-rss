@@ -8,6 +8,7 @@
 <head>
   <meta charset="utf-8">
   <title>RSS Sidebar - Settings</title>
+  <link type="text/css" rel="stylesheet" href="/css/settings.css">
   <script type="module" src="/js/settings.js"></script>
 </head>
 
@@ -15,22 +16,35 @@
   <div id="wrap">
     <form id="settings-form">
       <p>
-        <label>
+        <label class="main-label">
           Theme
-          <input type="radio" name="theme" id="defaultThemeRadio" value="default">
-          <label for="defaultThemeRadio">Default</label>
-          <input type="radio" name="theme" id="darkThemeRadio" value="dark">
-          <label for="darkThemeRadio">Dark</label>
         </label>
+        <span class="radio-options">
+          <span class="radio-option">
+            <input type="radio" name="theme" id="defaultThemeRadio" value="default">
+            <label class="sub-label" for="defaultThemeRadio">Default</label>
+          </span>
+          <span class="radio-option">
+            <input type="radio" name="theme" id="darkThemeRadio" value="dark">
+            <label class="sub-label" for="darkThemeRadio">Dark</label>
+          </span>
+        </span>
+
       </p>
       <p>
-        <label>
+        <label class="main-label">
           Feed content panel
-          <input type="radio" name="swapDisplays" id="swapDisplaysDisabledRadio" value="false">
-          <label for="swapDisplaysDisabledRadio">Below feed list</label>
-          <input type="radio" name="swapDisplays" id="swapDisplaysEnabledRadio" value="true">
-          <label for="swapDisplaysEnabledRadio">Above feed list</label>
         </label>
+        <span class="radio-options">
+          <span class="radio-option">
+            <input type="radio" name="swapDisplays" id="swapDisplaysDisabledRadio" value="false">
+            <label class="sub-label" for="swapDisplaysDisabledRadio">Below feed list</label>
+          </span>
+          <span class="radio-option">
+            <input type="radio" name="swapDisplays" id="swapDisplaysEnabledRadio" value="true">
+            <label class="sub-label" for="swapDisplaysEnabledRadio">Above feed list</label>
+          </span>
+        </span>
       </p>
     </form>
   </div>
