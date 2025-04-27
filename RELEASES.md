@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2
+- Migrate to Manifest V3
+- Re-word "swap displays" setting for clarity
+- Update settings page styling
+
 ## 2.0.1
 - Display delete icon on folders when all feeds contained within have been deleted
 - Don't clear feed display section when settings are updated
@@ -60,4 +65,4 @@
 
 ## 1.0
 
-- Initial release.
+- Initial release
