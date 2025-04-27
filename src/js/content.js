@@ -7,6 +7,11 @@
 
 'use strict';
 
+function Feed(title, href) {
+  this.title = title;
+  this.href = href;
+}
+
 const Content = {
 
   async handleMessage(message) {
@@ -27,7 +32,10 @@ const Content = {
     const feeds = [];
     for (let link of document.getElementsByTagName('link')) {
       if (Content._isFeed(link)) {
-        feeds.push(new Feed(link.title, link.href));
+        // Ideally, this should use the model Feed object.
+        // Since it's been converted to a module, it's no longer available here.
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1451545
+        feeds.push({ title: link.title, href: link.href });
       }
     }
     return feeds;

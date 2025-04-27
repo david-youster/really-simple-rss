@@ -33,8 +33,7 @@
         "<all_urls>"
       ],
       "js": [
-        "js/content.js",
-        "js/model.js"
+        "js/content.js"
       ]
     }
   ],
