@@ -11,7 +11,7 @@ const Settings = {
   webex: WebExtensions
 };
 
-Settings._initSettings = async function () {
+Settings.init = async function () {
   const settings = await this.webex.load('settings');
   const v2Settings = {
     schema: '2.0.0',

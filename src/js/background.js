@@ -19,7 +19,7 @@ const BackgroundPage = {
   },
 
   async _initSettings() {
-    await Settings._initSettings();
+    await Settings.init();
   },
 
   _initBookmarks() {
