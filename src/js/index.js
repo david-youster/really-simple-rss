@@ -142,7 +142,7 @@ const IndexPage = {
         fragment.hasChildNodes() ?
           fragment : document.createTextNode('No content in feed'));
 
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       // TODO: Better error handling
       feedItemsList.innerHTML = '';

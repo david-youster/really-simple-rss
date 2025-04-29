@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -7,19 +8,25 @@
   <link rel="stylesheet" href="qunit/qunit-2.9.2.css">
   <link type="text/css" rel="stylesheet" href="../../src/style.css">
 </head>
+
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture">
     <div id="wrap">
-      <div id="feeds"><ul id="feeds-list"></ul></div>
+      <div id="feeds">
+        <ul id="feeds-list"></ul>
+      </div>
       <div id="control-bar">
         <input type="image" id="ui-detect" src="images/light/magnifier.svg">
         <div id="wrap-undo-controls">
           <label for="ui-undo">Undo<input type="image" id="ui-undo" src="images/light/undo-arrow.svg"></label>
-          <label for="ui-undo-dismiss">Confirm Delete<input type="image" id="ui-undo-dismiss" src="images/light/cancel.svg"></label>
+          <label for="ui-undo-dismiss">Confirm Delete<input type="image" id="ui-undo-dismiss"
+              src="images/light/cancel.svg"></label>
         </div>
       </div>
-      <div id="feed-contents"><ul id="feed-items-list"></ul></div>
+      <div id="feed-contents">
+        <ul id="feed-items-list"></ul>
+      </div>
     </div>
   </div>
   <script src="qunit/qunit-2.9.2.js"></script>
@@ -34,4 +41,5 @@
   <script src="../../src/index.js"></script>
   <script src="index-test.js"></script>
 </body>
+
 </html>

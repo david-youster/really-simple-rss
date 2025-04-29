@@ -3,14 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* global Feed */
-
 'use strict';
-
-function Feed(title, href) {
-  this.title = title;
-  this.href = href;
-}
 
 const Content = {
 

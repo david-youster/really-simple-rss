@@ -63,7 +63,7 @@ function mockFeed() {
 
 QUnit.test(
   'when no feed bookmarks exist, then feeds list contains no elements',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
     mockEmptyBookmarksFolder();
     await initIndexPage();
@@ -78,7 +78,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed bookmarks are found, then feeds list is populated',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
     mockBookmarks();
     await initIndexPage();
@@ -92,7 +92,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed is selected, then feed is marked as selected',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async(2);
     mockBookmarks();
     await initIndexPage();
@@ -116,7 +116,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed is selected, then other feeds are marked as unselected',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async(3);
 
     mockBookmarks();
@@ -152,7 +152,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed is selected, then feed items list is populated',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async(2);
     mockBookmarks();
     mockFeed();
@@ -178,7 +178,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed is deleted, then item is hidden',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
     mockBookmarks();
     mockFeed();
@@ -198,7 +198,7 @@ QUnit.test(
 
 QUnit.test(
   'when feed is deleted, then undo controls are displayed',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
     mockBookmarks();
     mockFeed();
@@ -218,7 +218,7 @@ QUnit.test(
 
 QUnit.test(
   'when undo controls are displayed, then other delete buttons are disabled',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
     mockBookmarks();
     mockFeed();

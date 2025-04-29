@@ -1,4 +1,4 @@
-/* global QUnit, Feed, DiscoveredFeedsPage, Storage
+/* global QUnit, Feed, DiscoveredFeedsPage
 */
 
 'use strict';
@@ -44,7 +44,7 @@ function tearDown() {
   for (let i = 0; i < linkTags.length; ++i) {
     const tag = linkTags[i];
     if (tag.href.indexOf('default.css') >= 0 ||
-        tag.href.indexOf('dark.css') >= 0) {
+      tag.href.indexOf('dark.css') >= 0) {
       tag.parentElement.removeChild(tag);
     }
   }
@@ -54,7 +54,7 @@ QUnit.tearDown = tearDown;
 
 QUnit.test(
   'when dark theme is set, dark theme is applied',
-  async function(assert) {
+  async function (assert) {
 
     const done = assert.async();
 
@@ -82,7 +82,7 @@ QUnit.test(
 
 QUnit.test(
   'when default theme is set, default theme is applied',
-  async function(assert) {
+  async function (assert) {
 
     const done = assert.async();
 
@@ -109,7 +109,7 @@ QUnit.test(
 
 QUnit.test(
   'when no feeds detected, no feeds notification displayed',
-  async function(assert) {
+  async function (assert) {
 
     const done = assert.async();
 
@@ -135,7 +135,7 @@ QUnit.test(
 
 QUnit.test(
   'when feeds detected, feeds list displayed',
-  async function(assert) {
+  async function (assert) {
     const done = assert.async();
 
     mockSettings();

@@ -54,12 +54,12 @@ const browser = {
 
   browserAction: {
     onClicked: {
-      async addListener() {}
+      async addListener() { }
     }
   },
 
   sidebarAction: {
-    async open() {}
+    async open() { }
   },
 
   windows: {
@@ -90,12 +90,12 @@ const browser = {
     },
 
     onMessage: {
-      addListener() {}
+      addListener() { }
     }
   },
 
   extension: {
-    _url : '',
+    _url: '',
 
     getURL() {
       return this._url;
