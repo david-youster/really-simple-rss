@@ -31,7 +31,7 @@ html, body{
 }
 
 button.feed-title-container,
-button.feed-title-container,
+button.feed-folder-title,
 button.discovered-feed {
     background: none;
     color: inherit;
@@ -43,7 +43,7 @@ button.discovered-feed {
 }
 
 button.feed-title-container:focus,
-button.feed-folder-container:focus,
+button.feed-folder-title:focus,
 button.discovered-feed:focus {
     border: 1px dotted gray;
 }
@@ -142,12 +142,9 @@ input[type="image"]:disabled {
     display: none;
 }
 
-.feed-folder-node {
+.feed-folder-node {}
 
-}
-
-.feed-folder-title{
-}
+.feed-folder-title {}
 
 .folder-indicator {
     margin-right: 1em;

@@ -102,7 +102,6 @@ const Formatting = {
 
         button.id = `ui-select-${bookmark.id}`;
         button.setAttribute('aria-label', bookmark.title);
-        button.classList.add('feed-title-container');
         button.classList.add('feed-folder-title');
         button.appendChild(document.createTextNode(bookmark.title));
 
