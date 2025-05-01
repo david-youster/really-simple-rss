@@ -18,8 +18,7 @@ const IndexPage = {
     selectedFeed: null
   },
 
-  init(settingsService) {
-    this._initServices(settingsService);
+  init() {
     this._initListeners();
     this._initPage();
     Menu.init();
@@ -41,10 +40,6 @@ const IndexPage = {
     if (message === 'swap') {
       this._applySwapDisplays();
     }
-  },
-
-  _initServices(settingsService) {
-    this.settingsService = settingsService;
   },
 
   async _initPage() {

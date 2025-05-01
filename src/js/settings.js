@@ -10,11 +10,7 @@ import * as Messaging from './service/messaging.js';
 
 const SettingsPage = {
 
-  init() {
-    this._initPage();
-  },
-
-  async _initPage() {
+  async init() {
     const darkThemeRadio = document.getElementById('darkThemeRadio');
     const defaultThemeRadio = document.getElementById('defaultThemeRadio');
 

@@ -12,12 +12,7 @@ import * as Settings from './service/settings.js';
 
 const DiscoveredFeedsPage = {
 
-  init() {
-    this._initPage();
-  },
-
-
-  async _initPage() {
+  async init() {
     await this._applyTheme();
     const feeds = await Storage.loadPanelData('/html/discover.html');
     await Storage.clearPanelData('/html/discover.html');
