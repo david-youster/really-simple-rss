@@ -5,7 +5,7 @@
 
 ul {
     list-style: none;
-    padding-left:2.5em;
+    padding-left: 2.5em;
 }
 
 li {
@@ -16,7 +16,8 @@ li:last-child {
     border-bottom: none;
 }
 
-html, body{
+html,
+body {
     height: 100%;
 }
 
@@ -25,7 +26,8 @@ html, body{
     height: 100%;
 }
 
-#feeds, #feed-contents {
+#feeds,
+#feed-contents {
     height: 47%;
     overflow: auto;
 }
@@ -76,19 +78,21 @@ button.discovered-feed:focus {
 }
 
 #feed-contents {
-    overflow:auto;
+    overflow: auto;
 
 }
 
-#feeds-list, #feed-items-list {
-    height:100%;
+#feeds-list,
+#feed-items-list {
+    height: 100%;
 }
 
 #feed-items-list li {
     margin-bottom: 4px;
 }
 
-#control-bar, #wrap-undo-controls {
+#control-bar,
+#wrap-undo-controls {
     text-align: center;
 }
 
@@ -116,7 +120,7 @@ label:hover {
     display: none;
 }
 
-#wrap-undo-controls label{
+#wrap-undo-controls label {
     display: none;
     display: inline-block;
     height: 100%;
@@ -135,16 +139,13 @@ label {
 }
 
 input[type="image"]:disabled {
-  filter: invert(70%);
+    filter: invert(70%);
 }
 
 .hidden {
     display: none;
 }
 
-.feed-folder-node {}
-
-.feed-folder-title {}
 
 .folder-indicator {
     margin-right: 1em;
