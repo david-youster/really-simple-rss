@@ -5,42 +5,33 @@
 
 'use strict';
 
-import { WebExtensions } from './webex.js';
+import * as wx from './webex.js';
 import { FeedItem } from '../model.js';
 
 
-
-const Feeds = {
-  webex: WebExtensions
+export async function detectFeeds() {
+  const feeds = await wx.discoverFeeds();
+  wx.createPanel('/html/discover.html', feeds);
 };
 
-Feeds._initServices = function (webexService) {
-  this.webex = webexService;
+export async function getFeed(url) {
+  return _FeedParser.parse(await _requestFeed(url));
 };
 
-Feeds.detectFeeds = async function () {
-  const feeds = await this.webex.discoverFeeds();
-  this.webex.createPanel('/html/discover.html', feeds);
-};
-
-Feeds.getFeed = async function (url) {
-  return this._FeedParser.parse(await this._requestFeed(url));
-};
-
-Feeds._requestFeed = async function (url) {
+async function _requestFeed(url) {
   const response = await fetch(url, { method: 'GET', mode: 'cors' });
   if (response.status !== 200) {
     throw `Bad response from ${url}`;
   }
-  return this._parseResponseXml(await response.text());
+  return _parseResponseXml(await response.text());
 };
 
-Feeds._parseResponseXml = function (text) {
+function _parseResponseXml (text) {
   return (new window.DOMParser()).parseFromString(text, 'text/xml');
 };
 
-Feeds._FeedParser = {};
-const _FeedParser = Feeds._FeedParser;
+// TODO remove 'namespace' object
+const _FeedParser = {};
 
 _FeedParser.parse = function (xml) {
   if (this._rssDetected(xml)) {
@@ -108,5 +99,3 @@ _FeedParser._readNodeValue = function (node, tag) {
     return '';
   }
 };
-
-export { Feeds };

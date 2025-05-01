@@ -5,14 +5,11 @@
 
 'use strict';
 
-import { WebExtensions } from './webex.js';
+import * as wx from './webex.js';
 
-const Settings = {
-  webex: WebExtensions
-};
 
-Settings.init = async function () {
-  const settings = await this.webex.load('settings');
+export async function init() {
+  const settings = await wx.load('settings');
   const v2Settings = {
     schema: '2.0.0',
     theme: 'default',
@@ -28,33 +25,31 @@ Settings.init = async function () {
     v2Settings.swapDisplays = settings.swapDisplays;
   }
 
-  await this.webex.save('settings', v2Settings);
+  await wx.save('settings', v2Settings);
 };
 
-Settings.getTheme = async function () {
-  const settings = await this.webex.load('settings');
+export async function getTheme() {
+  const settings = await wx.load('settings');
   return settings && settings.theme ? settings.theme : 'default';
 };
 
-Settings.setTheme = async function (theme) {
+export async function setTheme(theme) {
   if (['default', 'dark'].indexOf(theme) < 0) {
     throw 'Invalid theme requested';
   }
-  const settings = await this.webex.load('settings');
+  const settings = await wx.load('settings');
   settings.theme = theme;
-  await this.webex.save('settings', settings);
+  await wx.save('settings', settings);
 };
 
-Settings.isSwapDisplaysEnabled = async function () {
-  const settings = await this.webex.load('settings');
+export async function isSwapDisplaysEnabled() {
+  const settings = await wx.load('settings');
   return settings && settings.swapDisplays ?
     settings.swapDisplays : false;
 };
 
-Settings.setSwapDisplays = async function (swapDisplays) {
-  const settings = await this.webex.load('settings');
+export async function setSwapDisplays(swapDisplays) {
+  const settings = await wx.load('settings');
   settings.swapDisplays = swapDisplays;
-  await this.webex.save('settings', settings);
+  await wx.save('settings', settings);
 };
-
-export { Settings };

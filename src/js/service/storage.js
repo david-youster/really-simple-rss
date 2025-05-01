@@ -5,21 +5,15 @@
 
 'use strict';
 
-import { WebExtensions } from './webex.js';
+import * as wx from './webex.js';
 
-const Storage = {
-  webex: WebExtensions
-};
-
-Storage.loadPanelData = async function (key) {
-  const panelData = await this.webex.load('panelData');
+export async function loadPanelData (key) {
+  const panelData = await wx.load('panelData');
   return panelData[key];
 };
 
-Storage.clearPanelData = async function (key) {
-  const panelData = await this.webex.load('panelData');
+export async  function clearPanelData (key) {
+  const panelData = await wx.load('panelData');
   delete panelData[key];
-  await this.webex.save(panelData);
+  await wx.save(panelData);
 };
-
-export { Storage };

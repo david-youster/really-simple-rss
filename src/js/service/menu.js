@@ -5,17 +5,15 @@
 
 'use strict';
 
-import { WebExtensions as wx } from './webex.js';
+import * as wx from './webex.js';
 
-const Menu = {};
-
-Menu.init = async function () {
-  wx.addMenuShownListener(this._onShown);
-  wx.addMenuItemClickListener(this._onClicked);
-  wx.addMenuHiddenListener(this._onHidden);
+export async function init() {
+  wx.addMenuShownListener(_onShown);
+  wx.addMenuItemClickListener(_onClicked);
+  wx.addMenuHiddenListener(_onHidden);
 };
 
-Menu._onShown = function (info) {
+function _onShown(info) {
   if (info.targetElementId === undefined) {
     return;
   }
@@ -27,11 +25,11 @@ Menu._onShown = function (info) {
   }
 };
 
-Menu._onHidden = async function () {
+async function _onHidden() {
   await wx.removeAllMenuItems();
 };
 
-Menu._onClicked = async function (info) {
+async function _onClicked(info) {
   if (info.targetElementId === undefined) {
     return;
   }
@@ -42,5 +40,3 @@ Menu._onClicked = async function (info) {
     await wx.newTab(url, true);
   }
 };
-
-export { Menu };

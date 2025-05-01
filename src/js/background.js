@@ -5,31 +5,26 @@
 
 'use strict';
 
-import { WebExtensions } from './service/webex.js';
-import { Settings } from './service/settings.js';
+import * as wx from './service/webex.js';
+import * as Settings from './service/settings.js';
 
-const BackgroundPage = {
+function init() {
+  initBookmarks();
+  initBrowserAction();
+  initSettings();
+}
 
-  webex: WebExtensions,
+async function initSettings() {
+  await Settings.init();
+}
 
-  init() {
-    this._initBookmarks();
-    this._initBrowserAction();
-    this._initSettings();
-  },
+function initBookmarks() {
+  wx.initBookmarks('Simple Feeds');
+}
 
-  async _initSettings() {
-    await Settings.init();
-  },
+function  initBrowserAction() {
+  wx.setBrowserAction(this.webex.openSidebar);
+}
 
-  _initBookmarks() {
-    this.webex.initBookmarks('Simple Feeds');
-  },
 
-  _initBrowserAction() {
-    this.webex.setBrowserAction(this.webex.openSidebar);
-  }
-
-};
-
-BackgroundPage.init();
+init();

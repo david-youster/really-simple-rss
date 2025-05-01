@@ -19,9 +19,8 @@ const _wx = {
   menus: browser.menus,
 };
 
-const WebExtensions = {};
 
-WebExtensions.initBookmarks = async function (folderName) {
+export async function initBookmarks (folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Create the feed folder if the folder doesn't exist, or if an actual
@@ -29,9 +28,9 @@ WebExtensions.initBookmarks = async function (folderName) {
   if (searchResult.length === 0 || searchResult[0].type !== 'folder') {
     await _wx.bookmarks.create({ title: folderName, type: 'folder' });
   }
-};
+}
 
-WebExtensions.getBookmarks = async function (folderName) {
+export async function getBookmarks(folderName) {
   const searchResult = await _wx.bookmarks.search({ title: folderName });
 
   // Search result will also contain bookmarks with the folder name. These
@@ -45,20 +44,20 @@ WebExtensions.getBookmarks = async function (folderName) {
   // Not concerned about this for now - if multiple bookmarks folders are
   // found, just use the first one in the result.
   const subTree = await _wx.bookmarks.getSubTree(folders[0].id);
-  return subTree[0].children.map(this._mapBookmarkToModel);
-};
+  return subTree[0].children.map(_mapBookmarkToModel);
+}
 
-WebExtensions._mapBookmarkToModel = function (wxBookmark) {
+function _mapBookmarkToModel (wxBookmark) {
   const bookmark = new Bookmark(wxBookmark);
   if (wxBookmark.type === 'folder') {
-    bookmark.children = wxBookmark.children.map(this._mapBookmarkToModel);
+    bookmark.children = wxBookmark.children.map(_mapBookmarkToModel);
   }
   return bookmark;
-}.bind(WebExtensions);
+};
 
 // TODO error handling if parent is not a folder
 // TODO ensure either ID or title is passed
-WebExtensions.createBookmark = async function (bookmark, parent) {
+export async function createBookmark (bookmark, parent) {
   let parentId = null;
 
   if (parent) {
@@ -74,19 +73,19 @@ WebExtensions.createBookmark = async function (bookmark, parent) {
   }));
 };
 
-WebExtensions.removeBookmark = async function (bookmarkId) {
+export async function removeBookmark(bookmarkId) {
   await _wx.bookmarks.remove(bookmarkId);
 };
 
-WebExtensions.setBrowserAction = function (onClicked) {
+export function setBrowserAction(onClicked) {
   _wx.action.onClicked.addListener(onClicked);
 };
 
-WebExtensions.openSidebar = function () {
+export function openSidebar () {
   _wx.sidebarAction.open();
 };
 
-WebExtensions.getCurrentTab = async function () {
+export async function getCurrentTab () {
   const currentWindow = await _wx.windows.getCurrent();
   const tabs = await _wx.tabs.query({
     active: true,
@@ -95,25 +94,25 @@ WebExtensions.getCurrentTab = async function () {
   return tabs[0];
 };
 
-WebExtensions.newTab = async function (url, active) {
+export async function newTab (url, active) {
   await _wx.tabs.create({ url, active });
 };
 
-WebExtensions.discoverFeeds = async function () {
-  const currentTab = await this.getCurrentTab();
+export async function discoverFeeds () {
+  const currentTab = await getCurrentTab();
   return _wx.tabs.sendMessage(currentTab.id, 'discover');
 };
 
-WebExtensions.sendMessage = async function (message) {
+export async function sendMessage (message) {
   _wx.runtime.sendMessage(message);
 };
 
-WebExtensions.addListener = function (onMessageReceived) {
+export function addListener (onMessageReceived) {
   _wx.runtime.onMessage.addListener(onMessageReceived);
 };
 
-WebExtensions.createPanel = async function (source, data) {
-  await this.save('panelData', { [source]: data });
+export async function createPanel (source, data) {
+  await save('panelData', { [source]: data });
 
   await _wx.windows.create({
     url: _wx.runtime.getURL(source),
@@ -124,39 +123,37 @@ WebExtensions.createPanel = async function (source, data) {
   });
 };
 
-WebExtensions.save = async function (key, value) {
+export async function save (key, value) {
   await _wx.storage.set({ [key]: value });
 };
 
-WebExtensions.load = async function (key) {
+export async function load(key) {
   const result = await _wx.storage.get(key);
   return result[key] !== null && result[key] !== undefined ?
     result[key] : null;
 };
 
-WebExtensions.addMenuShownListener = function (onShown) {
+export function addMenuShownListener (onShown) {
   _wx.menus.onShown.addListener(onShown);
 };
 
-WebExtensions.addMenuItemClickListener = function (onClicked) {
+export function addMenuItemClickListener (onClicked) {
   _wx.menus.onClicked.addListener(onClicked);
 };
 
-WebExtensions.addMenuHiddenListener = function (onHidden) {
+export function addMenuHiddenListener (onHidden) {
   _wx.menus.onHidden.addListener(onHidden);
 };
 
-WebExtensions.getTargetElement = function (id) {
+export function getTargetElement (id) {
   return _wx.menus.getTargetElement(id);
 };
 
-WebExtensions.addMenuItem = function (id, title) {
+export function addMenuItem (id, title) {
   _wx.menus.create({ id, title }, async () => await _wx.menus.refresh());
 };
 
-WebExtensions.removeAllMenuItems = async function () {
+export async function removeAllMenuItems () {
   await _wx.menus.removeAll();
   await _wx.menus.refresh();
 };
-
-export { WebExtensions };

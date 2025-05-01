@@ -5,8 +5,8 @@
 
 'use strict';
 
-import { Settings } from './service/settings.js';
-import { Messaging } from './service/messaging.js';
+import * as Settings from './service/settings.js';
+import * as Messaging from './service/messaging.js';
 
 const SettingsPage = {
 

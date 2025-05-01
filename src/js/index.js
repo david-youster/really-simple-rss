@@ -5,12 +5,12 @@
 
 'use strict';
 
-import { Formatting } from './formatting.js';
-import { Bookmarks } from './service/bookmarks.js';
-import { Feeds } from './service/feeds.js';
-import { Messaging } from './service/messaging.js';
-import { Settings } from './service/settings.js';
-import { Menu } from './service/menu.js';
+import * as Formatting from './formatting.js';
+import * as Bookmarks from './service/bookmarks.js';
+import * as Feeds from './service/feeds.js';
+import * as Messaging from './service/messaging.js';
+import * as Settings from './service/settings.js';
+import * as Menu from './service/menu.js';
 
 const IndexPage = {
 
@@ -221,7 +221,6 @@ const IndexPage = {
   },
 
   dismissUndoDelete(nodeId) {
-    Bookmarks.lastDeleted = null;
     const nodeForDeletion = document.getElementById(nodeId);
     const parentId = nodeForDeletion.dataset.parentId;
     nodeForDeletion.parentNode.removeChild(nodeForDeletion);

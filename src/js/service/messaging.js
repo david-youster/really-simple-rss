@@ -5,26 +5,20 @@
 
 'use strict';
 
-import { WebExtensions } from './webex.js';
+import * as wx from './webex.js';
 
-const Messaging = {
-  webex: WebExtensions
+export function addListener(onMessageReceived) {
+  wx.addListener(onMessageReceived);
 };
 
-Messaging.addListener = function (onMessageReceived) {
-  this.webex.addListener(onMessageReceived);
+export function requestRefresh () {
+  wx.sendMessage('refresh');
 };
 
-Messaging.requestRefresh = function () {
-  this.webex.sendMessage('refresh');
+export function requestApplyTheme () {
+  wx.sendMessage('theme');
 };
 
-Messaging.requestApplyTheme = function () {
-  this.webex.sendMessage('theme');
+export function requestSwapDisplays () {
+  wx.sendMessage('swap');
 };
-
-Messaging.requestSwapDisplays = function () {
-  this.webex.sendMessage('swap');
-};
-
-export { Messaging };
