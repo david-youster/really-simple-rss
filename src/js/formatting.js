@@ -79,7 +79,7 @@ const Formatting = {
         button.classList.add('feed-title-container');
         button.setAttribute('aria-label', bookmark.title);
         button.appendChild(document.createTextNode(bookmark.title));
-
+        button.dataset.homepage = new URL(bookmark.url).origin;
         if (selectedFeed === bookmark.id) {
           button.classList.add('selected-feed');
         }

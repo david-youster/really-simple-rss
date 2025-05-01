@@ -15,7 +15,8 @@ const _wx = {
   windows: browser.windows,
   extension: browser.extension,
   storage: browser.storage.local,
-  runtime: browser.runtime
+  runtime: browser.runtime,
+  menus: browser.menus,
 };
 
 const WebExtensions = {};
@@ -94,6 +95,10 @@ WebExtensions.getCurrentTab = async function () {
   return tabs[0];
 };
 
+WebExtensions.newTab = async function (url, active) {
+  await _wx.tabs.create({ url, active })
+}
+
 WebExtensions.discoverFeeds = async function () {
   const currentTab = await this.getCurrentTab();
   return _wx.tabs.sendMessage(currentTab.id, 'discover');
@@ -128,5 +133,30 @@ WebExtensions.load = async function (key) {
   return result[key] !== null && result[key] !== undefined ?
     result[key] : null;
 };
+
+WebExtensions.addMenuShownListener = function (onShown) {
+  _wx.menus.onShown.addListener(onShown);
+};
+
+WebExtensions.addMenuItemClickListener = function (onClicked) {
+  _wx.menus.onClicked.addListener(onClicked);
+};
+
+WebExtensions.addMenuHiddenListener = function (onHidden) {
+  _wx.menus.onHidden.addListener(onHidden);
+}
+
+WebExtensions.getTargetElement = function (id) {
+  return _wx.menus.getTargetElement(id);
+};
+
+WebExtensions.addMenuItem = function (id, title) {
+  _wx.menus.create({ id, title }, async () => await _wx.menus.refresh());
+};
+
+WebExtensions.removeAllMenuItems = async function () {
+  await _wx.menus.removeAll();
+  await _wx.menus.refresh();
+}
 
 export { WebExtensions };

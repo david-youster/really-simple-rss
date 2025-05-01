@@ -10,6 +10,7 @@ import { Bookmarks } from './service/bookmarks.js';
 import { Feeds } from './service/feeds.js';
 import { Messaging } from './service/messaging.js';
 import { Settings } from './service/settings.js';
+import { Menu } from './service/menu.js';
 
 const IndexPage = {
 
@@ -21,6 +22,7 @@ const IndexPage = {
     this._initServices(settingsService);
     this._initListeners();
     this._initPage();
+    Menu.init();
   },
 
   _initListeners() {
