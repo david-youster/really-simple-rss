@@ -96,8 +96,8 @@ WebExtensions.getCurrentTab = async function () {
 };
 
 WebExtensions.newTab = async function (url, active) {
-  await _wx.tabs.create({ url, active })
-}
+  await _wx.tabs.create({ url, active });
+};
 
 WebExtensions.discoverFeeds = async function () {
   const currentTab = await this.getCurrentTab();
@@ -144,7 +144,7 @@ WebExtensions.addMenuItemClickListener = function (onClicked) {
 
 WebExtensions.addMenuHiddenListener = function (onHidden) {
   _wx.menus.onHidden.addListener(onHidden);
-}
+};
 
 WebExtensions.getTargetElement = function (id) {
   return _wx.menus.getTargetElement(id);
@@ -157,6 +157,6 @@ WebExtensions.addMenuItem = function (id, title) {
 WebExtensions.removeAllMenuItems = async function () {
   await _wx.menus.removeAll();
   await _wx.menus.refresh();
-}
+};
 
 export { WebExtensions };
