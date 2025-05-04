@@ -96,7 +96,7 @@ button.discovered-feed:focus {
     text-align: center;
 }
 
-label:hover {
+.icon-button-label:hover {
     border-bottom: 1px solid gray;
 }
 
@@ -104,15 +104,7 @@ label:hover {
     height: 15px;
 }
 
-#ui-detect {
-    height: 25px;
-}
-
-#ui-undo {
-    height: 25px;
-}
-
-#ui-undo-dismiss {
+.ui-panel-control {
     height: 25px;
 }
 
