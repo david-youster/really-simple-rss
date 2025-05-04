@@ -23,7 +23,7 @@ function initBookmarks() {
 }
 
 function  initBrowserAction() {
-  wx.setBrowserAction(this.webex.openSidebar);
+  wx.setBrowserAction(wx.openSidebar);
 }
 
 
