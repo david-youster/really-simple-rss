@@ -46,7 +46,6 @@ const IndexPage = {
     this._applyTheme();
     this._applySwapDisplays();
     this._populateFeedList();
-    // TODO Refactor this and other listeners
     document.getElementById('ui-detect').onclick = () => Feeds.detectFeeds();
   },
 
@@ -177,7 +176,6 @@ const IndexPage = {
   },
 
 
-  // TODO Refactor undo delete functionality
   _offerUndoDelete(bookmark) {
     document.getElementById('ui-detect').style.display = 'none';
     document.getElementById('wrap-undo-controls').style.display = 'block';
@@ -198,9 +196,6 @@ const IndexPage = {
   },
 
   async undoDelete(bookmark) {
-    // TODO this belongs in a Formatting function, not here.
-    // Alternatively, just refresh the sidebar page
-
     const recreatedBookmark = await Bookmarks.undoDelete(bookmark);
     const newId = `b-${recreatedBookmark.id}`;
     const node = document.getElementById(`b-${bookmark.id}`);
