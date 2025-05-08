@@ -93,8 +93,7 @@ _FeedParser._parseRdf = function (xml) {
 _FeedParser._readNodeValue = function (node, tag) {
   try {
     return node.getElementsByTagName(tag)[0].childNodes[0].nodeValue;
-    // eslint-disable-next-line no-unused-vars
-  } catch (error) {
+  } catch {
     // TODO: Better error handling
     return '';
   }
