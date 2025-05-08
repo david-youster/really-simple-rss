@@ -47,6 +47,8 @@ const IndexPage = {
     this._applySwapDisplays();
     this._populateFeedList();
     document.getElementById('ui-detect').onclick = () => Feeds.detectFeeds();
+    document.getElementById('ui-add-feed').onclick =
+      () => Feeds.promptToAddFeed();
   },
 
   async _applyTheme() {
@@ -178,6 +180,7 @@ const IndexPage = {
 
   _offerUndoDelete(bookmark) {
     document.getElementById('ui-detect').style.display = 'none';
+    document.getElementById('ui-add-feed').style.display = 'none';
     document.getElementById('wrap-undo-controls').style.display = 'block';
     const deleteButtons = document.getElementsByClassName('ui-delete');
 
@@ -229,6 +232,7 @@ const IndexPage = {
       item.disabled = false;
     }
     document.getElementById('ui-detect').style.display = 'inline';
+    document.getElementById('ui-add-feed').style.display = 'inline';
     document.getElementById('wrap-undo-controls').style.display = 'none';
   }
 };

@@ -8,6 +8,9 @@
 import * as wx from './webex.js';
 import { FeedItem } from '../model.js';
 
+export async function promptToAddFeed() {
+  wx.createPanel('/html/addfeed.html', []);
+}
 
 export async function detectFeeds() {
   const feeds = await wx.discoverFeeds();

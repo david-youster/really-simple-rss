@@ -1,0 +1,16 @@
+.message {
+    display: none;
+}
+
+ul {
+    list-style: none;
+    padding-left: 2.5em;
+}
+
+li {
+    padding: 0.2em 0;
+}
+
+li:last-child {
+    border-bottom: none;
+}
