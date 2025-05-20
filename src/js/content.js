@@ -28,7 +28,10 @@ const Content = {
         // Ideally, this should use the model Feed object.
         // Since it's been converted to a module, it's no longer available here.
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1451545
-        feeds.push({ title: link.title, href: link.href });
+        feeds.push({
+          title: link.title !== '' ? link.title : link.href,
+          href: link.href
+        });
       }
     }
     return feeds;
