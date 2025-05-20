@@ -49,7 +49,7 @@ async function validateFeed(event) {
 
   await createBookmark({title: nameInput.value, href: url}, true);
   document.getElementById('feed-added-message').style.display = 'block';
-  resetForm();
+  resetFormMessages();
   nameInput.value = '';
   urlInput.value = '';
   return true;
@@ -59,7 +59,7 @@ function clearError({target}) {
   target.setCustomValidity('');
 }
 
-function resetForm() {
+function resetFormMessages() {
   document.getElementById('feed-error').style.display = 'none';
   document.getElementById('url-error').style.display = 'none';
   document.getElementById('feed-added-message').style.display = 'none';
@@ -72,7 +72,7 @@ function init() {
   document.getElementById('addfeed-name-input').oninput = clearError;
   document.getElementById('addfeed-url-input').oninput = clearError;
 
-  document.getElementById('clear-button').onclick = resetForm;
+  document.getElementById('clear-button').onclick = resetFormMessages;
 }
 
 window.onload = () => init();
