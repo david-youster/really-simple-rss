@@ -1,3 +1,11 @@
+#wrap {
+    width: 50%
+}
+
+.form-line {
+    margin-bottom: 0.5em;
+}
+
 .message {
     display: none;
 }
@@ -13,4 +21,17 @@ li {
 
 li:last-child {
     border-bottom: none;
+}
+
+#controls {
+    text-align: center;
+}
+
+.label-text {
+    display: inline-block;
+    width: 20%;
+}
+
+.button {
+    width: 25%;
 }

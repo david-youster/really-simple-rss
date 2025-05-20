@@ -14,14 +14,18 @@ async function validateFeed(event) {
   const urlInput = document.getElementById('addfeed-url-input');
   const nameInput = document.getElementById('addfeed-name-input');
 
+  // Clear all validation messages
   nameInput.setCustomValidity('');
   urlInput.setCustomValidity('');
+  document.getElementById('feed-error').style.display = 'none';
+  document.getElementById('url-error').style.display = 'none';
 
   let url = urlInput.value;
   try {
     new URL(url);
   } catch {
     // Shouldn't ever reach this
+    document.getElementById('url-error').style.display = 'block';
     urlInput.setCustomValidity('Invalid URL');
     urlInput.reportValidity();
     return false;
@@ -31,22 +35,32 @@ async function validateFeed(event) {
   try {
     feed = await getFeed(url);
   } catch {
+    document.getElementById('feed-error').style.display = 'block';
     urlInput.setCustomValidity('Unable to parse feed at URL');
     urlInput.reportValidity();
     return false;
   }
   if (feed === undefined) {
+    document.getElementById('feed-error').style.display = 'block';
     urlInput.setCustomValidity('Unable to parse feed at URL');
     urlInput.reportValidity();
     return false;
   }
 
   await createBookmark({title: nameInput.value, href: url}, true);
+  document.getElementById('feed-added-message').style.display = 'block';
+  resetForm();
   return true;
 }
 
 function clearError({target}) {
   target.setCustomValidity('');
+}
+
+function resetForm() {
+  document.getElementById('feed-error').style.display = 'none';
+  document.getElementById('url-error').style.display = 'none';
+  document.getElementById('feed-added-message').style.display = 'none';
 }
 
 function init() {
@@ -55,6 +69,8 @@ function init() {
 
   document.getElementById('addfeed-name-input').oninput = clearError;
   document.getElementById('addfeed-url-input').oninput = clearError;
+
+  document.getElementById('clear-button').onclick = resetForm;
 }
 
 window.onload = () => init();

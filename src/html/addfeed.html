@@ -14,27 +14,27 @@
 <body>
   <div id="wrap">
     <form id="add-feed-form">
-      <div>
+      <div class="form-line">
         <label>
-          Name
+          <span class="label-text">Name</span>
           <input id="addfeed-name-input" type="text" required />
         </label>
       </div>
 
-      <div>
+      <div class="form-line">
         <label>
-          URL
+          <span class="label-text">URL</span>
           <input id="addfeed-url-input" type="url" required />
         </label>
       </div>
-      <input id="save-button" type="submit" value="Save" />
+      <div id="controls" class="form-line">
+        <input class="button" id="save-button" type="submit" value="Save" />
+        <input class="button" id="clear-button" type="reset" value="Clear" />
+      </div>
     </form>
-    <div>
-      <div class="message" id="url-error">Invalid URL</div>
-      <div class="message" id="feed-error">Unable to parse feed</div>
-      <div class="message" id="feed-empty-message">No items in feed</div>
-      <ul id="feed-items"></ul>
-    </div>
+    <div class="message" id="url-error">Invalid URL</div>
+    <div class="message" id="feed-error">Unable to parse feed</div>
+    <div class="message" id="feed-added-message">Added feed</div>
   </div>
 </body>
 
