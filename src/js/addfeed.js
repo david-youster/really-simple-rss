@@ -50,6 +50,8 @@ async function validateFeed(event) {
   await createBookmark({title: nameInput.value, href: url}, true);
   document.getElementById('feed-added-message').style.display = 'block';
   resetForm();
+  nameInput.value = '';
+  urlInput.value = '';
   return true;
 }
 
