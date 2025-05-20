@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.1.0
+- Add "Go to feed homepage" item to context menu
+- Implement manual "Add feed" functionality
+- Display feed URL as title when title is missing on 'discover' page
+
 ## 2.0.2
 - Migrate to Manifest V3
 - Re-word "swap displays" setting for clarity
