@@ -27,7 +27,6 @@ async function validateFeed(event) {
     // Shouldn't ever reach this
     document.getElementById('url-error').style.display = 'block';
     urlInput.setCustomValidity('Invalid URL');
-    urlInput.reportValidity();
     return false;
   }
 
@@ -37,13 +36,11 @@ async function validateFeed(event) {
   } catch {
     document.getElementById('feed-error').style.display = 'block';
     urlInput.setCustomValidity('Unable to parse feed at URL');
-    urlInput.reportValidity();
     return false;
   }
   if (feed === undefined) {
     document.getElementById('feed-error').style.display = 'block';
     urlInput.setCustomValidity('Unable to parse feed at URL');
-    urlInput.reportValidity();
     return false;
   }
 
