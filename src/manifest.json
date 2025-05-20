@@ -8,7 +8,7 @@
     }
   },
   "description": "Simple Feed Reader for Firefox",
-  "homepage_url": "https://github.com/xdav/really-simple-rss",
+  "homepage_url": "https://github.com/david-youster/really-simple-rss",
   "icons": {
     "48": "images/rss.svg"
   },
