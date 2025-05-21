@@ -36,5 +36,9 @@ li {
 }
 
 input[type="image"]:disabled {
-  filter: invert(30%);
+    filter: invert(30%);
+}
+
+.feed-error {
+    color: #FF0000;
 }

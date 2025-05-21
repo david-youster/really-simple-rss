@@ -148,3 +148,9 @@ input[type="image"]:disabled {
     font-size: 0.8em;
     border-bottom: 1px dotted gray
 }
+
+.feed-error {
+    color: #BB0000;
+    font-weight: normal;
+    font-style: italic;
+}

@@ -124,7 +124,8 @@ const IndexPage = {
 
   async selectFeed(bookmark) {
     this.data.selectedFeed = bookmark.id;
-    this._markAsSelected(`b-${bookmark.id}`);
+    const feedId = `b-${bookmark.id}`;
+    this._markAsSelected(feedId);
     const feedItemsList = document.getElementById('feed-items-list');
     feedItemsList.innerHTML = 'Loading...';
     try {
@@ -141,6 +142,7 @@ const IndexPage = {
           fragment : document.createTextNode('No content in feed'));
     } catch {
       // TODO: Better error handling
+      this._markError(feedId);
       feedItemsList.innerHTML = '';
       feedItemsList.appendChild(document.createTextNode(
         'An error occurred - couldn\'t load feed content'));
@@ -158,6 +160,13 @@ const IndexPage = {
 
     if (selectedFeedNode !== null) {
       selectedFeedNode.classList.add('selected-feed');
+    }
+  },
+
+  _markError(nodeId) {
+    const feedNode = document.getElementById(nodeId);
+    if (feedNode !== null) {
+      feedNode.classList.add('feed-error');
     }
   },
 
