@@ -7,6 +7,8 @@
 
 import { getFeed } from './service/feeds.js';
 import { createBookmark } from './service/bookmarks.js';
+import * as Settings from './service/settings.js';
+
 
 async function validateFeed(event) {
   event.preventDefault();
@@ -62,7 +64,7 @@ function resetFormMessages() {
   document.getElementById('feed-added-message').style.display = 'none';
 }
 
-function init() {
+async function init() {
   const form = document.getElementById('add-feed-form');
   form.onsubmit = async (event) => await validateFeed(event);
 
@@ -70,6 +72,15 @@ function init() {
   document.getElementById('addfeed-url-input').oninput = clearError;
 
   document.getElementById('clear-button').onclick = resetFormMessages;
+  await _applyTheme();
+}
+
+async function _applyTheme() {
+  const link = document.createElement('link');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = `/css/${await Settings.getTheme()}.css`;
+  document.head.appendChild(link);
 }
 
 window.onload = () => init();
