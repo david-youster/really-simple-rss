@@ -1,6 +1,10 @@
 # Changelog
 
-# 2.1.0
+## 2.1.1
+- Fix empty folder styling
+- Fix dark theme in "Add feed" dialog
+
+## 2.1.0
 - Add "Go to feed homepage" item to context menu
 - Implement manual "Add feed" functionality
 - Display feed URL as title when title is missing on 'discover' page

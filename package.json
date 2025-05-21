@@ -1,6 +1,6 @@
 {
   "name": "rss-sidebar",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "RSS Sidebar is a simple feed reader and aggregator for Firefox, written using the Webextensions API.",
   "private": true,
   "directories": {
