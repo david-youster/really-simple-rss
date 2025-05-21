@@ -11,9 +11,10 @@ import * as wx from './webex.js';
 export async function init() {
   const settings = await wx.load('settings');
   const v2Settings = {
-    schema: '2.0.0',
+    schema: '2.1.0',
     theme: 'default',
-    swapDisplays: false
+    swapDisplays: false,
+    highlightFeedErrors: true,
   };
 
   // If existing install is version 1.x, migrate existing settings schema
@@ -23,6 +24,10 @@ export async function init() {
   } else if (settings && settings.schema === '2.0.0') {
     v2Settings.theme = settings.theme;
     v2Settings.swapDisplays = settings.swapDisplays;
+  } else if (settings && settings.schema === '2.1.0') {
+    v2Settings.theme = settings.theme;
+    v2Settings.swapDisplays = settings.swapDisplays;
+    v2Settings.highlightFeedErrors = settings.highlightFeedErrors;
   }
 
   await wx.save('settings', v2Settings);
@@ -51,5 +56,17 @@ export async function isSwapDisplaysEnabled() {
 export async function setSwapDisplays(swapDisplays) {
   const settings = await wx.load('settings');
   settings.swapDisplays = swapDisplays;
+  await wx.save('settings', settings);
+};
+
+export async function isFeedErrorHighlightingEnabled() {
+  const settings = await wx.load('settings');
+  return settings && settings.highlightFeedErrors !== undefined ?
+    settings.highlightFeedErrors : true;
+};
+
+export async function setHighlightFeedErrors(enabled) {
+  const settings = await wx.load('settings');
+  settings.highlightFeedErrors = enabled;
   await wx.save('settings', settings);
 };
