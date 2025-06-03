@@ -17,18 +17,21 @@ export async function init() {
     highlightFeedErrors: true,
   };
 
-  // If existing install is version 1.x, migrate existing settings schema
-  if (settings && settings.schema !== '2.0.0') {
-    v2Settings.theme = settings.darkTheme ? 'dark' : 'default';
-    v2Settings.swapDisplays = settings.swapDisplays ? true : false;
-  } else if (settings && settings.schema === '2.0.0') {
-    v2Settings.theme = settings.theme;
-    v2Settings.swapDisplays = settings.swapDisplays;
-  } else if (settings && settings.schema === '2.1.0') {
-    v2Settings.theme = settings.theme;
-    v2Settings.swapDisplays = settings.swapDisplays;
-    v2Settings.highlightFeedErrors = settings.highlightFeedErrors;
-  }
+  // Only use the newer setting if it's available, disregarding the old
+  // 'darkTheme' setting
+  v2Settings.theme = (settings.theme !== undefined && settings.theme !== null)
+    ? settings.theme
+    : v2Settings.theme;
+
+  v2Settings.swapDisplays =(settings.swapDisplays !== undefined
+      && settings.swapDisplays !== null)
+    ? settings.swapDisplays
+    : v2Settings.swapDisplay;
+
+  v2Settings.highlightFeedErrors = (settings.highlightFeedErrors !== undefined
+      && settings.highlightFeedErrors !== null)
+    ? settings.highlightFeedErrors
+    : v2Settings.highlightFeedErrors;
 
   await wx.save('settings', v2Settings);
 };
