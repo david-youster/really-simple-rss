@@ -11,6 +11,7 @@ import * as Feeds from './service/feeds.js';
 import * as Messaging from './service/messaging.js';
 import * as Settings from './service/settings.js';
 import * as Menu from './service/menu.js';
+import * as Storage from './service/storage.js';
 
 const IndexPage = {
 
@@ -86,15 +87,24 @@ const IndexPage = {
   },
 
   async _populateFeedList() {
+    const highlightErrors = await Settings.isFeedErrorHighlightingEnabled();
+    const errors = await Storage.getFeedErrors();
     const bookmarks = await Bookmarks.getFeedBookmarks();
     const fragment = document.createDocumentFragment();
     bookmarks.forEach(bookmark => {
 
       fragment.appendChild(
-        Formatting.Index.Bookmark.convertToNode(bookmark, {
-          onSelect: (bookmark) => this.selectFeed(bookmark),
-          onDelete: (bookmark) => this.deleteFeed(bookmark)
-        }, { selectedFeed: this.data.selectedFeed }));
+        Formatting.Index.Bookmark.convertToNode(
+          bookmark,
+          {
+            onSelect: (bookmark) => this.selectFeed(bookmark),
+            onDelete: (bookmark) => this.deleteFeed(bookmark)
+          },
+          {
+            selectedFeed: this.data.selectedFeed,
+            isError: errors.has(bookmark.id) && highlightErrors
+          }
+        ));
 
     });
     const feedsList = document.getElementById('feeds-list');
@@ -140,9 +150,11 @@ const IndexPage = {
       document.getElementById('feed-items-list').appendChild(
         fragment.hasChildNodes() ?
           fragment : document.createTextNode('No content in feed'));
+
+      await Storage.removeFeedError(bookmark.id);
     } catch {
       // TODO: Better error handling
-      this._markError(feedId);
+      await this._markError(bookmark.id);
       feedItemsList.innerHTML = '';
       feedItemsList.appendChild(document.createTextNode(
         'An error occurred - couldn\'t load feed content'));
@@ -163,8 +175,12 @@ const IndexPage = {
     }
   },
 
-  _markError(nodeId) {
-    const feedNode = document.getElementById(nodeId);
+  async _markError(nodeId) {
+    if (!await Settings.isFeedErrorHighlightingEnabled()) {
+      return;
+    }
+    await Storage.addFeedError(nodeId);
+    const feedNode = document.getElementById(`b-${nodeId}`);
     if (feedNode !== null) {
       feedNode.classList.add('feed-error');
     }

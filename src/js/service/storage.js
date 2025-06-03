@@ -17,3 +17,20 @@ export async  function clearPanelData (key) {
   delete panelData[key];
   await wx.save(panelData);
 };
+
+export async function getFeedErrors() {
+  const errors = JSON.parse(await wx.load('errors'));
+  return new Set(errors !== null ? errors : []);
+}
+
+export async function addFeedError(feedId) {
+  const errors = await getFeedErrors();
+  errors.add(feedId);
+  await wx.save('errors', JSON.stringify(Array.from(errors)));
+}
+
+export async function removeFeedError(feedId) {
+  const errors = await getFeedErrors();
+  errors.delete(feedId);
+  await wx.save('errors', JSON.stringify(Array.from(errors)));
+}
