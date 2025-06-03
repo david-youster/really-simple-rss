@@ -27,6 +27,7 @@ const Index = {
       *
       * @param data - any additional data needed from the caller
       * @param data.selectedFeed - the currently selected feed
+      * @param data.isError - whether the feed is known to fail
       */
     convertToNode(bookmark, callbacks, data) {
       const listNode = document.createElement('li');
@@ -34,6 +35,10 @@ const Index = {
       if (bookmark.url) {
 
         listNode.classList.add('feed-node');
+
+        if (data.isError) {
+          listNode.classList.add('feed-error');
+        }
 
         listNode.appendChild(
 

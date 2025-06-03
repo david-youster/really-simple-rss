@@ -13,6 +13,8 @@ const SettingsPage = {
   async init() {
     const darkThemeRadio = document.getElementById('darkThemeRadio');
     const defaultThemeRadio = document.getElementById('defaultThemeRadio');
+    const highlightErrorsCheckbox =
+      document.getElementById('highlightFeedErrorsCheckbox');
 
     darkThemeRadio.onclick = async () => {
       await Settings.setTheme('dark');
@@ -37,6 +39,11 @@ const SettingsPage = {
       Messaging.requestSwapDisplays();
     };
 
+    highlightErrorsCheckbox.onclick = async ({target}) => {
+      await Settings.setHighlightFeedErrors(target.checked);
+      Messaging.requestApplyErrorHighlights();
+    };
+
     const theme = await Settings.getTheme();
     if (theme === 'dark') {
       darkThemeRadio.checked = true;
@@ -50,6 +57,9 @@ const SettingsPage = {
     } else {
       swapDisplaysDisabledRadio.checked = true;
     }
+
+    const highlightFeedErrors = await Settings.isFeedErrorHighlightingEnabled();
+    highlightErrorsCheckbox.checked = highlightFeedErrors;
   }
 };
 

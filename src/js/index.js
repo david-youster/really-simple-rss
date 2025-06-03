@@ -11,6 +11,7 @@ import * as Feeds from './service/feeds.js';
 import * as Messaging from './service/messaging.js';
 import * as Settings from './service/settings.js';
 import * as Menu from './service/menu.js';
+import * as Storage from './service/storage.js';
 
 const IndexPage = {
 
@@ -39,6 +40,10 @@ const IndexPage = {
 
     if (message === 'swap') {
       this._applySwapDisplays();
+    }
+
+    if (message == 'highlight') {
+      this._applyErrorHighlights();
     }
   },
 
@@ -85,16 +90,40 @@ const IndexPage = {
 
   },
 
+  async _applyErrorHighlights() {
+    const highlightEnabled = await Settings.isFeedErrorHighlightingEnabled();
+    if (highlightEnabled) {
+      const ids = await Storage.getFeedErrors();
+      ids.map(i =>
+        document.getElementById(`b-${i}`).classList.add('feed-error'));
+    } else {
+      const errors = document.getElementsByClassName('feed-error');
+      while (errors.length > 0) {
+        errors[0].classList.remove('feed-error');
+        await Storage.clearFeedErrors();
+      }
+    }
+  },
+
   async _populateFeedList() {
+    const highlightErrors = await Settings.isFeedErrorHighlightingEnabled();
+    const errors = await Storage.getFeedErrors();
     const bookmarks = await Bookmarks.getFeedBookmarks();
     const fragment = document.createDocumentFragment();
     bookmarks.forEach(bookmark => {
 
       fragment.appendChild(
-        Formatting.Index.Bookmark.convertToNode(bookmark, {
-          onSelect: (bookmark) => this.selectFeed(bookmark),
-          onDelete: (bookmark) => this.deleteFeed(bookmark)
-        }, { selectedFeed: this.data.selectedFeed }));
+        Formatting.Index.Bookmark.convertToNode(
+          bookmark,
+          {
+            onSelect: (bookmark) => this.selectFeed(bookmark),
+            onDelete: (bookmark) => this.deleteFeed(bookmark)
+          },
+          {
+            selectedFeed: this.data.selectedFeed,
+            isError: errors.has(bookmark.id) && highlightErrors
+          }
+        ));
 
     });
     const feedsList = document.getElementById('feeds-list');
@@ -124,7 +153,8 @@ const IndexPage = {
 
   async selectFeed(bookmark) {
     this.data.selectedFeed = bookmark.id;
-    this._markAsSelected(`b-${bookmark.id}`);
+    const feedId = `b-${bookmark.id}`;
+    this._markAsSelected(feedId);
     const feedItemsList = document.getElementById('feed-items-list');
     feedItemsList.innerHTML = 'Loading...';
     try {
@@ -139,8 +169,11 @@ const IndexPage = {
       document.getElementById('feed-items-list').appendChild(
         fragment.hasChildNodes() ?
           fragment : document.createTextNode('No content in feed'));
+
+      await Storage.removeFeedError(bookmark.id);
     } catch {
       // TODO: Better error handling
+      await this._markError(bookmark.id);
       feedItemsList.innerHTML = '';
       feedItemsList.appendChild(document.createTextNode(
         'An error occurred - couldn\'t load feed content'));
@@ -158,6 +191,17 @@ const IndexPage = {
 
     if (selectedFeedNode !== null) {
       selectedFeedNode.classList.add('selected-feed');
+    }
+  },
+
+  async _markError(nodeId) {
+    if (!await Settings.isFeedErrorHighlightingEnabled()) {
+      return;
+    }
+    await Storage.addFeedError(nodeId);
+    const feedNode = document.getElementById(`b-${nodeId}`);
+    if (feedNode !== null) {
+      feedNode.classList.add('feed-error');
     }
   },
 

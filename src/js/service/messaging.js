@@ -22,3 +22,7 @@ export function requestApplyTheme () {
 export function requestSwapDisplays () {
   wx.sendMessage('swap');
 };
+
+export function requestApplyErrorHighlights() {
+  wx.sendMessage('highlight');
+}
