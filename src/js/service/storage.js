@@ -34,3 +34,7 @@ export async function removeFeedError(feedId) {
   errors.delete(feedId);
   await wx.save('errors', JSON.stringify(Array.from(errors)));
 }
+
+export async function clearFeedErrors() {
+  await wx.save('errors', JSON.stringify([])); 
+}

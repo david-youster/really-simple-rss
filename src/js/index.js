@@ -41,6 +41,10 @@ const IndexPage = {
     if (message === 'swap') {
       this._applySwapDisplays();
     }
+
+    if (message == 'highlight') {
+      this._applyErrorHighlights();
+    }
   },
 
   async _initPage() {
@@ -84,6 +88,21 @@ const IndexPage = {
       wrap.insertBefore(feedContents, controls.nextSibling);
     }
 
+  },
+
+  async _applyErrorHighlights() {
+    const highlightEnabled = await Settings.isFeedErrorHighlightingEnabled();
+    if (highlightEnabled) {
+      const ids = await Storage.getFeedErrors();
+      ids.map(i =>
+        document.getElementById(`b-${i}`).classList.add('feed-error'));
+    } else {
+      const errors = document.getElementsByClassName('feed-error');
+      while (errors.length > 0) {
+        errors[0].classList.remove('feed-error');
+        await Storage.clearFeedErrors();
+      }
+    }
   },
 
   async _populateFeedList() {

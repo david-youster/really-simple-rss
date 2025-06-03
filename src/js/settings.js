@@ -41,7 +41,7 @@ const SettingsPage = {
 
     highlightErrorsCheckbox.onclick = async ({target}) => {
       await Settings.setHighlightFeedErrors(target.checked);
-      // TODO send update message to sidebar
+      Messaging.requestApplyErrorHighlights();
     };
 
     const theme = await Settings.getTheme();
