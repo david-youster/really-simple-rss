@@ -3,3 +3,4 @@
 todo
 test/integration/qunit
 node_modules
+.vscode
